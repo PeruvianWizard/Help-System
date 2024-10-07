@@ -70,7 +70,7 @@ public class LogInWindowController {
     /**This function switches back to the main window when the button "back" is clicked
      */
     public void switchToHelpSystemWindow(ActionEvent event) throws IOException {
-		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemWindow.fxml"));
+		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
