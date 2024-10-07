@@ -1,3 +1,4 @@
+package HelpSystem;
 
 public class User {
 	private char[] password;
