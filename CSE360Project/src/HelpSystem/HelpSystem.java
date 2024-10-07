@@ -10,6 +10,7 @@ public class HelpSystem {
 	// This is just a scanner although idk if it has any use here yet
 	private static final Scanner scanner = new Scanner(System.in);
 	
+	
 	protected static void setupAdministrator() throws SQLException {
 		System.out.println("Setting up the Administrator access.");
 		System.out.print("Enter Admin Email: ");

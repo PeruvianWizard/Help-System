@@ -1,5 +1,7 @@
 package HelpSystem;
 
+import java.sql.SQLException;
+
 //JavaFX imports needed to support the Graphical User Interface
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -21,6 +23,8 @@ public class HelpSystemGUI extends Application{
 	public void start(Stage stage) throws Exception {
 		stage.setTitle("Help System Phase 1");
 		
+		
+		
 		Parent root = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
@@ -31,6 +35,23 @@ public class HelpSystemGUI extends Application{
 	
 	
 	public static void main(String[] args) {
-		launch(args);
+		//launch(args);
+		
+		try {
+			
+			HelpSystem.userDatabaseHelper.connectToDatabase();
+			launch(args);
+			
+			
+		} catch (SQLException e) {
+			System.err.println("Database error: " + e.getMessage());
+			e.printStackTrace();
+		}
+		finally {
+			System.out.println("Good Bye!!");
+			HelpSystem.userDatabaseHelper.closeConnection();
+		}
 	}
+	
+	
 }
