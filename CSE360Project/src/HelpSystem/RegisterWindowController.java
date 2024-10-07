@@ -15,7 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class LogInWindowController {
+public class RegisterWindowController {
 	
 	/** These private variables are used to set up the window */
 	private Stage theStage;
@@ -26,7 +26,7 @@ public class LogInWindowController {
 	 * come from the LogInWindow.fxml file
 	 */
     @FXML
-    private Button logInButton;
+    private Button registerButton;
 
     @FXML
     private Label passNotSameLabel;

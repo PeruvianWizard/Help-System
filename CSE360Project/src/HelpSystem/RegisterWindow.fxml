@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.LogInWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.RegisterWindowController">
    <children>
-      <Label layoutX="231.0" layoutY="14.0" text="Log In">
+      <Label layoutX="219.0" layoutY="14.0" text="Register">
          <font>
             <Font size="50.0" />
          </font>
@@ -26,7 +26,7 @@
          </font>
       </Label>
       <TextField fx:id="usernameInput" layoutX="226.0" layoutY="136.0" promptText="Enter your username here" />
-      <Button fx:id="logInButton" layoutX="269.0" layoutY="279.0" mnemonicParsing="false" onInputMethodTextChanged="#setUser" onMouseClicked="#setUser" text="Log in">
+      <Button fx:id="registerButton" layoutX="269.0" layoutY="279.0" mnemonicParsing="false" onInputMethodTextChanged="#setUser" onMouseClicked="#setUser" text="Register">
          <font>
             <Font size="15.0" />
          </font>
