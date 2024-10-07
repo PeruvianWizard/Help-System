@@ -18,11 +18,12 @@ import javafx.stage.Stage;
 //We'll use this class to switch windows, or "scenes," and perform operations on these scenes
 public class SceneController {
 
+	/** These private variables are used to set up the window */
 	private Stage theStage;
 	private Scene theScene;
 	private Parent theRoot;
 	
-	/** This function will allow us to switch to the log in window */
+	/** This function will allow us to switch to the log in window when the button "log in" is clicked*/
 	public void switchToLogInWindow(ActionEvent event) throws IOException {
 		Parent theRoot = FXMLLoader.load(getClass().getResource("LogInWindow.fxml"));
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();

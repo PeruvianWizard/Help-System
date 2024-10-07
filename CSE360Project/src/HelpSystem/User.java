@@ -16,15 +16,16 @@ public class User {
 	public String email;
 	public String username;
 	
-	//Base constructor
+	/** Base constructor*/
 	public User() {
 	}
+	/** Constructor to create users with a username and a password*/
 	public User(String username, char[] password) {
 		this.username = username;
 		this.password = password;
 	}
 	
-	//Getter methods
+	/** Getter methods */
 	public String getFirstName() {
 		return firstName;
 	}
@@ -38,7 +39,7 @@ public class User {
 		return isInstructionalTeam;
 	}
 	
-	//Setter methods
+	/** Setter methods */
 	public void setPreffered(String preferredName) {
 		this.preferredName = preferredName;
 	}
