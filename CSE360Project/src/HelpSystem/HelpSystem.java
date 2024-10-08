@@ -11,13 +11,10 @@ public class HelpSystem {
 	private static final Scanner scanner = new Scanner(System.in);
 	
 	
-	protected static void setupAdministrator() throws SQLException {
-		System.out.println("Setting up the Administrator access.");
-		System.out.print("Enter Admin Email: ");
-		String email = scanner.nextLine();
-		System.out.print("Enter Admin Password: ");
-		String password = scanner.nextLine();
-		userDatabaseHelper.register(email, password, "admin");
+	protected static void setupAdministrator(String username, char[] password) throws SQLException {
+		
+		
+		userDatabaseHelper.register(username, password, "admin");
 		System.out.println("Administrator setup completed.");
 
 	}

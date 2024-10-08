@@ -44,6 +44,8 @@ public class RegisterWindowController {
     String username;
     char[] password;
     
+    boolean passSame = false;
+    
     /** checkPasswords functions checks that both passwords inputted are the same. */
     @FXML
     void checkPasswords(KeyEvent event) {
@@ -52,9 +54,13 @@ public class RegisterWindowController {
     	
     	if(pass2.equals(pass1)) {
     		passNotSameLabel.setVisible(false);
+    		
+    		passSame = true;
     	}
     	else {
     		passNotSameLabel.setVisible(true);
+    		
+    		passSame = false;
     	}
     }
     
@@ -63,8 +69,27 @@ public class RegisterWindowController {
      */
     @FXML
     void setUser(MouseEvent event) {
+    	if(passSame == false) {
+    		return;
+    	}
+    	
     	username = usernameInput.getText();						//stores the input
     	password = passwordInput1.getText().toCharArray();		//This line gets the password input and converts it to a array of characters
+    }
+    @FXML
+    public void updateAndSwitchToHelpSystemLogInWindow(ActionEvent event) throws IOException{
+    	if(passSame == false) {
+    		passNotSameLabel.setVisible(true);
+    		
+    		return; 
+    	} 
+    	else {
+    		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		theScene = new Scene(theRoot);
+    		theStage.setScene(theScene);
+    		theStage.show();
+    	}
     }
     
     /**This function switches back to the main window when the button "back" is clicked
@@ -76,4 +101,5 @@ public class RegisterWindowController {
 		theStage.setScene(theScene);
 		theStage.show();
 	}
+    
 }

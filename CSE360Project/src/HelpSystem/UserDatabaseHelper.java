@@ -34,11 +34,11 @@ class UserDatabaseHelper {
 		}
 	}
 	
-	// Creates the tables for the users with their respective id, email, password, and role
+	// Creates the tables for the users with their respective id, username, password, and role
 	private void createTables() throws SQLException {
 		String userTable = "CREATE TABLE IF NOT EXISTS cse360users ("
 				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
-				+ "email VARCHAR(255) UNIQUE, "
+				+ "username VARCHAR(255) UNIQUE, "
 				+ "password VARCHAR(255), "
 				+ "role VARCHAR(20))";
 		statement.execute(userTable);
@@ -55,21 +55,24 @@ class UserDatabaseHelper {
 	}
 	
 	// This function will register a new user into the database
-	public void register(String email, String password, String role) throws SQLException {
-		String insertUser = "INSERT INTO cse360users (email, password, role) VALUES (?, ?, ?)";
+	public void register(String username, char[] password, String role) throws SQLException {
+		String insertUser = "INSERT INTO cse360users (username, password, role) VALUES (?, ?, ?)";
 		try (PreparedStatement pstmt = connection.prepareStatement(insertUser)) {
-			pstmt.setString(1, email);
-			pstmt.setString(2, password);
+			
+			String passtemp = password.toString();
+			
+			pstmt.setString(1, username);
+			pstmt.setString(2, passtemp);
 			pstmt.setString(3, role);
 			pstmt.executeUpdate();
 		}
 	}
 	
 	// This function will log in users into the database
-	public boolean login(String email, String password, String role) throws SQLException {
-		String query = "SELECT * FROM cse360users WHERE email = ? AND password = ? AND role = ?";
+	public boolean login(String username, String password, String role) throws SQLException {
+		String query = "SELECT * FROM cse360users WHERE username = ? AND password = ? AND role = ?";
 		try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-			pstmt.setString(1, email);
+			pstmt.setString(1, username);
 			pstmt.setString(2, password);
 			pstmt.setString(3, role);
 			try (ResultSet rs = pstmt.executeQuery()) {

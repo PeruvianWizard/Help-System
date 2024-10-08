@@ -1,6 +1,8 @@
 package HelpSystem;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,7 +56,7 @@ public class FirstLogInWindowController {
     }
     
     @FXML
-    void SetUser(MouseEvent event) {
+    void SetUser(MouseEvent event) throws SQLException{
     	if(passSame == false) { 
     		// throw some error
     		
@@ -62,6 +64,8 @@ public class FirstLogInWindowController {
     	} else {
     		username = usernameInput.getText();						
         	password = passInput1.getText().toCharArray();
+        	
+        	HelpSystem.setupAdministrator(username, password);	// When the button is clicked, it will set up the administrator using variables username and password
     	}
     }
     

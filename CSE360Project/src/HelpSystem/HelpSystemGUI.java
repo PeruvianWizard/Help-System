@@ -23,9 +23,16 @@ public class HelpSystemGUI extends Application{
 	public void start(Stage stage) throws Exception {
 		stage.setTitle("Help System Phase 1");
 		
+		Parent root;
 		
+		if(HelpSystem.userDatabaseHelper.isDatabaseEmpty()) {
+			root = FXMLLoader.load(getClass().getResource("FirstEverLogInWindow.fxml"));
+		}
+		else {
+			root = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+		}
 		
-		Parent root = FXMLLoader.load(getClass().getResource("FirstEverLogInWindow.fxml"));
+		//Parent root = FXMLLoader.load(getClass().getResource("FirstEverLogInWindow.fxml"));
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
