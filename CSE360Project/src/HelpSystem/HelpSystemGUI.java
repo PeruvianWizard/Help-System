@@ -25,7 +25,7 @@ public class HelpSystemGUI extends Application{
 		
 		
 		
-		Parent root = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("FirstEverLogInWindow.fxml"));
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
