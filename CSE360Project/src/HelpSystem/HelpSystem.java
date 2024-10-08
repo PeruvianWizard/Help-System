@@ -10,14 +10,14 @@ public class HelpSystem {
 	// This is just a scanner although idk if it has any use here yet
 	private static final Scanner scanner = new Scanner(System.in);
 	
-	
+	// this functions registers the Administrator to the database for the first time
 	protected static void setupAdministrator(String username, char[] password) throws SQLException {
-		
 		
 		userDatabaseHelper.register(username, password, "admin");
 		System.out.println("Administrator setup completed.");
 
 	}
+	
 	
 	
 }

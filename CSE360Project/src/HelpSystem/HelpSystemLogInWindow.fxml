@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.SceneController">
    <children>
       <Label layoutX="161.0" layoutY="14.0" text="Help System">
@@ -13,11 +12,16 @@
             <Font size="50.0" />
          </font>
       </Label>
-      <Button layoutX="258.0" layoutY="225.0" mnemonicParsing="false" onAction="#switchToLogInWindow" text="Log In">
+      <Button layoutX="336.0" layoutY="296.0" mnemonicParsing="false" onAction="#switchToRegisterWindow" text="Register">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
       <Label layoutX="269.0" layoutY="144.0" text="Prototype1" />
+      <Button layoutX="161.0" layoutY="296.0" mnemonicParsing="false" text="Log In">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

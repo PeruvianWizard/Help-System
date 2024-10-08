@@ -17,7 +17,7 @@ public class SceneController {
 	private Parent theRoot;
 	
 	/** This function will allow us to switch to the log in window when the button "log in" is clicked*/
-	public void switchToLogInWindow(ActionEvent event) throws IOException {
+	public void switchToRegisterWindow(ActionEvent event) throws IOException {
 		Parent theRoot = FXMLLoader.load(getClass().getResource("RegisterWindow.fxml"));
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
