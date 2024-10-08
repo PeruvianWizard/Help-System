@@ -8,16 +8,16 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.FirstLogInWindowController">
    <children>
-      <Label layoutX="178.0" layoutY="14.0" text="First Log In">
+      <Label layoutX="178.0" layoutY="14.0" text="Admin Log In">
          <font>
             <Font size="50.0" />
          </font>
       </Label>
       <PasswordField fx:id="passInput1" layoutX="232.0" layoutY="209.0" promptText="Enter New Password" />
       <TextField fx:id="usernameInput" layoutX="232.0" layoutY="146.0" promptText="Enter User Name" />
-      <Button layoutX="274.0" layoutY="312.0" mnemonicParsing="false" onMouseClicked="#SetUser" text="Button" />
+      <Button layoutX="274.0" layoutY="312.0" mnemonicParsing="false" onAction="#updateAndSwitchToRegisterWindow" text="Log In" />
       <Label layoutX="131.0" layoutY="144.0" text="Username:">
          <font>
             <Font size="20.0" />
@@ -33,6 +33,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <PasswordField fx:id="passInput2" layoutX="232.0" layoutY="250.0" promptText="Re-enter New Password" />
+      <PasswordField fx:id="passInput2" layoutX="232.0" layoutY="250.0" onKeyReleased="#checkPasswords" promptText="Re-enter New Password" />
+      <Label fx:id="passNotSameLabel" layoutX="392.0" layoutY="233.0" text="Passwords are not the same!" visible="false" />
    </children>
 </AnchorPane>
