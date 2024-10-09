@@ -18,18 +18,24 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="350.0" layoutY="227.0" mnemonicParsing="false" text="Generate One-Time Password" />
+      <Button layoutX="350.0" layoutY="227.0" mnemonicParsing="false" onAction="#generateOneTimeCode" text="Generate One-Time Code" />
       <Button fx:id="resetUserAccountButton" layoutX="91.0" layoutY="101.0" mnemonicParsing="false" onAction="#switchToResetUserWindow" text="Reset a User Account" />
       <Button layoutX="88.0" layoutY="154.0" mnemonicParsing="false" text="Delete a User Account" />
       <Button layoutX="88.0" layoutY="207.0" mnemonicParsing="false" text="List the User Accounts" />
       <Button layoutX="93.0" layoutY="258.0" mnemonicParsing="false" text="Modify a User's Role" />
-      <Label layoutX="338.0" layoutY="116.0" text="Generate One-Time Password">
+      <Label layoutX="341.0" layoutY="116.0" text="Generate One-Time Code">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <CheckBox layoutX="391.0" layoutY="145.0" mnemonicParsing="false" text="Admin" />
-      <CheckBox layoutX="391.0" layoutY="171.0" mnemonicParsing="false" text="Student" />
-      <CheckBox layoutX="391.0" layoutY="198.0" mnemonicParsing="false" text="Instructional Team" />
+      <CheckBox fx:id="newAdmin" layoutX="391.0" layoutY="145.0" mnemonicParsing="false" onAction="#AdminBox" text="Admin" />
+      <CheckBox fx:id="newStudent" layoutX="391.0" layoutY="171.0" mnemonicParsing="false" onAction="#StudentBox" text="Student" />
+      <CheckBox fx:id="newInstructional" layoutX="391.0" layoutY="198.0" mnemonicParsing="false" onAction="#InstructionalBox" text="Instructional Team" />
+      <Label layoutX="381.0" layoutY="261.0" prefHeight="18.0" prefWidth="0.0" />
+      <Label fx:id="oneTimeCodeLabel" layoutX="376.0" layoutY="284.0" text="Codewith5digits" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

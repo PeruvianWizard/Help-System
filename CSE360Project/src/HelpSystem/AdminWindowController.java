@@ -1,6 +1,7 @@
 package HelpSystem;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +10,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class AdminWindowController {
@@ -32,6 +35,24 @@ public class AdminWindowController {
 	
 	@FXML
 	private Button logOut;
+	
+    @FXML
+    private Label oneTimeCodeLabel;
+	
+	// These checkboxes will be used to generate a one-time code invitation
+    @FXML
+    private CheckBox newAdmin;
+
+    @FXML
+    private CheckBox newInstructional;
+
+    @FXML
+    private CheckBox newStudent;
+    
+    // These variables will work with the checkboxes
+    private String willBeAdmin = "";
+    private String willBeInstructional = "";
+    private String willBeStudent = "";
 	
 	// this function resets a user's account and generates a one time password to reset
 	@FXML
@@ -61,6 +82,42 @@ public class AdminWindowController {
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
 		theStage.show();
+    }
+    
+    /** Functions AdminBox, InstructionalBox, and StudentBox will set the values of willBeAdmin, willBeInstructional, and willBeStudent
+     *  which then will be used by the generateOneTimeCode function below to generate an invitation code to a new User
+     */
+    @FXML
+    void AdminBox(ActionEvent event) {
+    	if(newAdmin.isSelected()) {
+    		willBeAdmin = "admin";
+    	}
+    }
+
+    @FXML
+    void InstructionalBox(ActionEvent event) {
+    	if(newInstructional.isSelected()) {
+    		willBeInstructional = "instructional";
+    	}
+    }
+
+    @FXML
+    void StudentBox(ActionEvent event) {
+    	if(newStudent.isSelected()) {
+    		willBeStudent = "student";
+    	}
+    }
+
+    @FXML
+    void generateOneTimeCode(ActionEvent event) throws SQLException {
+    	// Using oneTimePassword class to generate a one time code
+    	OneTimePassword invCode = new OneTimePassword();
+    	
+    	// Change label text to display new oneTimeCode
+    	oneTimeCodeLabel.setText(willBeAdmin + willBeInstructional + willBeStudent + invCode.returnPassword());
+    	
+    	// Set label to visible
+    	oneTimeCodeLabel.setVisible(true);
     }
 	
 }

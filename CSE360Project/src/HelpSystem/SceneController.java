@@ -16,7 +16,7 @@ public class SceneController {
 	private Scene theScene;
 	private Parent theRoot;
 	
-	/** This function will allow us to switch to the log in window when the button "log in" is clicked*/
+	/** This function will allow us to switch to the register window when the button "Register" is clicked*/
 	public void switchToRegisterWindow(ActionEvent event) throws IOException {
 		Parent theRoot = FXMLLoader.load(getClass().getResource("RegisterWindow.fxml"));
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();

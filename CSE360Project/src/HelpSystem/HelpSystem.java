@@ -16,7 +16,7 @@ public class HelpSystem {
 	// this functions registers the Administrator to the database for the first time
 	protected static void setupAdministrator(String username, char[] password) throws SQLException {
 		
-		userDatabaseHelper.register(username, password, "admin");
+		userDatabaseHelper.register(username, password, "admin", "", "");
 		System.out.println("Administrator setup completed.");
 
 	}
@@ -24,7 +24,7 @@ public class HelpSystem {
 	// this functions registers a student to the database for the first time
 	protected static void setupStudent(String username, char[] password) throws SQLException {
 			
-		userDatabaseHelper.register(username, password, "student");
+		userDatabaseHelper.register(username, password, "student", "", "");
 		System.out.println("Student setup completed.");
 
 	}
@@ -32,7 +32,7 @@ public class HelpSystem {
 	// this functions registers a student to the database for the first time
 	protected static void setupInstructor(String username, char[] password) throws SQLException {
 				
-		userDatabaseHelper.register(username, password, "instructor");
+		userDatabaseHelper.register(username, password, "instructor", "", "");
 		System.out.println("Student setup completed.");
 
 	}
@@ -47,11 +47,11 @@ public class HelpSystem {
 	protected static boolean isUser(String username, char[] password) throws SQLException {
 		
 		String passtemp = new String(password);
-		if(userDatabaseHelper.login(username, passtemp, "admin")) {
+		if(userDatabaseHelper.login(username, passtemp, "admin", "", "")) {
 			return true; 
-		} else if(userDatabaseHelper.login(username, passtemp, "student")) {
+		} else if(userDatabaseHelper.login(username, passtemp, "student", "", "")) {
 			return true; 
-		} else if(userDatabaseHelper.login(username, passtemp, "instructor")) {
+		} else if(userDatabaseHelper.login(username, passtemp, "instructor", "", "")) {
 			return true; 
 		} else {
 			return false;

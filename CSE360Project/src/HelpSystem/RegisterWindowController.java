@@ -44,6 +44,7 @@ public class RegisterWindowController {
     String username;
     char[] password;
     
+    
     boolean passSame = false;
     
     /** checkPasswords functions checks that both passwords inputted are the same. */
@@ -64,18 +65,7 @@ public class RegisterWindowController {
     	}
     }
     
-    /**setUser function activates when the log in button is pressed, it should get the values in the text boxes
-     * and store them in variables "username" and "password". We will use these variables to creates users for the system(how? no idea yet)
-     */
-    @FXML
-    void setUser(MouseEvent event) {
-    	if(passSame == false) {
-    		return;
-    	}
-    	
-    	username = usernameInput.getText();						//stores the input
-    	password = passwordInput1.getText().toCharArray();		//This line gets the password input and converts it to a array of characters
-    }
+    /** This function registers a user into the database and also switches to the HelpSystemLogInWindon screen */
     @FXML
     public void updateAndSwitchToHelpSystemLogInWindow(ActionEvent event) throws IOException{
     	if(passSame == false) {
@@ -84,6 +74,12 @@ public class RegisterWindowController {
     		return; 
     	} 
     	else {
+    		// update username and password variables
+    		username = usernameInput.getText();						
+        	password = passwordInput1.getText().toCharArray();		
+        	
+        	
+    		
     		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
     		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
     		theScene = new Scene(theRoot);
