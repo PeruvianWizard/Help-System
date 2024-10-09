@@ -25,5 +25,12 @@ public class SceneController {
 		theStage.show();
 	}
 	
+	public void switchToLogInWindow(ActionEvent event) throws IOException {
+		Parent theRoot = FXMLLoader.load(getClass().getResource("LogInWindow.fxml"));
+		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theScene = new Scene(theRoot);
+		theStage.setScene(theScene);
+		theStage.show();
+	}
 	
 }

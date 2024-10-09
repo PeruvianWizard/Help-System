@@ -18,6 +18,12 @@ public class HelpSystem {
 
 	}
 	
+	// assumed admin, working on creating a checkbox to separate different roles.
+	protected static boolean isUser(String username, char[] password) throws SQLException {
+		
+		String passtemp = password.toString();
+		return userDatabaseHelper.login(username, passtemp, "admin");
+	}
 	
 	
 }

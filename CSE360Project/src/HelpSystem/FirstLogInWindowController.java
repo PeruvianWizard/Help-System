@@ -39,6 +39,7 @@ public class FirstLogInWindowController {
     // blocks log in button until pw is the same.
     boolean passSame = false;
     
+    /** Updates passSame variable by checking if pw is the same on every keystroke */ 
     @FXML
     void checkPasswords(KeyEvent event) {
     	String p1 = passInput1.getText();
@@ -55,27 +56,23 @@ public class FirstLogInWindowController {
     	}
     }
     
+    /* Switches to main screen once the username and password are stored */
     @FXML
-    void SetUser(MouseEvent event) throws SQLException{
-    	if(passSame == false) { 
-    		// throw some error
-    		
-    		return;
-    	} else {
-    		username = usernameInput.getText();						
-        	password = passInput1.getText().toCharArray();
-        	
-        	HelpSystem.setupAdministrator(username, password);	// When the button is clicked, it will set up the administrator using variables username and password
-    	}
-    }
-    
-    @FXML
-    public void updateAndSwitchToRegisterWindow(ActionEvent event) throws IOException {
+    public void updateAndSwitchToRegisterWindow(ActionEvent event) throws IOException, SQLException {
     	if(passSame == false) {
+    		//display pw not same label
     		passNotSameLabel.setVisible(true);
     		
     		return; 
     	} else {
+    		// update username and password variables
+    		username = usernameInput.getText();						
+        	password = passInput1.getText().toCharArray();
+        	
+        	// setup an admin in the database with correct credentials
+        	HelpSystem.setupAdministrator(username, password);
+    		
+        	// update scene
     		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
     		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
     		theScene = new Scene(theRoot);
