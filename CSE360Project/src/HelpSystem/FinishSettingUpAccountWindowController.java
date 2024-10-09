@@ -57,7 +57,27 @@ public class FinishSettingUpAccountWindowController {
     	lastName = lastNameInput.getText();
     	preferredName = preferredNameInput.getText();
     	
+    	// updates the user with new information and stores in new columns
     	HelpSystem.updateUser(username, firstName, middleName, lastName, preferredName, email);
+    	
+    	String auth = HelpSystem.userDatabaseHelper.checkAuth(username);
+    	//display correct screen for specific user
+		if(auth.equals("admin")) {
+			// updates screen
+    		Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		theScene = new Scene(theRoot);
+    		theStage.setScene(theScene);
+    		theStage.show();
+		} else if(auth.equals("student")) {
+			// display student screen
+			// 
+			// WIP
+		} else { 
+			// display instructor screen
+			//
+			// WIP
+		}
     }
     
     /**This function switches back to the main window when the button "back" is clicked

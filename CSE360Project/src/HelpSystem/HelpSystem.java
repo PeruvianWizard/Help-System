@@ -21,6 +21,22 @@ public class HelpSystem {
 
 	}
 	
+	// this functions registers a student to the database for the first time
+	protected static void setupStudent(String username, char[] password) throws SQLException {
+			
+		userDatabaseHelper.register(username, password, "student");
+		System.out.println("Student setup completed.");
+
+	}
+	
+	// this functions registers a student to the database for the first time
+	protected static void setupInstructor(String username, char[] password) throws SQLException {
+				
+		userDatabaseHelper.register(username, password, "instructor");
+		System.out.println("Student setup completed.");
+
+	}
+	
 	// this function updates an existing account with new information
 	protected static void updateUser(String username, String firstName, String middleName, String lastName, String preferredName, String email) throws SQLException {
 		userDatabaseHelper.updateUser(username, firstName, middleName, lastName, preferredName, email);

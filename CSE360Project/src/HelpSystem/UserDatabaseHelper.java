@@ -107,6 +107,43 @@ class UserDatabaseHelper {
 		return false; 
 	}
 	
+	// this function checks if user account is fully updated
+	public boolean isUpdated(String username) throws SQLException {
+		String query = "SELECT * FROM users WHERE username = ? AND email IS NOT NULL";
+		try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setString(1, username);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				// return if user has email
+				return rs.next();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false; 
+	}
+	
+	// this function returns the auth as a string
+	public String checkAuth(String username) throws SQLException {
+		String query = "SELECT role FROM users WHERE username = ?";
+		try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setString(1,  username);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					return rs.getString("role");
+				} else {
+					return "-1"; 
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return "-1";
+	}
+	
 	// Closes the connection to the database
 	public void closeConnection() {
 		try{ 

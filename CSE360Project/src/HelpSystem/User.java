@@ -9,9 +9,9 @@ public class User {
 	private boolean flag;
 	private int passwordTimer;
 	private String passwordDate;
-	private boolean isStudent;
-	private boolean isAdmin;
-	private boolean isInstructionalTeam;
+	private boolean isStudent = false;
+	private boolean isAdmin = false;
+	private boolean isInstructionalTeam = false;
 	
 	public String email;
 	public String username;

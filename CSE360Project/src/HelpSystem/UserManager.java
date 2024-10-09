@@ -19,4 +19,12 @@ public class UserManager {
 	public String getUsername() {
 		return loggedInUser.username;
 	}
+	
+//	public void resetPassword() {
+//		loggedInUser.pwReset();
+//	}
+	
+	public void logOut() { 
+		this.loggedInUser = null;
+	}
 }
