@@ -58,7 +58,7 @@ public class FirstLogInWindowController {
     
     /* Switches to main screen once the username and password are stored */
     @FXML
-    public void updateAndSwitchToRegisterWindow(ActionEvent event) throws IOException, SQLException {
+    public void updateAndSwitchToHelpSystemLogInWindow(ActionEvent event) throws IOException, SQLException {
     	if(passSame == false) {
     		//display pw not same label
     		passNotSameLabel.setVisible(true);

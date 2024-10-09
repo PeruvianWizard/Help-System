@@ -34,14 +34,20 @@ class UserDatabaseHelper {
 		}
 	}
 	
-	// Creates the tables for the users with their respective id, username, password, and role
+	// Creates the tables for the users with their respective id, username, password, role, email, and names
 	private void createTables() throws SQLException {
 		String userTable = "CREATE TABLE IF NOT EXISTS users ("
 				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
 				+ "username VARCHAR(255) UNIQUE, "
 				+ "password VARCHAR(255), "
-				+ "role VARCHAR(20))";
+				+ "role VARCHAR(20), "
+				+ "email VARCHAR(255), "
+				+ "firstName VARCHAR(255), "
+				+ "middleName VARCHAR(255), "
+				+ "lastName VARCHAR(255), "
+				+ "preferredName VARCHAR(255))";
 		statement.execute(userTable);
+		System.out.println("Table created successfully.");
 	}
 	
 	// Check if the database is empty
