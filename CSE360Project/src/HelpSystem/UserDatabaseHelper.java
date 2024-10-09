@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 
 /** This function will create an in-memory database with H2.
  *  I used some variables and functions from the simpleDatabase class Activities Module04
@@ -64,12 +65,26 @@ class UserDatabaseHelper {
 	public void register(String username, char[] password, String role) throws SQLException {
 		String insertUser = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
 		try (PreparedStatement pstmt = connection.prepareStatement(insertUser)) {
-			
-			String passtemp = password.toString();
+			String passtemp = new String(password);
 			
 			pstmt.setString(1, username);
 			pstmt.setString(2, passtemp);
 			pstmt.setString(3, role);
+			pstmt.executeUpdate();
+		}
+	}
+	
+	// This function will update a users account with additional information
+	public void updateUser(String username, String firstName, String middleName, String lastName, String preferredName, String email) throws SQLException {
+		String query = "UPDATE users SET firstname = ?, middlename = ?, lastname = ?, preferredname = ?, email = ? WHERE username = ?";
+		try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setString(1, firstName);
+			pstmt.setString(2, middleName);
+			pstmt.setString(3, lastName);
+			pstmt.setString(4, preferredName);
+			pstmt.setString(5, email);
+			pstmt.setString(6, username);
+			
 			pstmt.executeUpdate();
 		}
 	}
@@ -82,9 +97,14 @@ class UserDatabaseHelper {
 			pstmt.setString(2, password);
 			pstmt.setString(3, role);
 			try (ResultSet rs = pstmt.executeQuery()) {
-				return rs.next();
+				if(rs.next()) {
+					return rs.getInt(1) > 0;
+				}
+			} catch (SQLException se){
+				se.printStackTrace();
 			}
 		}
+		return false; 
 	}
 	
 	// Closes the connection to the database

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.FinishSettingUpAccountWindowController">
+   <children>
+      <Label layoutX="80.0" layoutY="14.0" text="Update Information">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <TextField fx:id="firstNameInput" layoutX="226.0" layoutY="159.0" promptText="Enter your first name here" />
+      <Label layoutX="166.0" layoutY="113.0" text="Email:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="121.0" layoutY="155.0" text="First Name:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="emailInput" layoutX="226.0" layoutY="116.0" promptText="Enter your email here" />
+      <Button fx:id="updateButton" layoutX="269.0" layoutY="319.0" mnemonicParsing="false" onAction="#updateUser" text="Update">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="30.0" layoutY="311.0" mnemonicParsing="false" onAction="#switchToHelpSystemWindow" text="Back" />
+      <Label layoutX="100.0" layoutY="191.0" text="Middle Name:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="middleNameInput" layoutX="226.0" layoutY="194.0" promptText="Enter your middle name" />
+      <TextField fx:id="lastNameInput" layoutX="226.0" layoutY="225.0" promptText="Enter your last name here" />
+      <Label layoutX="120.0" layoutY="225.0" text="Last Name:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="preferredNameInput" layoutX="226.0" layoutY="270.0" promptText="Enter your preferred name here" />
+      <Label layoutX="85.0" layoutY="270.0" text="Preferred Name:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
