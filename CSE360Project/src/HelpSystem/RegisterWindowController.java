@@ -75,18 +75,30 @@ public class RegisterWindowController {
     	}
     }
     
-    /** This function registers a user into the database and also switches to the HelpSystemLogInWindon screen 
+    /** This function registers a user into the database and also switches to the correct screen 
      * @throws SQLException */
     @FXML
     public void register(ActionEvent event) throws IOException, SQLException{
     	if(passSame) {
-    		String roles = HelpSystem.userDatabaseHelper.checkForCode(oneTimeCodeInput.getText());
+    		//one time code
+    		String OTC = oneTimeCodeInput.getText();
+    		
+    		// string containing roles of user
+    		String roles = HelpSystem.userDatabaseHelper.checkForCode(OTC);
+    		
+    		// check auth
         	if(roles.contains("admin")) {
         		HelpSystem.setupAdministrator(username, password);
-        	} else if(roles.contains("instructor")) {
-        		HelpSystem.setupStudent(username, password);
+        		
+        		HelpSystem.userDatabaseHelper.deleteCode(OTC);
         	} else if(roles.contains("student")) {
+        		HelpSystem.setupStudent(username, password);
+        		
+        		HelpSystem.userDatabaseHelper.deleteCode(OTC);
+        	} else if(roles.contains("instructor")) {
         		HelpSystem.setupInstructor(username, password);
+        		
+        		HelpSystem.userDatabaseHelper.deleteCode(OTC);
         	} else {
         		System.out.println("Code not valid!");
         		
@@ -113,13 +125,19 @@ public class RegisterWindowController {
             		theStage.setScene(theScene);
             		theStage.show();
         		} else if(auth.equals("student")) {
-        			// display student screen
-        			// 
-        			// WIP
+        			// updates screen
+            		Parent theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
+            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            		theScene = new Scene(theRoot);
+            		theStage.setScene(theScene);
+            		theStage.show();
         		} else { 
-        			// display instructor screen
-        			//
-        			// WIP
+        			// updates screen
+            		Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
+            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            		theScene = new Scene(theRoot);
+            		theStage.setScene(theScene);
+            		theStage.show();
         		}
     		} else {
     			// updates screen to finish setting up account

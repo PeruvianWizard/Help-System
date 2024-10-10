@@ -49,7 +49,11 @@ public class ResetUserController {
 			
 			OneTimePassword code = new OneTimePassword(); 
 			
-			codeLabel.setText(code.returnPassword());
+			String resetCode = code.returnPassword();
+			
+			codeLabel.setText(resetCode);
+			
+			HelpSystem.userDatabaseHelper.changePasswordWithCode(username, resetCode);
 			
 			// TO DO
 			// use code when user logs in next time (maybe add a "isBeingReset" boolean column to database?)

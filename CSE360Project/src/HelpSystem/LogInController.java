@@ -66,6 +66,15 @@ public class LogInController {
     		// stores auth as local variable
     		String auth = HelpSystem.userDatabaseHelper.checkAuth(username);
     		
+    		//checks if user needs to reset their password
+    		if(HelpSystem.userDatabaseHelper.needsPasswordReset(username)) {
+    			Parent theRoot = FXMLLoader.load(getClass().getResource("EnterNewPasswordWindow.fxml"));
+        		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        		theScene = new Scene(theRoot);
+        		theStage.setScene(theScene);
+        		theStage.show();
+    		}
+    		
     		// checks if account is already updated, if not, redirect to finish account screen
     		if(HelpSystem.userDatabaseHelper.isUpdated(loggedInUser.username)) {
     			System.out.println("User already updated!");
@@ -79,13 +88,19 @@ public class LogInController {
             		theStage.setScene(theScene);
             		theStage.show();
         		} else if(auth.equals("student")) {
-        			// display student screen
-        			// 
-        			// WIP
+        			// updates screen
+            		Parent theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
+            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            		theScene = new Scene(theRoot);
+            		theStage.setScene(theScene);
+            		theStage.show();
         		} else { 
-        			// display instructor screen
-        			//
-        			// WIP
+        			// updates screen
+            		Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
+            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            		theScene = new Scene(theRoot);
+            		theStage.setScene(theScene);
+            		theStage.show();
         		}
     		} else {
     			// updates screen to finish setting up account

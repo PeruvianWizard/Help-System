@@ -70,13 +70,19 @@ public class FinishSettingUpAccountWindowController {
     		theStage.setScene(theScene);
     		theStage.show();
 		} else if(auth.equals("student")) {
-			// display student screen
-			// 
-			// WIP
+			// updates screen
+    		Parent theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
+    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		theScene = new Scene(theRoot);
+    		theStage.setScene(theScene);
+    		theStage.show();
 		} else { 
-			// display instructor screen
-			//
-			// WIP
+			// updates screen
+    		Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
+    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		theScene = new Scene(theRoot);
+    		theStage.setScene(theScene);
+    		theStage.show();
 		}
     }
     

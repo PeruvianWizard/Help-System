@@ -48,6 +48,7 @@ class UserDatabaseHelper {
 				+ "firstName VARCHAR(255), "
 				+ "middleName VARCHAR(255), "
 				+ "lastName VARCHAR(255), "
+				+ "lostPass BOOLEAN DEFAULT FALSE, "
 				+ "preferredName VARCHAR(255))";
 		statement.execute(userTable);
 		
@@ -158,6 +159,16 @@ class UserDatabaseHelper {
 		return fullCode; 
 	}
 	
+	// This function deletes a code
+	public void deleteCode(String code) throws SQLException {
+		String query = "DELETE FROM codes WHERE oneTimePassword = ?";
+		
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setString(1, code);
+			pstmt.executeUpdate();
+		}
+	}
+	
 	// this function checks if user account is fully updated
 	public boolean isUpdated(String username) throws SQLException {
 		String query = "SELECT * FROM users WHERE username = ? AND email IS NOT NULL";
@@ -193,6 +204,45 @@ class UserDatabaseHelper {
 		}
 		
 		return "-1";
+	}
+	
+	// this function changes the password of an existing user with a reset code
+	public void changePasswordWithCode(String username, String newPassword) throws SQLException {
+		String query = "UPDATE users SET password = ?, lostPass = ? WHERE username = ?";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setString(1, newPassword);
+			pstmt.setBoolean(2, true);
+			pstmt.setString(3, username);
+			
+			pstmt.executeUpdate();
+		}
+	}
+	
+	// this function changes the password of an existing user
+		public void changePassword(String username, String newPassword) throws SQLException {
+			String query = "UPDATE users SET password = ? WHERE username = ?";
+			try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+				pstmt.setString(1, newPassword);
+				pstmt.setString(2, username);
+					
+				pstmt.executeUpdate();
+			}
+		}
+	
+	// This function checks for a reset password if needed
+	public boolean needsPasswordReset(String username) throws SQLException {
+		String query = "SELECT * FROM users WHERE username = ? AND lostPass = TRUE";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setString(1, username);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					return true;
+				} else {
+					return false; 
+				}
+			}
+		}
 	}
 	
 	// Closes the connection to the database
