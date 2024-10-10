@@ -220,10 +220,11 @@ class UserDatabaseHelper {
 	
 	// this function changes the password of an existing user
 		public void changePassword(String username, String newPassword) throws SQLException {
-			String query = "UPDATE users SET password = ? WHERE username = ?";
+			String query = "UPDATE users SET password = ?, lostPass = ? WHERE username = ?";
 			try(PreparedStatement pstmt = connection.prepareStatement(query)) {
 				pstmt.setString(1, newPassword);
-				pstmt.setString(2, username);
+				pstmt.setBoolean(2, false);
+				pstmt.setString(3, username);
 					
 				pstmt.executeUpdate();
 			}

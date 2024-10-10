@@ -20,10 +20,6 @@ public class UserManager {
 		return loggedInUser.username;
 	}
 	
-//	public void resetPassword() {
-//		loggedInUser.pwReset();
-//	}
-	
 	public void logOut() { 
 		this.loggedInUser = null;
 	}
