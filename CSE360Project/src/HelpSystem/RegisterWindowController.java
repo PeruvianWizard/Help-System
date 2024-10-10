@@ -95,7 +95,7 @@ public class RegisterWindowController {
         		HelpSystem.setupStudent(username, password);
         		
         		HelpSystem.userDatabaseHelper.deleteCode(OTC);
-        	} else if(roles.contains("instructor")) {
+        	} else if(roles.contains("instructional")) {
         		HelpSystem.setupInstructor(username, password);
         		
         		HelpSystem.userDatabaseHelper.deleteCode(OTC);
