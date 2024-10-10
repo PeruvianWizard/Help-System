@@ -50,7 +50,18 @@ class UserDatabaseHelper {
 				+ "lastName VARCHAR(255), "
 				+ "preferredName VARCHAR(255))";
 		statement.execute(userTable);
-		System.out.println("Table created successfully.");
+		
+		// Creates the table to store one time passwords.
+		String passwordTable = "CREATE TABLE IF NOT EXISTS codes ("
+				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
+				+ "oneTimePassword VARCHAR(255), "
+				+ "role1 VARCHAR(20), "
+				+ "role2 VARCHAR(20), "
+				+ "role3 VARCHAR(20))";
+		
+		statement.execute(passwordTable);
+		
+		System.out.println("Tables created successfully.");
 	}
 	
 	// Check if the database is empty
@@ -74,6 +85,19 @@ class UserDatabaseHelper {
 			pstmt.setString(3, role1);
 			pstmt.setString(4, role2);
 			pstmt.setString(5, role3);
+			pstmt.executeUpdate();
+		}
+	}
+	
+	// This function will add a code to the one time code database 
+	public void registerCode(String code, String role1, String role2, String role3) throws SQLException {
+		String insertCode = "INSERT INTO codes (oneTimePassword, role1, role2, role3) VALUES (?, ?, ?, ?)";
+		try(PreparedStatement pstmt = connection.prepareStatement(insertCode)) {
+			String fullCode = role1 + role2 + role3 + code; 
+			pstmt.setString(1, fullCode);
+			pstmt.setString(2, role1);
+			pstmt.setString(3, role2);
+			pstmt.setString(4, role3);
 			pstmt.executeUpdate();
 		}
 	}
@@ -111,6 +135,27 @@ class UserDatabaseHelper {
 			}
 		}
 		return false; 
+	}
+	
+	// This function checks whether a one time code exists in the database, and returns the role
+	public String checkForCode(String code) throws SQLException {
+		String query = "SELECT role1, role2, role3 FROM codes WHERE oneTimePassword = ?";
+		String fullCode = "";
+		
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setString(1, code);
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					String role1 = rs.getString("role1");
+					String role2 = rs.getString("role2");
+					String role3 = rs.getString("role3");
+					
+					fullCode = "" + role1 + role2 + role3; 
+					
+				}
+			}
+		}
+		return fullCode; 
 	}
 	
 	// this function checks if user account is fully updated

@@ -112,12 +112,20 @@ public class AdminWindowController {
     void generateOneTimeCode(ActionEvent event) throws SQLException {
     	// Using oneTimePassword class to generate a one time code
     	OneTimePassword invCode = new OneTimePassword();
+    	String code = invCode.returnPassword(); 
     	
     	// Change label text to display new oneTimeCode
-    	oneTimeCodeLabel.setText(willBeAdmin + willBeInstructional + willBeStudent + invCode.returnPassword());
+    	oneTimeCodeLabel.setText(willBeAdmin + willBeInstructional + willBeStudent + code);
     	
     	// Set label to visible
     	oneTimeCodeLabel.setVisible(true);
+    	
+    	//add code to the database
+    	HelpSystem.registerCode(code, willBeAdmin, willBeInstructional, willBeStudent);
+    	
+    	willBeAdmin = "";
+		willBeInstructional = "";
+		willBeStudent = "";
     }
 	
 }

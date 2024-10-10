@@ -1,6 +1,8 @@
 package HelpSystem;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,10 +41,15 @@ public class RegisterWindowController {
 
     @FXML
     private TextField usernameInput;
+    
+    @FXML
+    private TextField oneTimeCodeInput;
 
     /** variables to hold inputs */
     String username;
     char[] password;
+    
+    String role1, role2, role3;
     
     
     boolean passSame = false;
@@ -56,6 +63,9 @@ public class RegisterWindowController {
     	if(pass2.equals(pass1)) {
     		passNotSameLabel.setVisible(false);
     		
+    		username = usernameInput.getText();
+    		password = pass1.toCharArray();    
+    		
     		passSame = true;
     	}
     	else {
@@ -65,26 +75,61 @@ public class RegisterWindowController {
     	}
     }
     
-    /** This function registers a user into the database and also switches to the HelpSystemLogInWindon screen */
+    /** This function registers a user into the database and also switches to the HelpSystemLogInWindon screen 
+     * @throws SQLException */
     @FXML
-    public void updateAndSwitchToHelpSystemLogInWindow(ActionEvent event) throws IOException{
-    	if(passSame == false) {
-    		passNotSameLabel.setVisible(true);
-    		
-    		return; 
-    	} 
-    	else {
-    		// update username and password variables
-    		username = usernameInput.getText();						
-        	password = passwordInput1.getText().toCharArray();		
+    public void register(ActionEvent event) throws IOException, SQLException{
+    	if(passSame) {
+    		String roles = HelpSystem.userDatabaseHelper.checkForCode(oneTimeCodeInput.getText());
+        	if(roles.contains("admin")) {
+        		HelpSystem.setupAdministrator(username, password);
+        	} else if(roles.contains("instructor")) {
+        		HelpSystem.setupStudent(username, password);
+        	} else if(roles.contains("student")) {
+        		HelpSystem.setupInstructor(username, password);
+        	} else {
+        		System.out.println("Code not valid!");
+        		
+        		return;
+        	}
         	
-        	
+        	// creates a new user who is logged in 
+    		User loggedInUser = new User(username, password);
+    		HelpSystem.logInUser(loggedInUser);
     		
-    		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
-    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		theScene = new Scene(theRoot);
-    		theStage.setScene(theScene);
-    		theStage.show();
+    		// stores auth as local variable
+    		String auth = HelpSystem.userDatabaseHelper.checkAuth(username);
+    		
+    		// checks if account is already updated, if not, redirect to finish account screen
+    		if(HelpSystem.userDatabaseHelper.isUpdated(loggedInUser.username)) {
+    			System.out.println("User already updated!");
+    			
+    			//display correct screen for specific user
+        		if(auth.equals("admin")) {
+        			// updates screen
+            		Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            		theScene = new Scene(theRoot);
+            		theStage.setScene(theScene);
+            		theStage.show();
+        		} else if(auth.equals("student")) {
+        			// display student screen
+        			// 
+        			// WIP
+        		} else { 
+        			// display instructor screen
+        			//
+        			// WIP
+        		}
+    		} else {
+    			// updates screen to finish setting up account
+        		Parent theRoot = FXMLLoader.load(getClass().getResource("FinishSettingUpAccountWindow.fxml"));
+        		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        		theScene = new Scene(theRoot);
+        		theStage.setScene(theScene);
+        		theStage.show();
+        		
+    		}
     	}
     }
     

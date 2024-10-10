@@ -43,6 +43,11 @@ public class HelpSystem {
 		System.out.print("Account updated succeffully");
 	}
 	
+	// this function will add a one time code to the code database
+	protected static void registerCode(String code, String role1, String role2, String role3) throws SQLException {
+		userDatabaseHelper.registerCode(code, role1, role2, role3);
+	}
+	
 	// searches through each role to determine if the entered username and password are in the system, regardless of role. 
 	protected static boolean isUser(String username, char[] password) throws SQLException {
 		
