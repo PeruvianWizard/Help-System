@@ -1,7 +1,6 @@
 package HelpSystem;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +46,7 @@ public class RegisterWindowController {
 
     /** variables to hold inputs */
     String username;
-    char[] password;
+    String password;
     
     String role1, role2, role3;
     
@@ -64,7 +63,7 @@ public class RegisterWindowController {
     		passNotSameLabel.setVisible(false);
     		
     		username = usernameInput.getText();
-    		password = pass1.toCharArray();    
+    		password = pass1;    
     		
     		passSame = true;
     	}
@@ -76,9 +75,9 @@ public class RegisterWindowController {
     }
     
     /** This function registers a user into the database and also switches to the correct screen 
-     * @throws SQLException */
+     * @throws Exception */
     @FXML
-    public void register(ActionEvent event) throws IOException, SQLException{
+    public void register(ActionEvent event) throws Exception{
     	if(passSame) {
     		//one time code
     		String OTC = oneTimeCodeInput.getText();

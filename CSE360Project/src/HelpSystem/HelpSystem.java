@@ -6,7 +6,15 @@ import java.util.Scanner;
 /** The HelpSystem class will hold the UserDatabaseHelper variable*/
 public class HelpSystem {
 	// This creates an instance of the user database helper. Defined as protected so that it can be used by the GUI Controllers
-	protected static final UserDatabaseHelper userDatabaseHelper = new UserDatabaseHelper();
+	protected static UserDatabaseHelper userDatabaseHelper;
+	static {
+		try {
+			userDatabaseHelper = new UserDatabaseHelper();
+			System.out.println("UserDatabaseHelper object initialized correctly!");
+		} catch (Exception e){
+			System.out.println("UserDatabaseHelper object could not be initialized correctly!");
+		}
+	}
 	// This is just a scanner although idk if it has any use here yet
 	private static final Scanner scanner = new Scanner(System.in);
 	
@@ -14,7 +22,7 @@ public class HelpSystem {
 	protected static final UserManager userManager = new UserManager();
 	
 	// this functions registers the Administrator to the database for the first time
-	protected static void setupAdministrator(String username, char[] password) throws SQLException {
+	protected static void setupAdministrator(String username, String password) throws Exception {
 		
 		userDatabaseHelper.register(username, password, "admin", "", "");
 		System.out.println("Administrator setup completed.");
@@ -22,7 +30,7 @@ public class HelpSystem {
 	}
 	
 	// this functions registers a student to the database for the first time
-	protected static void setupStudent(String username, char[] password) throws SQLException {
+	protected static void setupStudent(String username, String password) throws Exception {
 			
 		userDatabaseHelper.register(username, password, "student", "", "");
 		System.out.println("Student setup completed.");
@@ -30,7 +38,7 @@ public class HelpSystem {
 	}
 	
 	// this functions registers a student to the database for the first time
-	protected static void setupInstructor(String username, char[] password) throws SQLException {
+	protected static void setupInstructor(String username, String password) throws Exception {
 				
 		userDatabaseHelper.register(username, password, "instructor", "", "");
 		System.out.println("Student setup completed.");
@@ -40,7 +48,7 @@ public class HelpSystem {
 	// this function updates an existing account with new information
 	protected static void updateUser(String username, String firstName, String middleName, String lastName, String preferredName, String email) throws SQLException {
 		userDatabaseHelper.updateUser(username, firstName, middleName, lastName, preferredName, email);
-		System.out.println("Account updated succeffully");
+		System.out.print("Account updated succeffully");
 	}
 	
 	// this function will add a one time code to the code database
@@ -49,14 +57,13 @@ public class HelpSystem {
 	}
 	
 	// searches through each role to determine if the entered username and password are in the system, regardless of role. 
-	protected static boolean isUser(String username, char[] password) throws SQLException {
+	protected static boolean isUser(String username, String password) throws Exception {
 		
-		String passtemp = new String(password);
-		if(userDatabaseHelper.login(username, passtemp, "admin", "", "")) {
+		if(userDatabaseHelper.login(username, password, "admin", "", "")) {
 			return true; 
-		} else if(userDatabaseHelper.login(username, passtemp, "student", "", "")) {
+		} else if(userDatabaseHelper.login(username, password, "student", "", "")) {
 			return true; 
-		} else if(userDatabaseHelper.login(username, passtemp, "instructor", "", "")) {
+		} else if(userDatabaseHelper.login(username, password, "instructor", "", "")) {
 			return true; 
 		} else {
 			return false;

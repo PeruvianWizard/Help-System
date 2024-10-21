@@ -1,5 +1,9 @@
 package HelpSystem;
 import java.sql.*;
+import java.util.Base64;
+
+import Encryption.EncryptionHelper;
+import Encryption.EncryptionUtils;
 
 /** This function will create an in-memory database with H2.
  *  I used some variables and functions from the simpleDatabase class Activities Module04
@@ -16,6 +20,13 @@ class UserDatabaseHelper {
 	
 	private Connection connection = null;
 	private Statement statement = null;
+	
+	// This variable will be used to encrypt passwords
+	private EncryptionHelper encryptionHelper;
+	
+	public UserDatabaseHelper() throws Exception {
+		encryptionHelper = new EncryptionHelper();
+	}
 	
 	// Establishes initial connection to the database
 	public void connectToDatabase() throws SQLException {
@@ -71,13 +82,17 @@ class UserDatabaseHelper {
 	}
 	
 	// This function will register a new user into the database. 
-	public void register(String username, char[] password, String role1, String role2, String role3) throws SQLException {
+	public void register(String username, String password, String role1, String role2, String role3) throws Exception {
+		// Encrypt the password
+		String encryptedPassword = Base64.getEncoder().encodeToString(
+				encryptionHelper.encrypt(password.getBytes(), EncryptionUtils.getInitializationVector(username.toCharArray()))
+		);
+		
 		String insertUser = "INSERT INTO users (username, password, role1, role2, role3) VALUES (?, ?, ?, ?, ?)";
 		try (PreparedStatement pstmt = connection.prepareStatement(insertUser)) {
-			String passtemp = new String(password);
 			
 			pstmt.setString(1, username);
-			pstmt.setString(2, passtemp);
+			pstmt.setString(2, encryptedPassword);
 			pstmt.setString(3, role1);
 			pstmt.setString(4, role2);
 			pstmt.setString(5, role3);
@@ -143,11 +158,16 @@ class UserDatabaseHelper {
 	}
 	
 	// This function will log in users into the database
-	public boolean login(String username, String password, String role1, String role2, String role3) throws SQLException {
+	public boolean login(String username, String password, String role1, String role2, String role3) throws Exception {
+		// Encrypt password passed as parameter to compare it with the encrypted password in the database
+		String encryptedPassword = Base64.getEncoder().encodeToString(
+				encryptionHelper.encrypt(password.getBytes(), EncryptionUtils.getInitializationVector(username.toCharArray()))
+		);
+		
 		String query = "SELECT * FROM users WHERE username = ? AND password = ? AND role1 = ? AND role2 = ? AND role3 = ?";
 		try (PreparedStatement pstmt = connection.prepareStatement(query)) {
 			pstmt.setString(1, username);
-			pstmt.setString(2, password);
+			pstmt.setString(2, encryptedPassword);
 			pstmt.setString(3, role1);
 			pstmt.setString(4, role2);
 			pstmt.setString(5, role3);
@@ -231,10 +251,15 @@ class UserDatabaseHelper {
 	}
 	
 	// this function changes the password of an existing user with a reset code
-	public void changePasswordWithCode(String username, String newPassword) throws SQLException {
+	public void changePasswordWithCode(String username, String newPassword) throws Exception {
+		// Encrypts the new password
+		String newEncryptedPassword = Base64.getEncoder().encodeToString(
+				encryptionHelper.encrypt(newPassword.getBytes(), EncryptionUtils.getInitializationVector(username.toCharArray()))
+		);
+		
 		String query = "UPDATE users SET password = ?, lostPass = ? WHERE username = ?";
 		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
-			pstmt.setString(1, newPassword);
+			pstmt.setString(1, newEncryptedPassword);
 			pstmt.setBoolean(2, true);
 			pstmt.setString(3, username);
 			
@@ -243,10 +268,15 @@ class UserDatabaseHelper {
 	}
 	
 	// this function changes the password of an existing user
-		public void changePassword(String username, String newPassword) throws SQLException {
+		public void changePassword(String username, String newPassword) throws Exception {
+			// Encrypts the new password
+			String newEncryptedPassword = Base64.getEncoder().encodeToString(
+					encryptionHelper.encrypt(newPassword.getBytes(), EncryptionUtils.getInitializationVector(username.toCharArray()))
+			);
+			
 			String query = "UPDATE users SET password = ?, lostPass = ? WHERE username = ?";
 			try(PreparedStatement pstmt = connection.prepareStatement(query)) {
-				pstmt.setString(1, newPassword);
+				pstmt.setString(1, newEncryptedPassword);
 				pstmt.setBoolean(2, false);
 				pstmt.setString(3, username);
 					

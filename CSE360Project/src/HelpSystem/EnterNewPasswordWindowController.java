@@ -1,8 +1,5 @@
 package HelpSystem;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,7 +55,7 @@ public class EnterNewPasswordWindowController {
     }
 	
 	// this funtion resets a users password
-	public void reset(ActionEvent e) throws SQLException, IOException {
+	public void reset(ActionEvent e) throws Exception {
 		if(passSame) {
 			String username = HelpSystem.userManager.getUsername(); 
 			

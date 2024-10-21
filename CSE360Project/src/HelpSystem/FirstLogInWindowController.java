@@ -1,8 +1,5 @@
 package HelpSystem;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +31,7 @@ public class FirstLogInWindowController {
     private TextField usernameInput;
 
     String username;
-    char[] password;
+    String password;
     
     // blocks log in button until pw is the same.
     boolean passSame = false;
@@ -58,7 +55,7 @@ public class FirstLogInWindowController {
     
     /* Switches to main screen once the username and password are stored */
     @FXML
-    public void updateAndSwitchToHelpSystemLogInWindow(ActionEvent event) throws IOException, SQLException {
+    public void updateAndSwitchToHelpSystemLogInWindow(ActionEvent event) throws Exception {
     	if(passSame == false) {
     		//display pw not same label
     		passNotSameLabel.setVisible(true);
@@ -67,7 +64,7 @@ public class FirstLogInWindowController {
     	} else {
     		// update username and password variables
     		username = usernameInput.getText();						
-        	password = passInput1.getText().toCharArray();
+        	password = passInput1.getText();
         	
         	// setup an admin in the database with correct credentials
         	HelpSystem.setupAdministrator(username, password);

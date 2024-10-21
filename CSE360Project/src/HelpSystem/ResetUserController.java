@@ -43,7 +43,7 @@ public class ResetUserController {
 	}
 	
 	// displays one time code
-	public void resetPassword(ActionEvent event) throws SQLException {
+	public void resetPassword(ActionEvent event) throws Exception {
 		String username = usernameInput.getText();
 		if(checkIfUserExist(username)) {
 			

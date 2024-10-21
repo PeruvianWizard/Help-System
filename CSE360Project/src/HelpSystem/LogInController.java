@@ -1,7 +1,6 @@
 package HelpSystem;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,20 +40,19 @@ public class LogInController {
 
     /** variables to hold inputs */
     String username;
-    char[] password;
+    String password;
     
     boolean passSame = false;
     
     
     /**setUser function activates when the log in button is pressed, it should get the values in the text boxes
      * and store them in variables "username" and "password". We will use these variables to creates users for the system(how? no idea yet)
-     * @throws SQLException 
-     * @throws IOException 
+     * @throws Exception 
      */
     @FXML
-    void verifyCredentials(ActionEvent event) throws SQLException, IOException {
+    void verifyCredentials(ActionEvent event) throws Exception {
     	username = usernameInput.getText();						//stores the input
-    	password = passwordInput1.getText().toCharArray();		//This line gets the password input and converts it to a array of characters
+    	password = passwordInput1.getText();		//This line gets the password input and converts it to a array of characters
     	
     	// checks if username and password is in the database
     	if(HelpSystem.isUser(username, password)) {
