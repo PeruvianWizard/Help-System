@@ -16,6 +16,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/xsteqh/h2/bin/h2-2.3.232.jar"/>
+	<classpathentry kind="lib" path="C:/Users/alfie/H2/bin/h2-2.3.232.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Bouncy Castle"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

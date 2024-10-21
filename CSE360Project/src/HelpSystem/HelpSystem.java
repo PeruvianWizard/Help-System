@@ -40,7 +40,7 @@ public class HelpSystem {
 	// this function updates an existing account with new information
 	protected static void updateUser(String username, String firstName, String middleName, String lastName, String preferredName, String email) throws SQLException {
 		userDatabaseHelper.updateUser(username, firstName, middleName, lastName, preferredName, email);
-		System.out.print("Account updated succeffully");
+		System.out.println("Account updated succeffully");
 	}
 	
 	// this function will add a one time code to the code database

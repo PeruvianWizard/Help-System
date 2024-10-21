@@ -1,10 +1,5 @@
 package HelpSystem;
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
 
 /** This function will create an in-memory database with H2.
  *  I used some variables and functions from the simpleDatabase class Activities Module04
@@ -48,7 +43,7 @@ class UserDatabaseHelper {
 				+ "firstName VARCHAR(255), "
 				+ "middleName VARCHAR(255), "
 				+ "lastName VARCHAR(255), "
-				+ "lostPass BOOLEAN DEFAULT FALSE, "
+				+ "lostPass BOOLEAN DEFAULT FALSE, "		//flag
 				+ "preferredName VARCHAR(255))";
 		statement.execute(userTable);
 		
@@ -116,6 +111,35 @@ class UserDatabaseHelper {
 			
 			pstmt.executeUpdate();
 		}
+	}
+	
+	// This function deletes a user from the database
+	public void deleteUser(String username) throws SQLException {
+		String sql = "DELETE FROM users WHERE username = ?";
+		
+		try(PreparedStatement pstmt = connection.prepareStatement(sql)){
+			pstmt.setString(1, username);
+			pstmt.executeUpdate();
+		}
+	}
+	
+	// This function checks if the user exists in the table
+	public boolean UserExists(String username) {
+		String query = "SELECT COUNT(*) FROM users WHERE username = ?";
+		
+		try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+	        
+	        pstmt.setString(1, username);
+	        ResultSet rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            // If the count is greater than 0, the user exists
+	            return rs.getInt(1) > 0;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return false;
 	}
 	
 	// This function will log in users into the database

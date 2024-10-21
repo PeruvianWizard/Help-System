@@ -73,6 +73,15 @@ public class AdminWindowController {
 		theStage.show();
 	}
     
+    // switches to 
+    public void SwitchToDeleteUserWindow(ActionEvent event) throws IOException {
+    	Parent theRoot = FXMLLoader.load(getClass().getResource("DeleteUserWindow.fxml"));
+		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theScene = new Scene(theRoot);
+		theStage.setScene(theScene);
+		theStage.show();
+    }
+    
     // logs out
     public void logOut(ActionEvent event) throws IOException {
     	HelpSystem.userManager.logOut();
