@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.LogInAsRoleWindowController">
+   <children>
+      <Label layoutX="186.0" layoutY="14.0" text="Log In As?">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <Button layoutX="274.0" layoutY="126.0" mnemonicParsing="false" onAction="#SwitchToAdminWindow" text="Admin" />
+      <Button layoutX="266.0" layoutY="187.0" mnemonicParsing="false" onAction="#SwitchToInstructionalWindow" text="Instructor" />
+      <Button layoutX="271.0" layoutY="248.0" mnemonicParsing="false" onAction="#SwitchToStudentWindow" text="Student" />
+      <Label layoutX="70.0" layoutY="334.0" text="Warning: A bomb will go off in your house if you select a role that wasn't assign to you." />
+   </children>
+</AnchorPane>

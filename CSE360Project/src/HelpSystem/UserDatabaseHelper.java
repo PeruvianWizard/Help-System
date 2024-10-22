@@ -47,14 +47,14 @@ class UserDatabaseHelper {
 				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
 				+ "username VARCHAR(255) UNIQUE, "
 				+ "password VARCHAR(255), "
-				+ "role1 VARCHAR(20), "
-				+ "role2 VARCHAR(20), "
-				+ "role3 VARCHAR(20), "
+				+ "role1 VARCHAR(20), "						// Admin column
+				+ "role2 VARCHAR(20), "						// Instructional column
+				+ "role3 VARCHAR(20), "						// Student column
 				+ "email VARCHAR(255), "
 				+ "firstName VARCHAR(255), "
 				+ "middleName VARCHAR(255), "
 				+ "lastName VARCHAR(255), "
-				+ "lostPass BOOLEAN DEFAULT FALSE, "		//flag
+				+ "lostPass BOOLEAN DEFAULT FALSE, "		// flag
 				+ "preferredName VARCHAR(255))";
 		statement.execute(userTable);
 		
@@ -238,7 +238,14 @@ class UserDatabaseHelper {
 			
 			try(ResultSet rs = pstmt.executeQuery()) {
 				if(rs.next()) {
-					return rs.getString("role1");
+					String role1 =  rs.getString("role1");
+					String role2 =  rs.getString("role2");
+					String role3 =  rs.getString("role3");
+					
+					String roles = "" + role1 + role2 + role3;
+					
+					return roles;
+					
 				} else {
 					return "-1"; 
 				}

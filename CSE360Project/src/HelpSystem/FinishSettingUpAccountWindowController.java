@@ -76,9 +76,16 @@ public class FinishSettingUpAccountWindowController {
     		theScene = new Scene(theRoot);
     		theStage.setScene(theScene);
     		theStage.show();
-		} else { 
+		} else if(auth.equals("instructor")){ 
 			// updates screen
     		Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
+    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    		theScene = new Scene(theRoot);
+    		theStage.setScene(theScene);
+    		theStage.show();
+		}
+		else {
+			Parent theRoot = FXMLLoader.load(getClass().getResource("LogInAsRoleWindow.fxml"));
     		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
     		theScene = new Scene(theRoot);
     		theStage.setScene(theScene);

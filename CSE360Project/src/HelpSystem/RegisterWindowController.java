@@ -86,26 +86,32 @@ public class RegisterWindowController {
     		String roles = HelpSystem.userDatabaseHelper.checkForCode(OTC);
     		
     		// check auth
-        	if(roles.contains("admin")) {
+        	if(roles.equals("admin")) {
         		HelpSystem.setupAdministrator(username, password);
         		
         		HelpSystem.userDatabaseHelper.deleteCode(OTC);
-        	} else if(roles.contains("student")) {
+        	} else if(roles.equals("student")) {
         		HelpSystem.setupStudent(username, password);
         		
         		HelpSystem.userDatabaseHelper.deleteCode(OTC);
-        	} else if(roles.contains("instructional")) {
+        	} else if(roles.equals("instructional")) {
         		HelpSystem.setupInstructor(username, password);
         		
         		HelpSystem.userDatabaseHelper.deleteCode(OTC);
-        	} else {
+        	} else if(roles.equals("admininstructional") || roles.equals("adminstudent")
+        			  || roles.equals("instructionalstudent") || roles.equals("admininstructionalstudent")) {
+        		HelpSystem.setUpCustom(username, password, roles);
+        		
+        		HelpSystem.userDatabaseHelper.deleteCode(OTC);
+        	}
+        	else {
         		System.out.println("Code not valid!");
         		
         		return;
         	}
         	
         	// creates a new user who is logged in 
-    		User loggedInUser = new User(username, password);
+        	User loggedInUser = new User(username, password);
     		HelpSystem.logInUser(loggedInUser);
     		
     		// stores auth as local variable
@@ -130,9 +136,15 @@ public class RegisterWindowController {
             		theScene = new Scene(theRoot);
             		theStage.setScene(theScene);
             		theStage.show();
-        		} else { 
+        		} else if(auth.equals("instructor")){ 
         			// updates screen
             		Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
+            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            		theScene = new Scene(theRoot);
+            		theStage.setScene(theScene);
+            		theStage.show();
+        		} else {
+        			Parent theRoot = FXMLLoader.load(getClass().getResource("LogInAsRoleWindow.fxml"));
             		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
             		theScene = new Scene(theRoot);
             		theStage.setScene(theScene);
@@ -147,6 +159,8 @@ public class RegisterWindowController {
         		theStage.show();
         		
     		}
+    		
+    		
     	}
     }
     

@@ -15,6 +15,7 @@ public class HelpSystem {
 			System.out.println("UserDatabaseHelper object could not be initialized correctly!");
 		}
 	}
+	
 	// This is just a scanner although idk if it has any use here yet
 	private static final Scanner scanner = new Scanner(System.in);
 	
@@ -32,7 +33,7 @@ public class HelpSystem {
 	// this functions registers a student to the database for the first time
 	protected static void setupStudent(String username, String password) throws Exception {
 			
-		userDatabaseHelper.register(username, password, "student", "", "");
+		userDatabaseHelper.register(username, password, "", "", "student");
 		System.out.println("Student setup completed.");
 
 	}
@@ -40,15 +41,28 @@ public class HelpSystem {
 	// this functions registers a student to the database for the first time
 	protected static void setupInstructor(String username, String password) throws Exception {
 				
-		userDatabaseHelper.register(username, password, "instructor", "", "");
+		userDatabaseHelper.register(username, password, "", "instructor", "");
 		System.out.println("Student setup completed.");
 
+	}
+	
+	protected static void setUpCustom(String username, String password, String code) throws Exception{
+		if(code.contains("admininstructional")) {
+			userDatabaseHelper.register(username, password, "admin", "instructor", "");
+		} else if (code.contains("adminstudent")) {
+			userDatabaseHelper.register(username, password, "admin", "", "student");
+		} else if (code.contains("instructionalstudent")) {
+			userDatabaseHelper.register(username, password, "", "instructor", "student");
+		} else {
+			userDatabaseHelper.register(username, password, "admin", "instructor", "student");
+		} 
+		System.out.println("Custom setup completed.");
 	}
 	
 	// this function updates an existing account with new information
 	protected static void updateUser(String username, String firstName, String middleName, String lastName, String preferredName, String email) throws SQLException {
 		userDatabaseHelper.updateUser(username, firstName, middleName, lastName, preferredName, email);
-		System.out.print("Account updated succeffully");
+		System.out.println("Account updated succeffully");
 	}
 	
 	// this function will add a one time code to the code database
@@ -61,10 +75,18 @@ public class HelpSystem {
 		
 		if(userDatabaseHelper.login(username, password, "admin", "", "")) {
 			return true; 
-		} else if(userDatabaseHelper.login(username, password, "student", "", "")) {
+		} else if(userDatabaseHelper.login(username, password, "", "instructor", "")) { 
 			return true; 
-		} else if(userDatabaseHelper.login(username, password, "instructor", "", "")) {
+		} else if(userDatabaseHelper.login(username, password, "", "", "student")) {
 			return true; 
+		} else if(userDatabaseHelper.login(username, password, "admin", "instructor", "")) {
+			return true;
+		} else if(userDatabaseHelper.login(username, password, "admin", "", "student")) {
+			return true;
+		} else if(userDatabaseHelper.login(username, password, "", "instructor", "student")) {
+			return true;
+		} else if(userDatabaseHelper.login(username, password, "adming", "instructor", "student")) {
+			return true;
 		} else {
 			return false;
 		}

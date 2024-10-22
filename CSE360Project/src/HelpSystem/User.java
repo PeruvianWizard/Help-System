@@ -33,7 +33,7 @@ public class User {
 		return isStudent;
 	}
 	public boolean isAdmin() {
-		return isAdmin();
+		return isAdmin;
 	}
 	public boolean isInstructionalTeam() {
 		return isInstructionalTeam;

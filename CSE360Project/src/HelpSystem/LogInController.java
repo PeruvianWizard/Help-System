@@ -77,29 +77,30 @@ public class LogInController {
     		if(HelpSystem.userDatabaseHelper.isUpdated(loggedInUser.username)) {
     			System.out.println("User already updated!");
     			
-    			//display correct screen for specific user
+    			// display correct screen for specific user. 
+    			// Each if-statement will initialize the "theRoot" variable declared  
+    			// at the top of the class with the respective window.
         		if(auth.equals("admin")) {
         			// updates screen
-            		Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
-            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            		theScene = new Scene(theRoot);
-            		theStage.setScene(theScene);
-            		theStage.show();
+            		theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+            		
         		} else if(auth.equals("student")) {
         			// updates screen
-            		Parent theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
-            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            		theScene = new Scene(theRoot);
-            		theStage.setScene(theScene);
-            		theStage.show();
-        		} else { 
+            		theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
+            		
+        		} else if (auth.equals("instructor")){ 
         			// updates screen
-            		Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
-            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            		theScene = new Scene(theRoot);
-            		theStage.setScene(theScene);
-            		theStage.show();
-        		}
+            		theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
+            		
+        		} else {
+        			// switch to screen where user will decide who they want to log in as
+        			theRoot = FXMLLoader.load(getClass().getResource("LogInAsRoleWindow.fxml"));
+        		} 
+        		
+        		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        		theScene = new Scene(theRoot);
+        		theStage.setScene(theScene);
+        		theStage.show();
     		} else {
     			// updates screen to finish setting up account
         		Parent theRoot = FXMLLoader.load(getClass().getResource("FinishSettingUpAccountWindow.fxml"));
