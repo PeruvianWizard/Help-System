@@ -85,7 +85,7 @@ public class HelpSystem {
 			return true;
 		} else if(userDatabaseHelper.login(username, password, "", "instructor", "student")) {
 			return true;
-		} else if(userDatabaseHelper.login(username, password, "adming", "instructor", "student")) {
+		} else if(userDatabaseHelper.login(username, password, "admin", "instructor", "student")) {
 			return true;
 		} else {
 			return false;

@@ -2,6 +2,8 @@ package HelpSystem;
 import java.sql.*;
 import java.util.Base64;
 
+import org.bouncycastle.util.Arrays;
+
 import Encryption.EncryptionHelper;
 import Encryption.EncryptionUtils;
 
@@ -47,9 +49,9 @@ class UserDatabaseHelper {
 				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
 				+ "username VARCHAR(255) UNIQUE, "
 				+ "password VARCHAR(255), "
-				+ "role1 VARCHAR(20), "						// Admin column
-				+ "role2 VARCHAR(20), "						// Instructional column
-				+ "role3 VARCHAR(20), "						// Student column
+				+ "role1 VARCHAR(25), "						// Admin column
+				+ "role2 VARCHAR(25), "						// Instructional column
+				+ "role3 VARCHAR(25), "						// Student column
 				+ "email VARCHAR(255), "
 				+ "firstName VARCHAR(255), "
 				+ "middleName VARCHAR(255), "
@@ -255,6 +257,65 @@ class UserDatabaseHelper {
 		}
 		
 		return "-1";
+	}
+	
+	// this function modifies a user's role (Note: if you find a better way to do this function, please change it)
+	public boolean modifyRole(String username, String role) throws Exception {
+		String query = "SELECT role1, role2, role3 FROM users WHERE username = ?";			// first query to get user's current roles
+		boolean changed = false;
+		
+		try (PreparedStatement pstmt = connection.prepareStatement(query)) {				
+			pstmt.setString(1, username);
+			
+			try(ResultSet rs = pstmt.executeQuery()){					// execute first query
+				String role1;
+				String role2;
+				String role3;
+						
+				if(rs.next()) {
+					role1 =  rs.getString("role1");
+					role2 =  rs.getString("role2");
+					role3 =  rs.getString("role3");					
+				} else {
+					return false; 
+				}
+				
+				
+				String update = "UPDATE users SET role1 = ?, role2 = ?, role3 = ? WHERE username = ?";		// second query to update the user's roles
+				
+				try(PreparedStatement pstmt2 = connection.prepareStatement(update)){
+					pstmt2.setString(4, username);
+					if(!role1.contains("admin") && role.equals("admin")) {				// if current user is not admin 
+						pstmt2.setString(1, role);								// update the target role and leave the other roles as is
+						pstmt2.setString(2, role2);
+						pstmt2.setString(3, role3);
+						changed = true;
+					} else if(!role2.contains("instructor") && role.equals("instructor")) {	// if current user is not instructor
+						pstmt2.setString(1, role1);								// update the target role and leave the other roles as is
+						pstmt2.setString(2, role);
+						pstmt2.setString(3, role3);
+						changed = true;
+					} else if(!role3.contains("student") && role.equals("student")) {		// if current user is not student
+						pstmt2.setString(1, role1);								// update the target role and leave the other roles as is
+						pstmt2.setString(2, role2);
+						pstmt2.setString(3, role);
+						changed = true;
+					}
+					
+					pstmt2.executeUpdate();
+					return changed;
+				} catch (SQLException e) {
+					e.printStackTrace();
+					System.out.println("ModifyRole Function second query failed!");
+				}
+						
+			}
+							
+		} catch (SQLException e) {
+			e.printStackTrace();			
+		}
+		
+		return false;
 	}
 	
 	// this function changes the password of an existing user with a reset code

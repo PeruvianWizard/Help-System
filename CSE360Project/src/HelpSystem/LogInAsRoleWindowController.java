@@ -61,7 +61,7 @@ public class LogInAsRoleWindowController {
 
     @FXML
     void SwitchToInstructionalWindow(ActionEvent event) throws IOException, SQLException {
-    	if(HelpSystem.userDatabaseHelper.checkAuth(HelpSystem.getUsername()).contains("insctrutor")) {
+    	if(HelpSystem.userDatabaseHelper.checkAuth(HelpSystem.getUsername()).contains("instructor")) {
 	    	Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
 			theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			theScene = new Scene(theRoot);
