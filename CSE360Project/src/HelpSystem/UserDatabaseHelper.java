@@ -1,6 +1,8 @@
 package HelpSystem;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import org.bouncycastle.util.Arrays;
 
@@ -82,6 +84,21 @@ class UserDatabaseHelper {
 		}
 		return true;
 	}
+	
+	//returns a list of all users
+	public List<String> getUsers() throws SQLException {
+		List<String> users = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            String query = "SELECT username FROM users";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                users.add(resultSet.getString("username"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+	 }
 	
 	// This function will register a new user into the database. 
 	public void register(String username, String password, String role1, String role2, String role3) throws Exception {
