@@ -16,8 +16,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/shawnhudman/git/CSE360ProjectFINAL/CSE360Project/src/Encryption/bcprov-lts8on-2.73.6.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Bouncy Castle"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/H2"/>
+	<classpathentry kind="lib" path="C:/Users/alfie/H2/bin/h2-2.3.232.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

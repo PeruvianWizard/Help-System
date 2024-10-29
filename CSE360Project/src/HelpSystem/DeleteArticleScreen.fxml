@@ -17,5 +17,7 @@
       <TextField fx:id="uniqueIdentifier" layoutX="225.0" layoutY="162.0" promptText="Enter Unique Identifier" />
       <Button layoutX="256.0" layoutY="225.0" mnemonicParsing="false" onAction="#DeleteArticle" text="Delete Article" />
       <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#SwitchBackToPreviousScreen" text="Button" />
+      <Label layoutX="144.0" layoutY="130.0" text="Article Name:" />
+      <Label layoutX="123.0" layoutY="166.0" text="Unique Identifier:" />
    </children>
 </AnchorPane>
