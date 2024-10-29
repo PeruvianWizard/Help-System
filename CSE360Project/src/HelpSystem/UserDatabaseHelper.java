@@ -72,6 +72,18 @@ class UserDatabaseHelper {
 		
 		statement.execute(passwordTable);
 		
+		String articles = "CREATE TABLE IF NOT EXISTS articles ("
+				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
+				+ "uniqueIdentifier BIGINT DEFAULT 0, "
+				+ "isPrivate BOOLEAN DEFAULT FALSE, "
+				+ "level INT DEFAULT 0, "
+				+ "\"title\" VARCHAR(25), "
+				+ "\"description\" VARCHAR(25), "
+				+ "\"group\" VARCHAR(25), "
+				+ "\"body\" CLOB)";
+		
+		statement.execute(articles);
+		
 		System.out.println("Tables created successfully.");
 	}
 	
@@ -115,6 +127,31 @@ class UserDatabaseHelper {
 			pstmt.setString(3, role1);
 			pstmt.setString(4, role2);
 			pstmt.setString(5, role3);
+			pstmt.executeUpdate();
+		}
+	}
+	
+	// This function adds an article to the articles table
+	public void addArticle(HelpArticle article) throws SQLException {
+		// grab variables
+		String title = article.getTitle();
+		String body = article.getBody();
+		String description = article.getDescription();
+		String group = article.group();
+		long identifier = article.getIdentifier();
+		int level = article.getLevel();
+		boolean isPrivate = article.isPrivate();
+		
+		String insertArticle = "INSERT INTO articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		try (PreparedStatement pstmt = connection.prepareStatement(insertArticle)) {
+			
+			pstmt.setString(1, title);
+			pstmt.setString(2, body);
+			pstmt.setString(3, description);
+			pstmt.setString(4, group);
+			pstmt.setLong(5, identifier);
+			pstmt.setInt(6, level);
+			pstmt.setBoolean(7, isPrivate);
 			pstmt.executeUpdate();
 		}
 	}

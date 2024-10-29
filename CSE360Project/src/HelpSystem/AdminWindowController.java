@@ -36,6 +36,9 @@ public class AdminWindowController {
 	@FXML
 	private Button logOut;
 	
+	@FXML
+	private Button addArticleButton;
+	
     @FXML
     private Label oneTimeCodeLabel;
 	
@@ -92,6 +95,14 @@ public class AdminWindowController {
     
     public void SwitchToListUsersScreen(ActionEvent event) throws IOException {
     	Parent theRoot = FXMLLoader.load(getClass().getResource("ListUserScreen.fxml"));
+		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theScene = new Scene(theRoot);
+		theStage.setScene(theScene);
+		theStage.show();
+    }
+    
+    public void switchToAddArticleScreen(ActionEvent event) throws IOException {
+    	Parent theRoot = FXMLLoader.load(getClass().getResource("CreateArticleScreen.fxml"));
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);

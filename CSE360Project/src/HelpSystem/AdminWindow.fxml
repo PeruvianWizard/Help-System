@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.AdminWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.AdminWindowController">
    <children>
       <Label layoutX="155.0" layoutY="14.0" text="Administrator">
          <font>
@@ -19,10 +19,10 @@
          </font>
       </Button>
       <Button layoutX="350.0" layoutY="227.0" mnemonicParsing="false" onAction="#generateOneTimeCode" text="Generate One-Time Code" />
-      <Button fx:id="resetUserAccountButton" layoutX="91.0" layoutY="101.0" mnemonicParsing="false" onAction="#switchToResetUserWindow" text="Reset a User Account" />
-      <Button layoutX="88.0" layoutY="154.0" mnemonicParsing="false" onAction="#SwitchToDeleteUserWindow" text="Delete a User Account" />
-      <Button layoutX="88.0" layoutY="207.0" mnemonicParsing="false" onAction="#SwitchToListUsersScreen" text="List the User Accounts" />
-      <Button layoutX="93.0" layoutY="258.0" mnemonicParsing="false" onAction="#SwitchToModifyUserRoleWindow" text="Modify a User's Role" />
+      <Button fx:id="resetUserAccountButton" layoutX="85.0" layoutY="107.0" mnemonicParsing="false" onAction="#switchToResetUserWindow" prefHeight="25.0" prefWidth="141.0" text="Reset a User Account" />
+      <Button layoutX="85.0" layoutY="142.0" mnemonicParsing="false" onAction="#SwitchToDeleteUserWindow" text="Delete a User Account" />
+      <Button layoutX="85.0" layoutY="177.0" mnemonicParsing="false" onAction="#SwitchToListUsersScreen" text="List the User Accounts" />
+      <Button layoutX="85.0" layoutY="212.0" mnemonicParsing="false" onAction="#SwitchToModifyUserRoleWindow" prefHeight="25.0" prefWidth="140.0" text="Modify a User's Role" />
       <Label layoutX="341.0" layoutY="116.0" text="Generate One-Time Code">
          <font>
             <Font size="15.0" />
@@ -37,5 +37,6 @@
             <Font size="14.0" />
          </font>
       </Label>
+      <Button fx:id="addArticleButton" layoutX="86.0" layoutY="249.0" mnemonicParsing="false" onAction="#switchToAddArticleScreen" prefHeight="25.0" prefWidth="140.0" text="Add Article" />
    </children>
 </AnchorPane>
