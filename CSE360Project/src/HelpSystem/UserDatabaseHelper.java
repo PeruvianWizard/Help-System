@@ -1,4 +1,5 @@
 package HelpSystem;
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -127,31 +128,6 @@ class UserDatabaseHelper {
 			pstmt.setString(3, role1);
 			pstmt.setString(4, role2);
 			pstmt.setString(5, role3);
-			pstmt.executeUpdate();
-		}
-	}
-	
-	// This function adds an article to the articles table
-	public void addArticle(HelpArticle article) throws SQLException {
-		// grab variables
-		String title = article.getTitle();
-		String body = article.getBody();
-		String description = article.getDescription();
-		String group = article.group();
-		long identifier = article.getIdentifier();
-		int level = article.getLevel();
-		boolean isPrivate = article.isPrivate();
-		
-		String insertArticle = "INSERT INTO articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
-		try (PreparedStatement pstmt = connection.prepareStatement(insertArticle)) {
-			
-			pstmt.setString(1, title);
-			pstmt.setString(2, body);
-			pstmt.setString(3, description);
-			pstmt.setString(4, group);
-			pstmt.setLong(5, identifier);
-			pstmt.setInt(6, level);
-			pstmt.setBoolean(7, isPrivate);
 			pstmt.executeUpdate();
 		}
 	}
@@ -421,7 +397,103 @@ class UserDatabaseHelper {
 			}
 		}
 	}
+
+	// This function adds an article to the articles table
+	public void addArticle(HelpArticle article) throws SQLException {
+		// grab variables
+		String title = article.getTitle();
+		String body = article.getBody();
+		String description = article.getDescription();
+		String group = article.group();
+		long identifier = article.getIdentifier();
+		int level = article.getLevel();
+		boolean isPrivate = article.isPrivate();
+		
+		String insertArticle = "INSERT INTO articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		try (PreparedStatement pstmt = connection.prepareStatement(insertArticle)) {
+			
+			pstmt.setString(1, title);
+			pstmt.setString(2, body);
+			pstmt.setString(3, description);
+			pstmt.setString(4, group);
+			pstmt.setLong(5, identifier);
+			pstmt.setInt(6, level);
+			pstmt.setBoolean(7, isPrivate);
+			pstmt.executeUpdate();
+			System.out.println("Article created successfully.");
+		} catch(Exception e) {
+			System.out.println("Article could not be deleted.");
+		}
+	}
 	
+	// This function deletes an article from the article table
+	public boolean deleteArticle(String title, long identifier) throws Exception{
+		
+		String sql = "DELETE FROM articles WHERE uniqueIdentifier = ? AND \"title\" = ?";
+		
+		try(PreparedStatement pstmt = connection.prepareStatement(sql)){
+			pstmt.setLong(1, identifier);
+			pstmt.setString(2, title);
+			pstmt.executeUpdate();
+			System.out.println("Article deleted successfully.");
+			return true;
+		} catch(Exception e) {
+			System.out.println("Article could not be deleted.");
+			return false;
+		}
+	}
+	
+	// Backs up the articles table into a zip file and stores it in the local user folder
+	public void backupArticles() throws Exception {
+		// Gets the session role of the user that's currently logged, gets the users folder path, 
+		// and sets the name of the backup file with the user's session role
+		String role = HelpSystem.getSessionRole();
+		String path = System.getProperty("user.home");
+		String backupPath = path + "/" + role + "ArticlesBackup.zip";
+		
+		String backup = "SCRIPT TO '" + backupPath + "' COMPRESSION ZIP TABLE articles";	// Backs up the articles table
+		Statement stmt = connection.createStatement();
+		stmt.executeQuery(backup);
+		
+		// File class will be used to check if the backup was created successfully
+		File file = new File(backupPath);
+		
+		if(file.exists()) {
+			System.out.println("Backup created successfully.");
+		}
+		else {
+			System.out.println("Failure! Backup was not created.");
+		}
+	}
+
+	// Restores the database from the zip file created in the backupArticles functions
+	public void removeRestoreBackup() throws Exception {
+		//Object that will be used to back and restore articles table
+		String role = HelpSystem.getSessionRole();
+		String path = System.getProperty("user.home");
+		String backupPath = path + "/" + role + "ArticlesBackup.zip";
+		
+		String removeTable = "DROP TABLE IF EXISTS articles";	// Empties the current articles table
+		String restoreBackup = "RUNSCRIPT FROM '" + backupPath + "' COMPRESSION ZIP";	// Restores the backed up articles table
+		
+		try(Statement stmt = connection.createStatement()){
+		stmt.execute(removeTable); 		// removes pre-existing tables before restoring backup
+		stmt.execute(restoreBackup);
+		 
+		System.out.println("Backup was restored successfully."); 
+		
+		} catch (Exception e){
+			System.out.println("Failure! Backup could not be restored."); 
+			System.err.println("Database error: " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void mergeRestoreBackup() throws Exception {
+		// write code to merge backup with current articles table
+	}
+
 	// Closes the connection to the database
 	public void closeConnection() {
 		try{ 

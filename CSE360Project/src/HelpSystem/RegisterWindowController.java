@@ -123,6 +123,7 @@ public class RegisterWindowController {
     			
     			//display correct screen for specific user
         		if(auth.equals("admin")) {
+        			HelpSystem.setSessionRole(auth);
         			// updates screen
             		Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
             		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -130,6 +131,7 @@ public class RegisterWindowController {
             		theStage.setScene(theScene);
             		theStage.show();
         		} else if(auth.equals("student")) {
+        			HelpSystem.setSessionRole(auth);
         			// updates screen
             		Parent theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
             		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -137,6 +139,7 @@ public class RegisterWindowController {
             		theStage.setScene(theScene);
             		theStage.show();
         		} else if(auth.equals("instructor")){ 
+        			HelpSystem.setSessionRole(auth);
         			// updates screen
             		Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
             		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();

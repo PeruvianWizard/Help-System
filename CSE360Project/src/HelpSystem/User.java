@@ -9,9 +9,7 @@ public class User {
 	private boolean flag;
 	private int passwordTimer;
 	private String passwordDate;
-	private boolean isStudent = false;
-	private boolean isAdmin = false;
-	private boolean isInstructionalTeam = false;
+	private String currentRole;
 	
 	public String email;
 	public String username;
@@ -29,14 +27,8 @@ public class User {
 	public String getFirstName() {
 		return firstName;
 	}
-	public boolean isStudent() {
-		return isStudent;
-	}
-	public boolean isAdmin() {
-		return isAdmin;
-	}
-	public boolean isInstructionalTeam() {
-		return isInstructionalTeam;
+	public String getCurrentRole() {
+		return currentRole;
 	}
 	
 	/** Setter methods */
@@ -55,13 +47,7 @@ public class User {
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
 	}
-	public void setIsStudent(boolean isStudent) {
-		this.isStudent = isStudent;
-	}
-	public void setIsAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-	public void setIsInstructionalTeam(boolean isInstructionalTeam) {
-		this.isInstructionalTeam = isInstructionalTeam;
+	public void setCurrentRole(String currentRole) {
+		this.currentRole = currentRole;
 	}
 }

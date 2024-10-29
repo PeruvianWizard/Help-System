@@ -20,6 +20,15 @@ public class UserManager {
 		return loggedInUser.username;
 	}
 	
+	public String getSessionRole() {
+		return loggedInUser.getCurrentRole();
+	}
+	
+	public void setSessionRole(String sessionRole) {
+		loggedInUser.setCurrentRole(sessionRole);
+	
+	}
+	
 	public void logOut() { 
 		this.loggedInUser = null;
 	}

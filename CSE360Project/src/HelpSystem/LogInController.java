@@ -81,14 +81,18 @@ public class LogInController {
     			// Each if-statement will initialize the "theRoot" variable declared  
     			// at the top of the class with the respective window.
         		if(auth.equals("admin")) {
+        			// sets session role of a user
+        			HelpSystem.setSessionRole(auth);
         			// updates screen
             		theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
             		
         		} else if(auth.equals("student")) {
+        			HelpSystem.setSessionRole(auth);
         			// updates screen
             		theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
             		
-        		} else if (auth.equals("instructor")){ 
+        		} else if (auth.equals("instructor")){
+        			HelpSystem.setSessionRole(auth);
         			// updates screen
             		theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
             		

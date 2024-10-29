@@ -99,6 +99,14 @@ public class HelpSystem {
 		return; 
 	}
 	
+	protected static void setSessionRole(String sessionRole) {
+		userManager.setSessionRole(sessionRole);
+	}
+	
+	protected static String getSessionRole() {
+		return userManager.getSessionRole();
+	}
+	
 	protected static String getUsername() {
 		return userManager.getUsername(); 
 	}
