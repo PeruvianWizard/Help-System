@@ -21,7 +21,7 @@ public class HelpSystemGUI extends Application{
 	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-		stage.setTitle("Help System Phase 1");
+		stage.setTitle("Help System Phase 2");
 		
 		Parent root;
 		

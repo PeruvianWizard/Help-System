@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.AdminWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.AdminWindowController">
    <children>
       <Label layoutX="155.0" layoutY="14.0" text="Administrator">
          <font>
@@ -37,7 +37,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="addArticleButton" layoutX="85.0" layoutY="248.0" mnemonicParsing="false" onAction="#switchToAddArticleScreen" prefHeight="25.0" prefWidth="140.0" text="Add Article" />
-      <Button layoutX="85.0" layoutY="284.0" mnemonicParsing="false" onAction="#SwtichToDeleteArticleScreen" prefWidth="140.0" text="Delete Article" />
+      <Button layoutX="85.0" layoutY="248.0" mnemonicParsing="false" onAction="#SwitchToArticlesManagement" prefWidth="140.0" text="Articles Management" />
    </children>
 </AnchorPane>

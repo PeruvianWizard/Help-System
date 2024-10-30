@@ -366,21 +366,21 @@ class UserDatabaseHelper {
 	}
 	
 	// this function changes the password of an existing user
-		public void changePassword(String username, String newPassword) throws Exception {
-			// Encrypts the new password
-			String newEncryptedPassword = Base64.getEncoder().encodeToString(
-					encryptionHelper.encrypt(newPassword.getBytes(), EncryptionUtils.getInitializationVector(username.toCharArray()))
-			);
+	public void changePassword(String username, String newPassword) throws Exception {
+		// Encrypts the new password
+		String newEncryptedPassword = Base64.getEncoder().encodeToString(
+				encryptionHelper.encrypt(newPassword.getBytes(), EncryptionUtils.getInitializationVector(username.toCharArray()))
+		);
 			
-			String query = "UPDATE users SET password = ?, lostPass = ? WHERE username = ?";
-			try(PreparedStatement pstmt = connection.prepareStatement(query)) {
-				pstmt.setString(1, newEncryptedPassword);
-				pstmt.setBoolean(2, false);
-				pstmt.setString(3, username);
-					
-				pstmt.executeUpdate();
-			}
+		String query = "UPDATE users SET password = ?, lostPass = ? WHERE username = ?";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setString(1, newEncryptedPassword);
+			pstmt.setBoolean(2, false);
+			pstmt.setString(3, username);
+				
+			pstmt.executeUpdate();
 		}
+	}
 	
 	// This function checks for a reset password if needed
 	public boolean needsPasswordReset(String username) throws SQLException {
@@ -444,54 +444,94 @@ class UserDatabaseHelper {
 	}
 	
 	// Backs up the articles table into a zip file and stores it in the local user folder
-	public void backupArticles() throws Exception {
+	public boolean backupArticles() throws Exception {
 		// Gets the session role of the user that's currently logged, gets the users folder path, 
 		// and sets the name of the backup file with the user's session role
 		String role = HelpSystem.getSessionRole();
 		String path = System.getProperty("user.home");
 		String backupPath = path + "/" + role + "ArticlesBackup.zip";
 		
-		String backup = "SCRIPT TO '" + backupPath + "' COMPRESSION ZIP TABLE articles";	// Backs up the articles table
 		Statement stmt = connection.createStatement();
+		
+		// 1st a copy of articles table is created
+		String copyTable = "CREATE TABLE IF NOT EXISTS articles_backup AS SELECT * FROM articles";
+		stmt.execute(copyTable);
+		
+		// 2nd backup is created from articles_backup table. The name of the backed up table is articles_backup
+		String backup = "SCRIPT TO '" + backupPath + "' COMPRESSION ZIP TABLE articles_backup";	// Backs up the articles table
 		stmt.executeQuery(backup);
+		
+		//3rd articles_backup table is removed from the database
+		String removeTable = "DROP TABLE IF EXISTS articles_backup";
+		stmt.execute(removeTable);
 		
 		// File class will be used to check if the backup was created successfully
 		File file = new File(backupPath);
 		
 		if(file.exists()) {
 			System.out.println("Backup created successfully.");
+			return true;
 		}
 		else {
 			System.out.println("Failure! Backup was not created.");
+			return false;
 		}
 	}
 
 	// Restores the database from the zip file created in the backupArticles functions
-	public void removeRestoreBackup() throws Exception {
-		//Object that will be used to back and restore articles table
+	public boolean removeRestoreBackup() throws Exception {
 		String role = HelpSystem.getSessionRole();
 		String path = System.getProperty("user.home");
 		String backupPath = path + "/" + role + "ArticlesBackup.zip";
 		
 		String removeTable = "DROP TABLE IF EXISTS articles";	// Empties the current articles table
 		String restoreBackup = "RUNSCRIPT FROM '" + backupPath + "' COMPRESSION ZIP";	// Restores the backed up articles table
+		String renameTableString = "ALTER TABLE articles_backup RENAME TO articles";
 		
 		try(Statement stmt = connection.createStatement()){
-		stmt.execute(removeTable); 		// removes pre-existing tables before restoring backup
-		stmt.execute(restoreBackup);
-		 
-		System.out.println("Backup was restored successfully."); 
+			stmt.execute(removeTable); 			// removes pre-existing tables before restoring backup
+			stmt.execute(restoreBackup);		// restores the table called articles_backup
+			stmt.execute(renameTableString); 	// renames "articles_backup" table to "articles"
+			System.out.println("Backup was restored successfully."); 
+			return true;
 		
 		} catch (Exception e){
-			System.out.println("Failure! Backup could not be restored."); 
+			System.out.println("Failure! Backup could not be restored.");
 			System.err.println("Database error: " + e.getMessage());
 			e.printStackTrace();
+			return false;
 		}
 		
 	}
 	
-	public void mergeRestoreBackup() throws Exception {
-		// write code to merge backup with current articles table
+	public boolean mergeRestoreBackup() throws Exception {		
+		String role = HelpSystem.getSessionRole();
+		String path = System.getProperty("user.home");
+		String backupPath = path + "/" + role + "ArticlesBackup.zip";
+		
+		// Runs the backup file
+		String LoadBackup = "RUNSCRIPT FROM '" + backupPath + "' COMPRESSION ZIP";
+		// This SQL command merges the backup to the articles table except for the repeated articles
+		String mergeTable = "INSERT INTO articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) "
+				+ "SELECT \"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate "
+				+ "FROM articles_backup "
+				+ "WHERE uniqueIdentifier NOT IN (SELECT uniqueIdentifier FROM articles)";
+		// Drop the backup table 
+		String removeBackupTable = "DROP TABLE articles_backup";
+		
+		try(Statement stmt = connection.createStatement()){
+			stmt.execute(LoadBackup);
+			stmt.execute(mergeTable);
+			stmt.execute(removeBackupTable);
+			System.out.println("Back up merged successfully.");
+			return true;
+		} catch (Exception e) {
+			statement.execute(removeBackupTable);
+			System.out.println("Failure! Backup could not be merged."); 
+			System.err.println("Database error: " + e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	// Closes the connection to the database
