@@ -1,5 +1,7 @@
 package HelpSystem;
 
+import java.io.IOException;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,8 +38,7 @@ public class ModifyUserRoleWindowController {
     	roleBox.setItems(roleList);
     }
     
-    @FXML
-    void UpdateAndSwitchToAdminWindow(ActionEvent event) throws Exception {
+    public void UpdateAndSwitchToAdminWindow(ActionEvent event) throws Exception {
     	String chosenRole = roleBox.getValue().toString();
     	String username = usernameInput.getText();
     	
@@ -53,5 +54,13 @@ public class ModifyUserRoleWindowController {
     		System.out.println("Failure! User role could not be modified correctly!");
     	}
     	
+    }
+    
+    public void SwitchToAdminWindow(ActionEvent event) throws IOException {
+    	Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theScene = new Scene(theRoot);
+		theStage.setScene(theScene);
+		theStage.show();
     }
 }

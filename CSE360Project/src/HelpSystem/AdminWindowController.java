@@ -58,52 +58,34 @@ public class AdminWindowController {
 	@FXML
     void resetUser(ActionEvent event) throws IOException {
 		Parent theRoot = FXMLLoader.load(getClass().getResource("ResetUserWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+		setStage(theRoot, event);
 	}
 	
 	// switches to reset user window
     public void switchToResetUserWindow(ActionEvent event) throws IOException {
 		Parent theRoot = FXMLLoader.load(getClass().getResource("ResetUserWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+		setStage(theRoot, event);
 	}
     
     // switches to 
     public void SwitchToDeleteUserWindow(ActionEvent event) throws IOException {
     	Parent theRoot = FXMLLoader.load(getClass().getResource("DeleteUserWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+    	setStage(theRoot, event);
     }
     
     public void SwitchToModifyUserRoleWindow(ActionEvent event) throws IOException {
     	Parent theRoot = FXMLLoader.load(getClass().getResource("ModifyUserRoleWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+    	setStage(theRoot, event);
     }
     
     public void SwitchToListUsersScreen(ActionEvent event) throws IOException {
     	Parent theRoot = FXMLLoader.load(getClass().getResource("ListUserScreen.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+    	setStage(theRoot, event);
     }
     
     public void SwitchToArticlesManagement(ActionEvent event) throws IOException{
     	Parent theRoot = FXMLLoader.load(getClass().getResource("ArticlesManagementScreen.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+    	setStage(theRoot, event);
     }
     
     // logs out
@@ -111,10 +93,7 @@ public class AdminWindowController {
     	HelpSystem.userManager.logOut();
     	
     	Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+    	setStage(theRoot, event);
     }
     
     /** Functions AdminBox, InstructionalBox, and StudentBox will set the values of willBeAdmin, willBeInstructional, and willBeStudent
@@ -160,5 +139,13 @@ public class AdminWindowController {
 		willBeInstructional = "";
 		willBeStudent = "";
     }
-	
+    
+    // Function to set the stage (given a parent root and an action event) in order to reduce redundancy in code
+    public void setStage(Parent theRoot, ActionEvent event) {
+    	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theScene = new Scene(theRoot);
+		theStage.setScene(theScene);
+		theStage.show();
+    }  
+    
 }

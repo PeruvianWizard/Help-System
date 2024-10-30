@@ -20,5 +20,6 @@
       <Label layoutX="103.0" layoutY="143.0" text="User to be Modified:" />
       <Label layoutX="125.0" layoutY="204.0" text="Select Role: " />
       <Label fx:id="roleUpdate" layoutX="189.0" layoutY="244.0" text="User Roles could not be modified correcty" visible="false" />
+      <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#SwitchToAdminWindow" text="Back" />
    </children>
 </AnchorPane>
