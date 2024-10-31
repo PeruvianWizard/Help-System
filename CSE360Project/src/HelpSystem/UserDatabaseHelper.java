@@ -46,6 +46,11 @@ class UserDatabaseHelper {
 		}
 	}
 	
+	//allows access to connection for test cases
+	public Connection getConnection() {
+	    return connection;
+	}
+	
 	// Creates the tables for the users with their respective id, username, password, role, email, and names
 	private void createTables() throws SQLException {
 		String userTable = "CREATE TABLE IF NOT EXISTS users ("
