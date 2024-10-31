@@ -399,7 +399,6 @@ class UserDatabaseHelper {
 	}
 	// This function returns a list of article titles and descriptions
 	public List<String> getArticles() throws SQLException {
-		System.out.println("HELP ME HELP MEHELP MEHELP MEHELP MEHELP MEHELP MEHELP ME");
 		List<String> articles = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
             String query = "SELECT \"title\", \"description\" FROM articles";
