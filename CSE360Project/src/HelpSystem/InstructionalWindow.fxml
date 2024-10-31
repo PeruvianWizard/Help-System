@@ -5,18 +5,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.InstructionalWindowController">
    <children>
-      <Label layoutX="96.0" layoutY="14.0" text="Instructional Team">
+      <Label layoutX="108.0" layoutY="14.0" text="Instructional Team">
          <font>
             <Font size="50.0" />
          </font>
       </Label>
-      <Button layoutX="250.0" layoutY="178.0" mnemonicParsing="false" onAction="#switchToHelpSystemLogInWindow" text="Log Out">
+      <Button layoutX="255.0" layoutY="329.0" mnemonicParsing="false" onAction="#switchToHelpSystemLogInWindow" text="Log Out">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
+      <Button fx:id="manageArticlesButton" layoutX="248.0" layoutY="104.0" mnemonicParsing="false" onAction="#SwitchToManageArticlesWindow" text="Manage Articles" />
+      <Button fx:id="viewArticlesButton" layoutX="256.0" layoutY="146.0" mnemonicParsing="false" onAction="#SwitchToViewArticlesWindow" text="View Articles" />
    </children>
 </AnchorPane>

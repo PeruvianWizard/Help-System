@@ -34,6 +34,9 @@ public class AdminWindowController {
     private Button modifyUserRole;
 	
 	@FXML
+	private Button viewArticlesButton;
+	
+	@FXML
 	private Button logOut;
 	
     @FXML
@@ -85,6 +88,11 @@ public class AdminWindowController {
     
     public void SwitchToArticlesManagement(ActionEvent event) throws IOException{
     	Parent theRoot = FXMLLoader.load(getClass().getResource("ArticlesManagementScreen.fxml"));
+    	setStage(theRoot, event);
+    }
+    
+    public void SwitchToViewArticlesWindow(ActionEvent event) throws IOException{
+    	Parent theRoot = FXMLLoader.load(getClass().getResource("ListArticlesScreen.fxml"));
     	setStage(theRoot, event);
     }
     

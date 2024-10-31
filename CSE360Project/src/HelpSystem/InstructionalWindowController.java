@@ -23,4 +23,22 @@ public class InstructionalWindowController {
 		theStage.setScene(theScene);
 		theStage.show();
     }
+	
+	@FXML
+    public void SwitchToViewArticlesWindow(ActionEvent event) throws IOException{   	
+    	Parent theRoot = FXMLLoader.load(getClass().getResource("ListArticlesScreen.fxml"));
+		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theScene = new Scene(theRoot);
+		theStage.setScene(theScene);
+		theStage.show();
+    }
+	
+	@FXML
+    public void SwitchToManageArticlesWindow(ActionEvent event) throws IOException{   	
+    	Parent theRoot = FXMLLoader.load(getClass().getResource("ArticlesManagementScreen.fxml"));
+		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theScene = new Scene(theRoot);
+		theStage.setScene(theScene);
+		theStage.show();
+    }
 }

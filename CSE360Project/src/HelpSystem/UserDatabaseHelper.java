@@ -397,6 +397,24 @@ class UserDatabaseHelper {
 			}
 		}
 	}
+	// This function returns a list of article titles and descriptions
+	public List<String> getArticles() throws SQLException {
+		System.out.println("HELP ME HELP MEHELP MEHELP MEHELP MEHELP MEHELP MEHELP ME");
+		List<String> articles = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            String query = "SELECT \"title\", \"description\" FROM articles";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+            	String titleString = resultSet.getString("title");
+            	String descriptionString = resultSet.getString("description");
+            	articles.add(titleString + " - " + descriptionString);
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articles;
+	}
 
 	// This function adds an article to the articles table
 	public void addArticle(HelpArticle article) throws SQLException {

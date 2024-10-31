@@ -12,10 +12,11 @@
             <Font size="50.0" />
          </font>
       </Label>
-      <Button layoutX="250.0" layoutY="178.0" mnemonicParsing="false" onAction="#switchToHelpSystemLogInWindow" text="Log Out">
+      <Button layoutX="253.0" layoutY="331.0" mnemonicParsing="false" onAction="#switchToHelpSystemLogInWindow" text="Log Out">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
+      <Button layoutX="253.0" layoutY="120.0" mnemonicParsing="false" onAction="#SwitchToViewArticlesWindow" text="View Articles" />
    </children>
 </AnchorPane>
