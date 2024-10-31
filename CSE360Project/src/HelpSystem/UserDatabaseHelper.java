@@ -414,6 +414,60 @@ class UserDatabaseHelper {
         }
         return articles;
 	}
+	
+	// This function returns the body of an article
+	public String getBody(Long uniqueIdentifier) throws SQLException {
+		String body = "";
+		
+		String query = "SELECT \"body\" FROM articles WHERE uniqueIdentifier = ?";
+		
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setLong(1, uniqueIdentifier);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					body = rs.getString("body");
+				}
+			
+			}
+		}
+		return body;
+	}
+	
+	// This function returns the title of an article
+	public String getTitle(Long uniqueIdentifier) throws SQLException {
+		String title = "";
+			
+		String query = "SELECT \"title\" FROM articles WHERE uniqueIdentifier = ?";
+			
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setLong(1, uniqueIdentifier);
+				
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					title = rs.getString("title");
+				}
+		
+			}
+		}
+		return title;
+	}
+	
+	// This function returns the articles ids
+	public List<Long> getArticleIds() throws SQLException {
+		List<Long> idList = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            String query = "SELECT uniqueIdentifier FROM articles";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+            	idList.add(resultSet.getLong("uniqueIdentifier"));
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return idList;
+	}
 
 	// This function adds an article to the articles table
 	public void addArticle(HelpArticle article) throws SQLException {

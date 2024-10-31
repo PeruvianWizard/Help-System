@@ -1,5 +1,7 @@
 package HelpSystem;
 
+import java.awt.Event;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -33,6 +35,9 @@ public class ListArticlesController implements Initializable {
 	private Stage theStage;
 	private Scene theScene;
 	private Parent theRoot;
+	
+	private List<String> articleStrings;
+	private List<Long> idList;
     
     @FXML
     public void SwitchToAdminWindow(ActionEvent event) throws IOException {
@@ -46,13 +51,39 @@ public class ListArticlesController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-			List<String> articleStrings = HelpSystem.userDatabaseHelper.getArticles();
+			articleStrings = HelpSystem.userDatabaseHelper.getArticles();
+			idList = HelpSystem.userDatabaseHelper.getArticleIds();
+			
 			articlesList.getItems().addAll(articleStrings);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		articlesList.setOnMouseClicked(event -> {
+			Long articleId = idList.get(articlesList.getSelectionModel().getSelectedIndex());
+			openArticle(articleId);
+		});
+		
+	}
+	
+	private void openArticle(Long uniqueIdentifier) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("DisplayArticleWindow.fxml"));
+            Parent root = loader.load();
+
+            // Pass the article data and ranking to the details controller
+            DisplayArticleController displayController = loader.getController();
+            displayController.setData(uniqueIdentifier);
+
+            // Create a new scene and display it in a new stage
+            Stage stage = new Stage();
+            stage.setTitle(HelpSystem.userDatabaseHelper.getTitle(uniqueIdentifier));
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 	
 	@FXML
