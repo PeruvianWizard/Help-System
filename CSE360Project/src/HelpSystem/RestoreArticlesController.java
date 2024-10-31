@@ -72,7 +72,7 @@ public class RestoreArticlesController {
     
     @FXML
     public void SwitchBack(ActionEvent event) throws IOException {
-    	theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("ArticlesManagementScreen.fxml"));
     	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
