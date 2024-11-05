@@ -39,11 +39,8 @@ public class LogInAsRoleWindowController {
 		if(HelpSystem.userDatabaseHelper.checkAuth(HelpSystem.getUsername()).contains("admin")) {
 			HelpSystem.setSessionRole("admin");
 			
-			Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
-			theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			theScene = new Scene(theRoot);
-			theStage.setScene(theScene);
-			theStage.show();
+			theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+			setStage(theRoot, event);
 		}
 		else {
 			warningLabel.setVisible(false);
@@ -66,11 +63,8 @@ public class LogInAsRoleWindowController {
     	if(HelpSystem.userDatabaseHelper.checkAuth(HelpSystem.getUsername()).contains("instructor")) {
     		HelpSystem.setSessionRole("instructor");
     		
-	    	Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
-			theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			theScene = new Scene(theRoot);
-			theStage.setScene(theScene);
-			theStage.show();
+	    	theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
+			setStage(theRoot, event);
     	}
     	else {
     		warningLabel.setVisible(false);
@@ -92,11 +86,8 @@ public class LogInAsRoleWindowController {
     	if(HelpSystem.userDatabaseHelper.checkAuth(HelpSystem.getUsername()).contains("student")) {
     		HelpSystem.setSessionRole("student");
     		
-	    	Parent theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
-			theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			theScene = new Scene(theRoot);
-			theStage.setScene(theScene);
-			theStage.show();
+	    	theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
+			setStage(theRoot, event);
     	}
     	else {
     		warningLabel.setVisible(false);
@@ -111,5 +102,12 @@ public class LogInAsRoleWindowController {
 			pause2.play();
 			pause3.play();
     	}
+    }
+    
+    public void setStage(Parent theRoot, ActionEvent event) {
+    	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theScene = new Scene(theRoot);
+		theStage.setScene(theScene);
+		theStage.show();
     }
 }

@@ -66,11 +66,8 @@ public class LogInController {
     		
     		//checks if user needs to reset their password
     		if(HelpSystem.userDatabaseHelper.needsPasswordReset(username)) {
-    			Parent theRoot = FXMLLoader.load(getClass().getResource("EnterNewPasswordWindow.fxml"));
-        		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        		theScene = new Scene(theRoot);
-        		theStage.setScene(theScene);
-        		theStage.show();
+    			theRoot = FXMLLoader.load(getClass().getResource("EnterNewPasswordWindow.fxml"));
+        		setStage(theRoot, event);
     		}
     		
     		// checks if account is already updated, if not, redirect to finish account screen
@@ -100,35 +97,28 @@ public class LogInController {
         			// switch to screen where user will decide who they want to log in as
         			theRoot = FXMLLoader.load(getClass().getResource("LogInAsRoleWindow.fxml"));
         		} 
-        		
-        		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        		theScene = new Scene(theRoot);
-        		theStage.setScene(theScene);
-        		theStage.show();
     		} else {
     			// updates screen to finish setting up account
-        		Parent theRoot = FXMLLoader.load(getClass().getResource("FinishSettingUpAccountWindow.fxml"));
-        		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        		theScene = new Scene(theRoot);
-        		theStage.setScene(theScene);
-        		theStage.show();
-        		
+        		theRoot = FXMLLoader.load(getClass().getResource("FinishSettingUpAccountWindow.fxml"));        		
     		}
+    		setStage(theRoot, event);
     		return;
     	} else {
     		passIncorrectLabel.setVisible(true);
     	}
     }
 
-    
     /**This function switches back to the main window when the button "back" is clicked
      */
     public void switchToHelpSystemWindow(ActionEvent event) throws IOException {
-		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+		setStage(theRoot, event);
+	}
+    
+    public void setStage(Parent theRoot, ActionEvent event) {
+    	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
 		theStage.show();
-	}
-    
+    }
 }

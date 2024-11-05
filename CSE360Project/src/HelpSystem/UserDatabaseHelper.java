@@ -529,15 +529,19 @@ class UserDatabaseHelper {
 		
 		Statement stmt = connection.createStatement();
 		
-		// 1st a copy of articles table is created
-		String copyTable = "CREATE TABLE IF NOT EXISTS articles_backup AS SELECT * FROM articles";
-		stmt.execute(copyTable);
+		// 1st create a new temporary table with the properties of the articles table
+		String tempTableWScheme = "CREATE TABLE IF NOT EXISTS articles_backup AS SELECT * FROM articles WHERE 1=0";
+		stmt.execute(tempTableWScheme);
 		
-		// 2nd backup is created from articles_backup table. The name of the backed up table is articles_backup
+		// 2nd copy the data from the articles table into the temporary articles_backup table
+		String copyDataString = "INSERT INTO articles_backup SELECT * FROM articles";
+		stmt.execute(copyDataString);
+		
+		// 3rd backup is created from articles_backup table. The name of the backed up table is articles_backup
 		String backup = "SCRIPT TO '" + backupPath + "' COMPRESSION ZIP TABLE articles_backup";	// Backs up the articles table
 		stmt.executeQuery(backup);
 		
-		//3rd articles_backup table is removed from the database
+		//4th articles_backup table is removed from the database
 		String removeTable = "DROP TABLE IF EXISTS articles_backup";
 		stmt.execute(removeTable);
 		

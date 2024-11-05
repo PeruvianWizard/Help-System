@@ -64,7 +64,7 @@ public class ResetUserController {
 	/**This function switches back to the main window when the button "back" is clicked
      */
     public void switchToAdminSystemWindow(ActionEvent event) throws IOException {
-		Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+		theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);

@@ -63,44 +63,39 @@ public class FinishSettingUpAccountWindowController {
     	String auth = HelpSystem.userDatabaseHelper.checkAuth(username);
     	//display correct screen for specific user
 		if(auth.equals("admin")) {
+			HelpSystem.setSessionRole(auth);
+			
 			// updates screen
-    		Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
-    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		theScene = new Scene(theRoot);
-    		theStage.setScene(theScene);
-    		theStage.show();
+    		theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+    		setStage(theRoot, event);
 		} else if(auth.equals("student")) {
+			HelpSystem.setSessionRole(auth);
 			// updates screen
-    		Parent theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
-    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		theScene = new Scene(theRoot);
-    		theStage.setScene(theScene);
-    		theStage.show();
+    		theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
+    		setStage(theRoot, event);
 		} else if(auth.equals("instructor")){ 
+			HelpSystem.setSessionRole(auth);
 			// updates screen
-    		Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
-    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		theScene = new Scene(theRoot);
-    		theStage.setScene(theScene);
-    		theStage.show();
+    		theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
+    		setStage(theRoot, event);
 		}
 		else {
-			Parent theRoot = FXMLLoader.load(getClass().getResource("LogInAsRoleWindow.fxml"));
-    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		theScene = new Scene(theRoot);
-    		theStage.setScene(theScene);
-    		theStage.show();
+			theRoot = FXMLLoader.load(getClass().getResource("LogInAsRoleWindow.fxml"));
+			setStage(theRoot, event);
 		}
     }
     
     /**This function switches back to the main window when the button "back" is clicked
      */
     public void switchToHelpSystemWindow(ActionEvent event) throws IOException {
-		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+		setStage(theRoot, event);
+	}
+    
+    public void setStage(Parent theRoot, ActionEvent event) {
+    	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
 		theStage.show();
-	}
-    
+    }
 }

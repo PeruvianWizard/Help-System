@@ -62,7 +62,7 @@ public class EnterNewPasswordWindowController {
 			HelpSystem.userDatabaseHelper.changePassword(username, newPassword1.getText());
 			
 			// switch to main menu
-			Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+			theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
 			theStage = (Stage)((Node)e.getSource()).getScene().getWindow();
 			theScene = new Scene(theRoot);
 			theStage.setScene(theScene);

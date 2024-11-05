@@ -70,7 +70,7 @@ public class FirstLogInWindowController {
         	HelpSystem.setupAdministrator(username, password);
     		
         	// update scene
-    		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+    		theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
     		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
     		theScene = new Scene(theRoot);
     		theStage.setScene(theScene);

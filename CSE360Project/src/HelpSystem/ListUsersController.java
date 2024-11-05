@@ -33,7 +33,7 @@ public class ListUsersController implements Initializable {
     
     @FXML
     public void SwitchToAdminWindow(ActionEvent event) throws IOException {
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);

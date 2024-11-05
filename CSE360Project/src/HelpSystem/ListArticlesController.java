@@ -41,11 +41,8 @@ public class ListArticlesController implements Initializable {
     
     @FXML
     public void SwitchToAdminWindow(ActionEvent event) throws IOException {
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+    	theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+		setStage(theRoot, event);
     }
 
 	@Override
@@ -93,32 +90,25 @@ public class ListArticlesController implements Initializable {
 		
 		if(auth.equals("admin")) {
 			// updates screen
-    		Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
-    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		theScene = new Scene(theRoot);
-    		theStage.setScene(theScene);
-    		theStage.show();
+    		theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
 		} else if(auth.equals("student")) {
 			// updates screen
-    		Parent theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
-    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		theScene = new Scene(theRoot);
-    		theStage.setScene(theScene);
-    		theStage.show();
+    		theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
 		} else if(auth.equals("instructor")){ 
 			// updates screen
-    		Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
-    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		theScene = new Scene(theRoot);
-    		theStage.setScene(theScene);
-    		theStage.show();
+    		theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
 		}
 		else {
-			Parent theRoot = FXMLLoader.load(getClass().getResource("LogInAsRoleWindow.fxml"));
-    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		theScene = new Scene(theRoot);
-    		theStage.setScene(theScene);
-    		theStage.show();
+			theRoot = FXMLLoader.load(getClass().getResource("LogInAsRoleWindow.fxml"));
 		}
+		
+		setStage(theRoot, event);
 	}
+	
+	public void setStage(Parent theRoot, ActionEvent event) {
+    	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theScene = new Scene(theRoot);
+		theStage.setScene(theScene);
+		theStage.show();
+    }
 }

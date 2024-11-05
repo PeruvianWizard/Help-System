@@ -27,7 +27,15 @@ public class DeleteArticleController {
     }
 
     public void SwitchBackToPreviousScreen(ActionEvent event) throws IOException {
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+    	if(HelpSystem.getSessionRole().equals("admin")) {
+    		theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+    	}
+    	else if(HelpSystem.getSessionRole().equals("instructor")) {
+    		theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
+    	}
+    	else {
+    		theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
+    	}
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);

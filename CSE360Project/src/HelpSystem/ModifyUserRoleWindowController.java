@@ -43,11 +43,8 @@ public class ModifyUserRoleWindowController {
     	String username = usernameInput.getText();
     	
     	if(HelpSystem.userDatabaseHelper.modifyRole(username, chosenRole)) {
-    		Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
-    		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    		theScene = new Scene(theRoot);
-    		theStage.setScene(theScene);
-    		theStage.show();
+    		theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+    		setStage(theRoot, event);
     		System.out.println("User role was modified successfully!");
     	} else {
     		roleUpdate.setVisible(true);
@@ -57,8 +54,12 @@ public class ModifyUserRoleWindowController {
     }
     
     public void SwitchToAdminWindow(ActionEvent event) throws IOException {
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    	theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
+		setStage(theRoot, event);
+    }
+    
+    public void setStage(Parent theRoot, ActionEvent event) {
+    	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
 		theStage.show();

@@ -17,7 +17,7 @@ public class StudentWindowController {
 	
     @FXML
     void switchToHelpSystemLogInWindow(ActionEvent event) throws IOException {
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
@@ -26,7 +26,7 @@ public class StudentWindowController {
     
     @FXML
     public void SwitchToViewArticlesWindow(ActionEvent event) throws IOException{   	
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("ListArticlesScreen.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("ListArticlesScreen.fxml"));
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);

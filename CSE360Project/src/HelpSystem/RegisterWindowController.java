@@ -124,57 +124,41 @@ public class RegisterWindowController {
     			//display correct screen for specific user
         		if(auth.equals("admin")) {
         			HelpSystem.setSessionRole(auth);
-        			// updates screen
-            		Parent theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
-            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            		theScene = new Scene(theRoot);
-            		theStage.setScene(theScene);
-            		theStage.show();
+        			// sets root for setStage function
+            		theRoot = FXMLLoader.load(getClass().getResource("AdminWindow.fxml"));
         		} else if(auth.equals("student")) {
         			HelpSystem.setSessionRole(auth);
-        			// updates screen
-            		Parent theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
-            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            		theScene = new Scene(theRoot);
-            		theStage.setScene(theScene);
-            		theStage.show();
+        			// sets root for setStage function
+            		theRoot = FXMLLoader.load(getClass().getResource("StudentWindow.fxml"));
         		} else if(auth.equals("instructor")){ 
         			HelpSystem.setSessionRole(auth);
-        			// updates screen
-            		Parent theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
-            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            		theScene = new Scene(theRoot);
-            		theStage.setScene(theScene);
-            		theStage.show();
+        			// sets root for setStage function
+            		theRoot = FXMLLoader.load(getClass().getResource("InstructionalWindow.fxml"));
         		} else {
-        			Parent theRoot = FXMLLoader.load(getClass().getResource("LogInAsRoleWindow.fxml"));
-            		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            		theScene = new Scene(theRoot);
-            		theStage.setScene(theScene);
-            		theStage.show();
+        			// sets root for setStage function
+        			theRoot = FXMLLoader.load(getClass().getResource("LogInAsRoleWindow.fxml"));
         		}
     		} else {
-    			// updates screen to finish setting up account
-        		Parent theRoot = FXMLLoader.load(getClass().getResource("FinishSettingUpAccountWindow.fxml"));
-        		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        		theScene = new Scene(theRoot);
-        		theStage.setScene(theScene);
-        		theStage.show();
-        		
+    			// sets root for setStage function
+        		theRoot = FXMLLoader.load(getClass().getResource("FinishSettingUpAccountWindow.fxml"));      		
     		}
-    		
-    		
+    		// updates the screen based on the root set above
+    		setStage(theRoot, event);		
     	}
     }
     
     /**This function switches back to the main window when the button "back" is clicked
      */
     public void switchToHelpSystemWindow(ActionEvent event) throws IOException {
-		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+		setStage(theRoot, event);
+	}
+    
+    public void setStage(Parent theRoot, ActionEvent event) {
+    	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
 		theStage.show();
-	}
+    }
     
 }

@@ -60,39 +60,39 @@ public class AdminWindowController {
 	// this function resets a user's account and generates a one time password to reset
 	@FXML
     void resetUser(ActionEvent event) throws IOException {
-		Parent theRoot = FXMLLoader.load(getClass().getResource("ResetUserWindow.fxml"));
+		theRoot = FXMLLoader.load(getClass().getResource("ResetUserWindow.fxml"));
 		setStage(theRoot, event);
 	}
 	
 	// switches to reset user window
     public void switchToResetUserWindow(ActionEvent event) throws IOException {
-		Parent theRoot = FXMLLoader.load(getClass().getResource("ResetUserWindow.fxml"));
+		theRoot = FXMLLoader.load(getClass().getResource("ResetUserWindow.fxml"));
 		setStage(theRoot, event);
 	}
     
     // switches to 
     public void SwitchToDeleteUserWindow(ActionEvent event) throws IOException {
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("DeleteUserWindow.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("DeleteUserWindow.fxml"));
     	setStage(theRoot, event);
     }
     
     public void SwitchToModifyUserRoleWindow(ActionEvent event) throws IOException {
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("ModifyUserRoleWindow.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("ModifyUserRoleWindow.fxml"));
     	setStage(theRoot, event);
     }
     
     public void SwitchToListUsersScreen(ActionEvent event) throws IOException {
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("ListUserScreen.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("ListUserScreen.fxml"));
     	setStage(theRoot, event);
     }
     
     public void SwitchToArticlesManagement(ActionEvent event) throws IOException{
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("ArticlesManagementScreen.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("ArticlesManagementScreen.fxml"));
     	setStage(theRoot, event);
     }
     
     public void SwitchToViewArticlesWindow(ActionEvent event) throws IOException{
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("ListArticlesScreen.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("ListArticlesScreen.fxml"));
     	setStage(theRoot, event);
     }
     
@@ -100,7 +100,7 @@ public class AdminWindowController {
     public void logOut(ActionEvent event) throws IOException {
     	HelpSystem.userManager.logOut();
     	
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
     	setStage(theRoot, event);
     }
     
@@ -154,6 +154,6 @@ public class AdminWindowController {
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
 		theStage.show();
-    }  
+    }
     
 }

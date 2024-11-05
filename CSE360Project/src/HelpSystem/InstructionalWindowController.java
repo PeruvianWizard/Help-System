@@ -17,26 +17,24 @@ public class InstructionalWindowController {
 	
 	@FXML
     void switchToHelpSystemLogInWindow(ActionEvent event) throws IOException {
-		Parent theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+		theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
+		setStage(theRoot, event);
     }
 	
 	@FXML
     public void SwitchToViewArticlesWindow(ActionEvent event) throws IOException{   	
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("ListArticlesScreen.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+    	theRoot = FXMLLoader.load(getClass().getResource("ListArticlesScreen.fxml"));
+    	setStage(theRoot, event);
     }
 	
 	@FXML
     public void SwitchToManageArticlesWindow(ActionEvent event) throws IOException{   	
-    	Parent theRoot = FXMLLoader.load(getClass().getResource("ArticlesManagementScreen.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    	theRoot = FXMLLoader.load(getClass().getResource("ArticlesManagementScreen.fxml"));
+    	setStage(theRoot, event);
+    }
+	
+	public void setStage(Parent theRoot, ActionEvent event) {
+    	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
 		theStage.show();
