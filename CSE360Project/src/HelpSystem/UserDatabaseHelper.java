@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import org.bouncycastle.jcajce.provider.asymmetric.RSA;
 import org.bouncycastle.util.Arrays;
 
 import Encryption.EncryptionHelper;
@@ -498,7 +499,8 @@ class UserDatabaseHelper {
 			pstmt.executeUpdate();
 			System.out.println("Article created successfully.");
 		} catch(Exception e) {
-			System.out.println("Article could not be deleted.");
+			System.out.println("Article could not be created successfully.");
+			e.printStackTrace();
 		}
 	}
 	
@@ -530,12 +532,33 @@ class UserDatabaseHelper {
 		Statement stmt = connection.createStatement();
 		
 		// 1st create a new temporary table with the properties of the articles table
-		String tempTableWScheme = "CREATE TABLE IF NOT EXISTS articles_backup AS SELECT * FROM articles WHERE 1=0";
-		stmt.execute(tempTableWScheme);
+		String tempTable = "CREATE TABLE IF NOT EXISTS articles_backup ("
+				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
+				+ "uniqueIdentifier BIGINT DEFAULT 0, "
+				+ "isPrivate BOOLEAN DEFAULT FALSE, "
+				+ "level INT DEFAULT 0, "
+				+ "\"title\" VARCHAR(25), "
+				+ "\"description\" VARCHAR(25), "
+				+ "\"group\" VARCHAR(25), "
+				+ "\"body\" CLOB)";
+		stmt.execute(tempTable);
 		
 		// 2nd copy the data from the articles table into the temporary articles_backup table
-		String copyDataString = "INSERT INTO articles_backup SELECT * FROM articles";
-		stmt.execute(copyDataString);
+		String copyData = "INSERT INTO articles_backup SELECT * FROM articles";
+		stmt.execute(copyData);
+		
+		// fix id AUTO_INCREMENT in backup table
+		int currentID;
+		String query = "SELECT MAX(id) FROM articles_backup";
+		try(ResultSet rs = stmt.executeQuery(query)){
+			if(rs.next()) {
+				currentID = rs.getInt(1);
+				
+				String fixIdBackup = "ALTER TABLE articles_backup ALTER COLUMN id RESTART WITH " + (currentID + 1);
+				
+				stmt.execute(fixIdBackup);
+			}
+		}
 		
 		// 3rd backup is created from articles_backup table. The name of the backed up table is articles_backup
 		String backup = "SCRIPT TO '" + backupPath + "' COMPRESSION ZIP TABLE articles_backup";	// Backs up the articles table
