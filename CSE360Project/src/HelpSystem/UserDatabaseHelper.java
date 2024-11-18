@@ -1,4 +1,5 @@
 package HelpSystem;
+import java.awt.image.TileObserver;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
@@ -407,9 +408,12 @@ class UserDatabaseHelper {
 	public List<String> getArticles() throws SQLException {
 		List<String> articles = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
-            String query = "SELECT \"title\", \"description\" FROM articles";
+            String query = "SELECT \"title\", \"description\", isPrivate FROM articles";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
+            	if(resultSet.getBoolean("isPrivate") == true) {
+            		continue;
+            	}
             	String titleString = resultSet.getString("title");
             	String descriptionString = resultSet.getString("description");
             	articles.add(titleString + " - " + descriptionString);
@@ -422,10 +426,10 @@ class UserDatabaseHelper {
 	}
 	
 	// This function returns the body of an article
-	public String getBody(Long uniqueIdentifier) throws SQLException {
+	public String getBody(Long uniqueIdentifier) throws Exception {
 		String body = "";
 		
-		String query = "SELECT \"body\" FROM articles WHERE uniqueIdentifier = ?";
+		String query = "SELECT \"body\", isPrivate FROM articles WHERE uniqueIdentifier = ?";
 		
 		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
 			pstmt.setLong(1, uniqueIdentifier);
@@ -433,6 +437,15 @@ class UserDatabaseHelper {
 			try(ResultSet rs = pstmt.executeQuery()) {
 				if(rs.next()) {
 					body = rs.getString("body");
+					if(rs.getBoolean("isPrivate") == true && (HelpSystem.userManager.getSessionRole().contains("admin") == true || HelpSystem.userManager.getSessionRole().contains("instructor") == true)) {
+						char[] decryptedBody = EncryptionUtils.toCharArray(
+								encryptionHelper.decrypt(
+										Base64.getDecoder().decode(
+												body
+										), 
+										EncryptionUtils.getInitializationVector(getTitle(uniqueIdentifier).toCharArray())));
+						body = new String(decryptedBody);
+					}
 				}
 			
 			}
@@ -476,15 +489,24 @@ class UserDatabaseHelper {
 	}
 
 	// This function adds an article to the articles table
-	public void addArticle(HelpArticle article) throws SQLException {
+	public void addArticle(HelpArticle article) throws Exception {
 		// grab variables
-		String title = article.getTitle();
-		String body = article.getBody();
-		String description = article.getDescription();
-		String group = article.group();
-		long identifier = article.getIdentifier();
-		int level = article.getLevel();
+		String title = article.getTitle();;
+		String body;
+		String description = article.getDescription();;
+		String group  = article.group();;
+		long identifier  = article.getIdentifier();;
+		int level = article.getLevel();;
 		boolean isPrivate = article.isPrivate();
+		
+		if(isPrivate) {
+			body = Base64.getEncoder().encodeToString(
+					encryptionHelper.encrypt(article.getBody().getBytes(), EncryptionUtils.getInitializationVector(title.toCharArray()))
+					);
+		}
+		else {
+			body = article.getBody();
+		}
 		
 		String insertArticle = "INSERT INTO articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement pstmt = connection.prepareStatement(insertArticle)) {

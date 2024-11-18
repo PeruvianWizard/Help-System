@@ -1,7 +1,6 @@
 package HelpSystem;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -22,7 +21,7 @@ public class DisplayArticleController implements Initializable{
 		
 	} 
 	
-	public void setData(Long uniqueIdentifier) throws SQLException {
+	public void setData(Long uniqueIdentifier) throws Exception {
 		titleLabel.setText(HelpSystem.userDatabaseHelper.getTitle(uniqueIdentifier));
 		bodyArea.setText(HelpSystem.userDatabaseHelper.getBody(uniqueIdentifier));
 	}

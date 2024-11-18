@@ -2,7 +2,6 @@ package HelpSystem;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -55,7 +54,7 @@ public class CreateArticleController implements Initializable {
 	}
 	
 	@FXML
-	void createArticle(ActionEvent event) throws SQLException {
+	void createArticle(ActionEvent event) throws Exception {
 		String title = titleField.getText();
 		String description = descriptionField.getText();
 		String body = bodyField.getText();
