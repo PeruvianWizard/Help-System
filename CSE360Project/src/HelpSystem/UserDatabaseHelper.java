@@ -412,11 +412,20 @@ class UserDatabaseHelper {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
             	if(resultSet.getBoolean("isPrivate") == true) {
-            		continue;
+            		if(HelpSystem.userManager.getSessionRole().contains("admin") == true || HelpSystem.userManager.getSessionRole().contains("instructor") == true) {
+            			String titleString = resultSet.getString("title");
+                    	String descriptionString = resultSet.getString("description");
+                    	articles.add(titleString + " - " + descriptionString);
+            		}
+            		else {
+            			continue;
+            		}
             	}
-            	String titleString = resultSet.getString("title");
-            	String descriptionString = resultSet.getString("description");
-            	articles.add(titleString + " - " + descriptionString);
+            	else {
+	            	String titleString = resultSet.getString("title");
+	            	String descriptionString = resultSet.getString("description");
+	            	articles.add(titleString + " - " + descriptionString);
+            	}
                 
             }
         } catch (SQLException e) {
@@ -626,7 +635,6 @@ class UserDatabaseHelper {
 			e.printStackTrace();
 			return false;
 		}
-		
 	}
 	
 	public boolean mergeRestoreBackup() throws Exception {		
@@ -644,7 +652,7 @@ class UserDatabaseHelper {
 		// Drop the backup table 
 		String removeBackupTable = "DROP TABLE articles_backup";
 		
-		try(Statement stmt = connection.createStatement()){
+		try(Statement stmt = connection.createStatement()) {
 			stmt.execute(LoadBackup);
 			stmt.execute(mergeTable);
 			stmt.execute(removeBackupTable);
