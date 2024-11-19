@@ -21,12 +21,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ListArticlesController implements Initializable {
+public class ListSpecificGroupController implements Initializable {
 	@FXML
 	private ListView<String> articlesList;
 	
 	@FXML
-	private Label myLabel;
+	private Label groupNameTitle;
 	
 	@FXML
 	private Button backButton;
@@ -38,6 +38,8 @@ public class ListArticlesController implements Initializable {
 	
 	private List<String> articleStrings;
 	private List<Long> idList;
+	
+	private String groupName = "Error";
     
     @FXML
     public void SwitchToAdminWindow(ActionEvent event) throws IOException {
@@ -47,9 +49,16 @@ public class ListArticlesController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+	}
+	
+	public void customInitialize(String newGroup) {
+		this.groupName = newGroup;
+		groupNameTitle.setText("Articles in " + newGroup + ":");
+		
 		try {
-			articleStrings = HelpSystem.userDatabaseHelper.getArticles();
-			idList = HelpSystem.userDatabaseHelper.getArticleIds();
+			articleStrings = HelpSystem.userDatabaseHelper.getArticlesFromGroup(this.groupName);
+			idList = HelpSystem.userDatabaseHelper.getArticleIdsFromGroup(this.groupName);
 			
 			articlesList.setStyle("-fx-font-family: 'Courier New';");
 			articlesList.getItems().addAll(articleStrings);
@@ -62,7 +71,6 @@ public class ListArticlesController implements Initializable {
 			Long articleId = idList.get(articlesList.getSelectionModel().getSelectedIndex());
 			openArticle(articleId);
 		});
-		
 	}
 	
 	private void openArticle(Long uniqueIdentifier) {

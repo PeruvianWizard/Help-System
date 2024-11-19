@@ -404,6 +404,24 @@ class UserDatabaseHelper {
 			}
 		}
 	}
+	
+	// This function returns each table name of the article groups only once
+	public List<String> getArticleGroupNames() throws SQLException {
+		List<String> names = new ArrayList<>();
+		try (Statement statement = connection.createStatement()) {
+			String query = "SELECT DISTINCT \"group\" FROM articles";
+            ResultSet resultSet = statement.executeQuery(query);
+            while(resultSet.next()) {
+            	String groupName = resultSet.getString("group");
+            	names.add(groupName);
+            }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return names;
+	}
+	
 	// This function returns a list of article titles and descriptions
 	public List<String> getArticles() throws SQLException {
 		List<String> articles = new ArrayList<>();
@@ -413,18 +431,30 @@ class UserDatabaseHelper {
             while (resultSet.next()) {
             	if(resultSet.getBoolean("isPrivate") == true) {
             		if(HelpSystem.userManager.getSessionRole().contains("admin") == true || HelpSystem.userManager.getSessionRole().contains("instructor") == true) {
-            			String titleString = resultSet.getString("title");
-                    	String descriptionString = resultSet.getString("description");
-                    	articles.add(titleString + " - " + descriptionString);
+                		StringBuilder result = new StringBuilder();
+                		
+    	            	String titleString = resultSet.getString("title");
+    	            	String descriptionString = resultSet.getString("description");
+    	            	
+    	            	result.append(String.format("%-" + 19 + "s %-" + 44 + "s %s%n", titleString, descriptionString, "YES"));
+    	            	String formattedString = result.toString();
+    	            	
+    	            	articles.add(formattedString);
             		}
             		else {
             			continue;
             		}
             	}
             	else {
+            		StringBuilder result = new StringBuilder();
+            		
 	            	String titleString = resultSet.getString("title");
 	            	String descriptionString = resultSet.getString("description");
-	            	articles.add(titleString + " - " + descriptionString);
+	            	
+	            	result.append(String.format("%-" + 19 + "s %-" + 44 + "s %s%n", titleString, descriptionString, "NO"));
+	            	String formattedString = result.toString();
+	            	
+	            	articles.add(formattedString);
             	}
                 
             }
@@ -433,6 +463,64 @@ class UserDatabaseHelper {
         }
         return articles;
 	}
+	
+	// This function returns articles from specific group
+	public List<String> getArticlesFromGroup(String groupName) throws SQLException {
+		List<String> articles = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            String query = "SELECT \"title\", \"description\", isPrivate FROM " + groupName + "articles";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+            	if(resultSet.getBoolean("isPrivate") == true) {
+            		if(HelpSystem.userManager.getSessionRole().contains("admin") == true || HelpSystem.userManager.getSessionRole().contains("instructor") == true) {
+                		StringBuilder result = new StringBuilder();
+                		
+    	            	String titleString = resultSet.getString("title");
+    	            	String descriptionString = resultSet.getString("description");
+    	            	
+    	            	result.append(String.format("%-" + 19 + "s %-" + 44 + "s %s%n", titleString, descriptionString, "YES"));
+    	            	String formattedString = result.toString();
+    	            	
+    	            	articles.add(formattedString);
+            		}
+            		else {
+            			continue;
+            		}
+            	}
+            	else {
+            		StringBuilder result = new StringBuilder();
+            		
+	            	String titleString = resultSet.getString("title");
+	            	String descriptionString = resultSet.getString("description");
+	            	
+	            	result.append(String.format("%-" + 19 + "s %-" + 44 + "s %s%n", titleString, descriptionString, "NO"));
+	            	String formattedString = result.toString();
+	            	
+	            	articles.add(formattedString);
+            	}
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
+	
+	// This function returns ids from a specific group
+	public List<Long> getArticleIdsFromGroup(String groupName) throws SQLException {
+		List<Long> idList = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            String query = "SELECT uniqueIdentifier FROM " + groupName + "articles";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+            	idList.add(resultSet.getLong("uniqueIdentifier"));
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return idList;
+    }
 	
 	// This function returns the body of an article
 	public String getBody(Long uniqueIdentifier) throws Exception {
