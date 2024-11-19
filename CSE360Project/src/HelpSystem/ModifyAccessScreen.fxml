@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="titleLabel" layoutX="163.0" layoutY="26.0" text="Modify Access for: asdf">
@@ -14,7 +13,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <TextField fx:id="userTextInput" layoutX="199.0" layoutY="146.0" prefHeight="34.0" prefWidth="203.0" promptText="enter user to allow access">
+      <TextField fx:id="userTextInput" focusTraversable="false" layoutX="199.0" layoutY="146.0" prefHeight="34.0" prefWidth="203.0" promptText="enter user to allow access">
          <font>
             <Font size="15.0" />
          </font>
