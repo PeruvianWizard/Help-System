@@ -756,33 +756,35 @@ class UserDatabaseHelper {
 				}
 			}
 			else {
-				String createGroupTable = "CREATE TABLE IF NOT EXISTS " + group + "articles ("
-						+ "id INT AUTO_INCREMENT PRIMARY KEY, "
-						+ "uniqueIdentifier BIGINT DEFAULT 0, "
-						+ "isPrivate BOOLEAN DEFAULT FALSE, "
-						+ "level INT DEFAULT 0, "
-						+ "\"title\" VARCHAR(25), "
-						+ "\"description\" VARCHAR(25), "
-						+ "\"group\" VARCHAR(25), "
-						+ "\"body\" CLOB)";
-				pstmt.execute(createGroupTable);
-				
-				//createAccessTable(group, userId);
-				
-				String insertArticle = "INSERT INTO "+ group +"articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
-				try (PreparedStatement pstmt3 = connection.prepareStatement(insertArticle)) {
-					pstmt3.setString(1, title);
-					pstmt3.setString(2, body);
-					pstmt3.setString(3, description);
-					pstmt3.setString(4, group);
-					pstmt3.setLong(5, identifier);
-					pstmt3.setInt(6, level);
-					pstmt3.setBoolean(7, isPrivate);
-					pstmt3.executeUpdate();
-					System.out.println("Article created successfully in table.");
-				} catch(Exception e) {
-					System.out.println("Article could not be created successfully.");
-					e.printStackTrace();
+				if(group.equals("") == false) {
+					String createGroupTable = "CREATE TABLE IF NOT EXISTS " + group + "articles ("
+							+ "id INT AUTO_INCREMENT PRIMARY KEY, "
+							+ "uniqueIdentifier BIGINT DEFAULT 0, "
+							+ "isPrivate BOOLEAN DEFAULT FALSE, "
+							+ "level INT DEFAULT 0, "
+							+ "\"title\" VARCHAR(25), "
+							+ "\"description\" VARCHAR(25), "
+							+ "\"group\" VARCHAR(25), "
+							+ "\"body\" CLOB)";
+					pstmt.execute(createGroupTable);
+					
+					//createAccessTable(group, userId);
+					
+					String insertArticle = "INSERT INTO "+ group +"articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+					try (PreparedStatement pstmt3 = connection.prepareStatement(insertArticle)) {
+						pstmt3.setString(1, title);
+						pstmt3.setString(2, body);
+						pstmt3.setString(3, description);
+						pstmt3.setString(4, group);
+						pstmt3.setLong(5, identifier);
+						pstmt3.setInt(6, level);
+						pstmt3.setBoolean(7, isPrivate);
+						pstmt3.executeUpdate();
+						System.out.println("Article created successfully in "+ group +"articles table.");
+					} catch(Exception e) {
+						System.out.println("Article could not be created successfully in " + group + "articles table.");
+						e.printStackTrace();
+					}
 				}
 			}
 		}

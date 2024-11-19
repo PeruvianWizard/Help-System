@@ -2,9 +2,11 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.FinishSettingUpAccountWindowController">
@@ -14,41 +16,56 @@
             <Font size="50.0" />
          </font>
       </Label>
-      <TextField fx:id="firstNameInput" layoutX="226.0" layoutY="159.0" promptText="Enter your first name here" />
-      <Label layoutX="166.0" layoutY="113.0" text="Email:">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="121.0" layoutY="155.0" text="First Name:">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <TextField fx:id="emailInput" layoutX="226.0" layoutY="116.0" promptText="Enter your email here" />
-      <Button fx:id="updateButton" layoutX="269.0" layoutY="319.0" mnemonicParsing="false" onAction="#updateUser" text="Update">
+      <Button fx:id="updateButton" layoutX="256.0" layoutY="304.0" mnemonicParsing="false" onAction="#updateUser" text="Update">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="30.0" layoutY="311.0" mnemonicParsing="false" onAction="#switchToHelpSystemWindow" text="Back" />
-      <Label layoutX="100.0" layoutY="191.0" text="Middle Name:">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <TextField fx:id="middleNameInput" layoutX="226.0" layoutY="194.0" promptText="Enter your middle name" />
-      <TextField fx:id="lastNameInput" layoutX="226.0" layoutY="225.0" promptText="Enter your last name here" />
-      <Label layoutX="120.0" layoutY="225.0" text="Last Name:">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <TextField fx:id="preferredNameInput" layoutX="226.0" layoutY="270.0" promptText="Enter your preferred name here" />
-      <Label layoutX="85.0" layoutY="270.0" text="Preferred Name:">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
+      <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#switchToHelpSystemWindow" text="Back" />
+      <GridPane alignment="CENTER" hgap="5.0" layoutX="131.0" layoutY="124.0" prefHeight="152.0" prefWidth="320.0" vgap="10.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Email:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="BOTTOM_LEFT" text="First Name:" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Middle Name:" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Last Name:" GridPane.rowIndex="3">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Preferred Name:" GridPane.rowIndex="4">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="emailInput" maxWidth="150.0" promptText="Enter your email here" GridPane.columnIndex="1" />
+            <TextField fx:id="firstNameInput" maxWidth="150.0" promptText="Enter your first name here" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="middleNameInput" maxWidth="150.0" promptText="Enter your middle name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="lastNameInput" maxWidth="150.0" promptText="Enter your last name here" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="preferredNameInput" maxWidth="150.0" promptText="Enter your preferred name here" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>

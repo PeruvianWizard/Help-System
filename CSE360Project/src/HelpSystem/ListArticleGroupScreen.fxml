@@ -16,7 +16,7 @@
       </Label>
       <ListView fx:id="articleGroupsList" layoutX="15.0" layoutY="83.0" prefHeight="303.0" prefWidth="571.0" />
       <Button fx:id="backButton" layoutX="15.0" layoutY="13.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
-      <Text layoutX="15.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups:" wrappingWidth="71.21630859375">
+      <Text layoutX="17.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups:" wrappingWidth="76.01629638671875">
          <font>
             <Font size="21.0" />
          </font>
