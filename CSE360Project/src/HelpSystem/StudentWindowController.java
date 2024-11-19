@@ -26,7 +26,7 @@ public class StudentWindowController {
     
     @FXML
     public void SwitchToViewArticlesWindow(ActionEvent event) throws IOException{   	
-    	theRoot = FXMLLoader.load(getClass().getResource("ListArticlesScreen.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("ListArticleGroupScreen.fxml"));
 		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);

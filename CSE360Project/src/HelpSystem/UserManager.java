@@ -20,6 +20,10 @@ public class UserManager {
 		return loggedInUser.username;
 	}
 	
+	public int getUserId() {
+		return loggedInUser.getUserId();
+	}
+	
 	public String getSessionRole() {
 		return loggedInUser.getCurrentRole();
 	}

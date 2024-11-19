@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bouncycastle.jcajce.provider.asymmetric.RSA;
 import org.bouncycastle.util.Arrays;
@@ -57,6 +58,7 @@ class UserDatabaseHelper {
 	private void createTables() throws SQLException {
 		String userTable = "CREATE TABLE IF NOT EXISTS users ("
 				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
+				+ "userId INT DEFAULT 0, "
 				+ "username VARCHAR(255) UNIQUE, "
 				+ "password VARCHAR(255), "
 				+ "role1 VARCHAR(25), "						// Admin column
@@ -120,6 +122,22 @@ class UserDatabaseHelper {
         return users;
 	 }
 	
+	// this function returns userId given username
+	public int getUserId(String username) throws SQLException {
+		String query = "SELECT userId FROM users WHERE username = ?";
+		try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setString(1, username);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					return rs.getInt("userId");
+				}
+			} catch (SQLException se){
+				se.printStackTrace();
+			}
+		}
+		return -1; 
+	}
+	
 	// This function will register a new user into the database. 
 	public void register(String username, String password, String role1, String role2, String role3) throws Exception {
 		// Encrypt the password
@@ -127,14 +145,16 @@ class UserDatabaseHelper {
 				encryptionHelper.encrypt(password.getBytes(), EncryptionUtils.getInitializationVector(username.toCharArray()))
 		);
 		
-		String insertUser = "INSERT INTO users (username, password, role1, role2, role3) VALUES (?, ?, ?, ?, ?)";
+		String insertUser = "INSERT INTO users (userId, username, password, role1, role2, role3) VALUES (?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement pstmt = connection.prepareStatement(insertUser)) {
+			int randomNum = ThreadLocalRandom.current().nextInt(10000, 100000);
 			
-			pstmt.setString(1, username);
-			pstmt.setString(2, encryptedPassword);
-			pstmt.setString(3, role1);
-			pstmt.setString(4, role2);
-			pstmt.setString(5, role3);
+			pstmt.setInt(1, randomNum);
+			pstmt.setString(2, username);
+			pstmt.setString(3, encryptedPassword);
+			pstmt.setString(4, role1);
+			pstmt.setString(5, role2);
+			pstmt.setString(6, role3);
 			pstmt.executeUpdate();
 		}
 	}
@@ -296,6 +316,71 @@ class UserDatabaseHelper {
 		return "-1";
 	}
 	
+	// This function checks group auth
+	public boolean checkGroupAuth(String groupName, int userId) throws SQLException {
+		String query = "SELECT userId FROM " + groupName + "access WHERE userId = ?";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setInt(1, userId);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					return true;
+				}
+			}
+		}
+		
+		return false; 
+	}
+	
+	//checks if user exists
+	public boolean userExists(int userId) throws SQLException {
+		String query = "SELECT 1 FROM users WHERE userId = ?";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setInt(1, userId);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					return true;
+				}
+			}
+		}
+		
+		return false; 
+	}
+	
+	// checks if article is private
+	public boolean isArticlePrivate(Long articleId) throws SQLException {
+		boolean isPrivateBool = false;
+		String query = "SELECT isPrivate FROM articles WHERE uniqueIdentifier = ?";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setLong(1, articleId);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					isPrivateBool = rs.getBoolean("isPrivate");
+				}
+			}
+		}
+		
+		return isPrivateBool;
+	}
+	
+	// adds a user to access table
+	public boolean addUserToGroup(String groupName, int userId) throws SQLException {
+		if(!userExists(userId)) {
+			return false;
+		}
+		
+		String query = "INSERT INTO " + groupName + "access (userId) VALUES (?)";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setInt(1, userId);
+			
+			pstmt.executeUpdate();
+		}
+		
+		return true;
+	}
+	
 	// this function modifies a user's role (Note: if you find a better way to do this function, please change it)
 	public boolean modifyRole(String username, String role) throws Exception {
 		String query = "SELECT role1, role2, role3 FROM users WHERE username = ?";			// first query to get user's current roles
@@ -422,6 +507,24 @@ class UserDatabaseHelper {
 		return names;
 	}
 	
+	// returns a single group name
+	public String getSingleArticleGroupNameString(Long uniqueIdentifier) throws SQLException {
+		String groupName = "";
+		
+		String query = "SELECT \"group\" FROM articles WHERE uniqueIdentifier = ?";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setLong(1, uniqueIdentifier);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					groupName = rs.getString("group");
+				}
+			}
+		}
+		
+		return groupName;
+	}
+	
 	// This function returns a list of article titles and descriptions
 	public List<String> getArticles() throws SQLException {
 		List<String> articles = new ArrayList<>();
@@ -430,7 +533,6 @@ class UserDatabaseHelper {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
             	if(resultSet.getBoolean("isPrivate") == true) {
-            		if(HelpSystem.userManager.getSessionRole().contains("admin") == true || HelpSystem.userManager.getSessionRole().contains("instructor") == true) {
                 		StringBuilder result = new StringBuilder();
                 		
     	            	String titleString = resultSet.getString("title");
@@ -440,10 +542,6 @@ class UserDatabaseHelper {
     	            	String formattedString = result.toString();
     	            	
     	            	articles.add(formattedString);
-            		}
-            		else {
-            			continue;
-            		}
             	}
             	else {
             		StringBuilder result = new StringBuilder();
@@ -472,7 +570,6 @@ class UserDatabaseHelper {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
             	if(resultSet.getBoolean("isPrivate") == true) {
-            		if(HelpSystem.userManager.getSessionRole().contains("admin") == true || HelpSystem.userManager.getSessionRole().contains("instructor") == true) {
                 		StringBuilder result = new StringBuilder();
                 		
     	            	String titleString = resultSet.getString("title");
@@ -482,10 +579,6 @@ class UserDatabaseHelper {
     	            	String formattedString = result.toString();
     	            	
     	            	articles.add(formattedString);
-            		}
-            		else {
-            			continue;
-            		}
             	}
             	else {
             		StringBuilder result = new StringBuilder();
@@ -586,7 +679,7 @@ class UserDatabaseHelper {
 	}
 
 	// This function adds an article to the articles table
-	public void addArticle(HelpArticle article) throws Exception {
+	public void addArticle(HelpArticle article, int userId) throws Exception {
 		// grab variables
 		String title = article.getTitle();;
 		String body;
@@ -642,6 +735,9 @@ class UserDatabaseHelper {
 							+ "\"group\" VARCHAR(25), "
 							+ "\"body\" CLOB)";
 					pstmt.execute(createGroupTable);
+					
+					createAccessTable(group, userId);
+					
 					String insertArticle = "INSERT INTO "+ group +"articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
 					try (PreparedStatement pstmt3 = connection.prepareStatement(insertArticle)) {
 						pstmt3.setString(1, title);
@@ -670,6 +766,9 @@ class UserDatabaseHelper {
 						+ "\"group\" VARCHAR(25), "
 						+ "\"body\" CLOB)";
 				pstmt.execute(createGroupTable);
+				
+				//createAccessTable(group, userId);
+				
 				String insertArticle = "INSERT INTO "+ group +"articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
 				try (PreparedStatement pstmt3 = connection.prepareStatement(insertArticle)) {
 					pstmt3.setString(1, title);
@@ -704,6 +803,24 @@ class UserDatabaseHelper {
 		} catch(Exception e) {
 			System.out.println("Article could not be created successfully.");
 			e.printStackTrace();
+		}
+	}
+	
+	// This function creates a table that contains all users that have access to a specific group
+	public void createAccessTable(String groupName, int userId) throws SQLException {
+		String createAccessTable = "CREATE TABLE IF NOT EXISTS " + groupName + "access ("
+				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
+				+ "userId INT DEFAULT 0)";
+		
+		Statement stmt = connection.createStatement();
+		stmt.execute(createAccessTable);
+		
+		String insertCreator = "INSERT INTO " + groupName + "access (userId) VALUES (?)";
+		
+		try(PreparedStatement pstmt = connection.prepareStatement(insertCreator)) {
+			pstmt.setInt(1, userId);
+			
+			pstmt.executeUpdate();
 		}
 	}
 	

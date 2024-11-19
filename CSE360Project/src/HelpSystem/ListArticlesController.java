@@ -50,7 +50,7 @@ public class ListArticlesController implements Initializable {
 		try {
 			articleStrings = HelpSystem.userDatabaseHelper.getArticles();
 			idList = HelpSystem.userDatabaseHelper.getArticleIds();
-			
+
 			articlesList.setStyle("-fx-font-family: 'Courier New';");
 			articlesList.getItems().addAll(articleStrings);
 		} catch (SQLException e) {
@@ -60,7 +60,41 @@ public class ListArticlesController implements Initializable {
 		
 		articlesList.setOnMouseClicked(event -> {
 			Long articleId = idList.get(articlesList.getSelectionModel().getSelectedIndex());
-			openArticle(articleId);
+			int userId = HelpSystem.getUserId();
+			
+			boolean isPrivateBool = false;
+			boolean groupAuth = false; 
+			String groupName = null;
+			try {
+				groupName = HelpSystem.userDatabaseHelper.getSingleArticleGroupNameString(articleId);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				isPrivateBool = HelpSystem.userDatabaseHelper.isArticlePrivate(articleId);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(!isPrivateBool) {
+				openArticle(articleId);
+			} else {
+				try {
+					groupAuth = HelpSystem.userDatabaseHelper.checkGroupAuth(groupName, userId);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if(groupAuth) {
+					openArticle(articleId);
+				} else {
+					return;
+				}
+			}
 		});
 		
 	}

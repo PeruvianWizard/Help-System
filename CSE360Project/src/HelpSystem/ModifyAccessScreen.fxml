@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="titleLabel" layoutX="163.0" layoutY="26.0" text="Modify Access for: asdf">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <TextField fx:id="userTextInput" layoutX="199.0" layoutY="146.0" prefHeight="34.0" prefWidth="203.0" promptText="enter user to allow access">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Button fx:id="updateButton" layoutX="247.0" layoutY="297.0" mnemonicParsing="false" onAction="#updateUsers" text="Update">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="backButton" layoutX="37.0" layoutY="342.0" mnemonicParsing="false" onAction="#returnToGroupScreen" text="Back" />
+      <Label fx:id="successLabel" layoutX="172.0" layoutY="238.0" text="User added successfully! Don't click me again..." visible="false" />
+   </children>
+</AnchorPane>

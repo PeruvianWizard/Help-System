@@ -1,5 +1,7 @@
 package HelpSystem;
 
+import java.sql.SQLException;
+
 public class User {
 	private String password;
 	private String firstName;
@@ -10,6 +12,7 @@ public class User {
 	private int passwordTimer;
 	private String passwordDate;
 	private String currentRole;
+	private int userId = -1;
 	
 	public String email;
 	public String username;
@@ -17,10 +20,13 @@ public class User {
 	/** Base constructor*/
 	public User() {
 	}
-	/** Constructor to create users with a username and a password*/
-	public User(String username, String password) {
+	/** Constructor to create users with a username and a password
+	 * @throws SQLException */
+	public User(String username, String password) throws SQLException {
 		this.username = username;
 		this.password = password;
+		
+		this.userId = HelpSystem.userDatabaseHelper.getUserId(username);
 	}
 	
 	/** Getter methods */
@@ -29,6 +35,10 @@ public class User {
 	}
 	public String getCurrentRole() {
 		return currentRole;
+	}
+	
+	public int getUserId() {
+		return userId;
 	}
 	
 	/** Setter methods */

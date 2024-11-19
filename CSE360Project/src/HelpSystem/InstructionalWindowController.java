@@ -23,7 +23,7 @@ public class InstructionalWindowController {
 	
 	@FXML
     public void SwitchToViewArticlesWindow(ActionEvent event) throws IOException{   	
-    	theRoot = FXMLLoader.load(getClass().getResource("ListArticlesScreen.fxml"));
+    	theRoot = FXMLLoader.load(getClass().getResource("ListArticleGroupScreen.fxml"));
     	setStage(theRoot, event);
     }
 	

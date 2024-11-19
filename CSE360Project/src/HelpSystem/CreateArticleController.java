@@ -55,6 +55,8 @@ public class CreateArticleController implements Initializable {
 	
 	@FXML
 	void createArticle(ActionEvent event) throws Exception {
+		int userId = HelpSystem.getUserId();
+		
 		String title = titleField.getText();
 		String description = descriptionField.getText();
 		String body = bodyField.getText();
@@ -65,7 +67,7 @@ public class CreateArticleController implements Initializable {
 		
 		HelpArticle article = new HelpArticle(isPrivate, level, title, description, body, group);
 		
-		HelpSystem.userDatabaseHelper.addArticle(article);
+		HelpSystem.userDatabaseHelper.addArticle(article, userId);
 	}
 	
 	@FXML

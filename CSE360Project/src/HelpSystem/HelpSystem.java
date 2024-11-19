@@ -111,5 +111,9 @@ public class HelpSystem {
 		return userManager.getUsername(); 
 	}
 	
+	protected static int getUserId() {
+		return userManager.getUserId();
+	}
+	
 	
 }

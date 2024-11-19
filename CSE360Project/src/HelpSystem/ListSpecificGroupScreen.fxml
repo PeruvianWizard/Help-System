@@ -31,5 +31,7 @@
             <Font size="21.0" />
          </font>
       </Text>
+      <Button fx:id="modifyAccessButton" layoutX="474.0" layoutY="12.0" mnemonicParsing="false" onAction="#switchToModifyAccessScreen" prefHeight="27.0" prefWidth="112.0" text="Modify Access" />
+      <Label fx:id="accessAuthLabel" layoutX="484.0" layoutY="39.0" text="You cant do that!" visible="false" />
    </children>
 </AnchorPane>

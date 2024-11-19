@@ -26,10 +26,16 @@ public class ListSpecificGroupController implements Initializable {
 	private ListView<String> articlesList;
 	
 	@FXML
+	private Label accessAuthLabel;
+	
+	@FXML
 	private Label groupNameTitle;
 	
 	@FXML
 	private Button backButton;
+	
+	@FXML
+	private Button modifyAccessButton;
 	
 	/** These private variables are used to set up the window */
 	private Stage theStage;
@@ -40,6 +46,7 @@ public class ListSpecificGroupController implements Initializable {
 	private List<Long> idList;
 	
 	private String groupName = "Error";
+	private int userId;
     
     @FXML
     public void SwitchToAdminWindow(ActionEvent event) throws IOException {
@@ -53,6 +60,8 @@ public class ListSpecificGroupController implements Initializable {
 	}
 	
 	public void customInitialize(String newGroup) {
+		userId = HelpSystem.getUserId();
+		
 		this.groupName = newGroup;
 		groupNameTitle.setText("Articles in " + newGroup + ":");
 		
@@ -69,7 +78,34 @@ public class ListSpecificGroupController implements Initializable {
 		
 		articlesList.setOnMouseClicked(event -> {
 			Long articleId = idList.get(articlesList.getSelectionModel().getSelectedIndex());
-			openArticle(articleId);
+			
+			boolean isPrivateBool = false;
+			boolean groupAuth = false; 
+			
+			try {
+				isPrivateBool = HelpSystem.userDatabaseHelper.isArticlePrivate(articleId);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(!isPrivateBool) {
+				openArticle(articleId);
+			} else {
+				try {
+					groupAuth = HelpSystem.userDatabaseHelper.checkGroupAuth(groupName, userId);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if(groupAuth) {
+					openArticle(articleId);
+				} else {
+					return;
+				}
+			}
+			
 		});
 	}
 	
@@ -98,6 +134,28 @@ public class ListSpecificGroupController implements Initializable {
     	theRoot = FXMLLoader.load(getClass().getResource("ListArticleGroupScreen.fxml"));
 		
 		setStage(theRoot, event);
+	}
+	
+	@FXML
+	public void switchToModifyAccessScreen(ActionEvent event) throws SQLException, IOException {
+		int userId = HelpSystem.getUserId();
+
+		// pass the group name to the modify access screen if auth is correct
+		if(HelpSystem.userDatabaseHelper.checkGroupAuth(groupName, userId)) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("ModifyAccessScreen.fxml"));
+			ModifyAccessScreenController controller = new ModifyAccessScreenController();
+			loader.setController(controller);
+			
+			theRoot = loader.load();
+			controller.customInitialize(groupName);
+			
+			theStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			
+			theStage.setScene(new Scene(theRoot));
+			theStage.show();
+		} else {
+			accessAuthLabel.setVisible(true);
+		}
 	}
 	
 	public void setStage(Parent theRoot, ActionEvent event) {
