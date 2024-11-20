@@ -401,6 +401,7 @@ class UserDatabaseHelper {
 		}
 	}
 	
+	// returns a list with all the help messages, with the format, "userId	username	messageBody"  
 	public List<String> getMessages() throws SQLException{
 		List<String> messagesList = new ArrayList<>();
 		try (Statement statement = connection.createStatement()) {
@@ -424,6 +425,7 @@ class UserDatabaseHelper {
 		return messagesList;
 	}
 	
+	// returns a list with all ids of the help messages
 	public List<Integer> getMessagesIds() {
 		List<Integer> idList = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
@@ -438,6 +440,7 @@ class UserDatabaseHelper {
         return idList;
 	}
 	
+	// returns the username that sent the help message
 	public String getSingleUsernameMessage(int id) throws SQLException {
 		String username = "";
 		String query = "SELECT username FROM messages WHERE id = ?";
@@ -453,6 +456,7 @@ class UserDatabaseHelper {
 		return username;
 	}
 	
+	// returns a help message
 	public String getSingleMessage(int id) throws SQLException {
 		String messageBody = "";
 		String query = "SELECT messageBody FROM messages WHERE id = ?";
@@ -782,6 +786,7 @@ class UserDatabaseHelper {
 		return title;
 	}
 	
+	// Returns the authors of an article
 	public String getAuthors(Long uniqueIdentifier) throws SQLException{
 		String authors = "";
 		
@@ -826,6 +831,7 @@ class UserDatabaseHelper {
 		int level = article.getLevel();
 		boolean isPrivate = article.isPrivate();
 		
+		// if new article is private, then encrypt the body of the article
 		if(isPrivate) {
 			body = Base64.getEncoder().encodeToString(
 					encryptionHelper.encrypt(article.getBody().getBytes(), EncryptionUtils.getInitializationVector(title.toCharArray()))
@@ -835,13 +841,17 @@ class UserDatabaseHelper {
 			body = article.getBody();
 		}
 		
+		// 1st: insert the article in the group table if group was specified. If group specified does not have a table, create one and insert into that table
 		String getGroups = "SELECT \"group\" FROM articles";
 		try(Statement pstmt = connection.createStatement()){
 			ResultSet rs = pstmt.executeQuery(getGroups);
+			// if there are existing groups in the group column
 			if(rs.next()) {
 				boolean added = false;
+				// Search the group column to see if another article with the same group column has been created previously
 				while(rs.next()) {
-					if(rs.getString("group").equals(group) == true) {
+					// if program finds a matching group in the group column, and the group's name is not "empty", then insert the new article into that group's table
+					if(rs.getString("group").equals(group) == true && group.equals("") == false) {
 						String insertArticle = "INSERT INTO "+ group +"articles (\"title\", authors, \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 						try (PreparedStatement pstmt3 = connection.prepareStatement(insertArticle)) {
 							pstmt3.setString(1, title);
@@ -862,7 +872,9 @@ class UserDatabaseHelper {
 						}
 					}
 				}
-				if(!added) {
+				// if the article has not been added yet because the group is not in the group column, and the group's name is not "empty",
+				// then create a new table with that group's name and insert the new article into that table
+				if(!added && group.equals("") == false) {
 					String createGroupTable = "CREATE TABLE IF NOT EXISTS " + group + "articles ("
 							+ "id INT AUTO_INCREMENT PRIMARY KEY, "
 							+ "uniqueIdentifier BIGINT DEFAULT 0, "
@@ -895,6 +907,7 @@ class UserDatabaseHelper {
 					}
 				}
 			}
+			// if there are no groups in the group column, create a table with the new article group's name
 			else {
 				if(group.equals("") == false) {
 					String createGroupTable = "CREATE TABLE IF NOT EXISTS " + group + "articles ("
@@ -929,25 +942,25 @@ class UserDatabaseHelper {
 					}
 				}
 			}
-		}
-		
-		
-		String insertArticle = "INSERT INTO articles (\"title\", authors, \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-		try (PreparedStatement pstmt = connection.prepareStatement(insertArticle)) {
 			
-			pstmt.setString(1, title);
-			pstmt.setString(2, authors);
-			pstmt.setString(3, body);
-			pstmt.setString(4, description);
-			pstmt.setString(5, group);
-			pstmt.setLong(6, identifier);
-			pstmt.setInt(7, level);
-			pstmt.setBoolean(8, isPrivate);
-			pstmt.executeUpdate();
-			System.out.println("Article created successfully in general articles table.");
-		} catch(Exception e) {
-			System.out.println("Article could not be created successfully.");
-			e.printStackTrace();
+			// 2nd: insert the article in the general articles table
+			String insertArticle = "INSERT INTO articles (\"title\", authors, \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			try (PreparedStatement pstmt1 = connection.prepareStatement(insertArticle)) {
+				
+				pstmt1.setString(1, title);
+				pstmt1.setString(2, authors);
+				pstmt1.setString(3, body);
+				pstmt1.setString(4, description);
+				pstmt1.setString(5, group);
+				pstmt1.setLong(6, identifier);
+				pstmt1.setInt(7, level);
+				pstmt1.setBoolean(8, isPrivate);
+				pstmt1.executeUpdate();
+				System.out.println("Article created successfully in general articles table.");
+			} catch(Exception e) {
+				System.out.println("Article could not be created successfully.");
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -1071,6 +1084,7 @@ class UserDatabaseHelper {
 		}
 	}
 	
+	// Restores the general articles table and merges it with the current general articles table
 	public boolean mergeRestoreBackup() throws Exception {		
 		String role = HelpSystem.getSessionRole();
 		String path = System.getProperty("user.home");
