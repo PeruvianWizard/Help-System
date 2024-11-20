@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +32,10 @@ public class ListArticlesController implements Initializable {
 	
 	@FXML
 	private Button backButton;
+	
+	@FXML
+	private Button sortButton;
+
 	
 	/** These private variables are used to set up the window */
 	private Stage theStage;
@@ -117,6 +123,25 @@ public class ListArticlesController implements Initializable {
             e.printStackTrace();
         }
 	}
+	
+	@SuppressWarnings("unchecked")
+	public <String> void setListView(List<String> sortedList) {	
+		articlesList.getItems().clear();
+		articlesList.setStyle("-fx-font-family: 'Courier New';");
+		articlesList.setItems((ObservableList<java.lang.String>) FXCollections.observableArrayList(sortedList));
+		backButton.setVisible(false);
+		sortButton.setVisible(false);
+	}
+	
+    public void SwitchToSortArticleWindow(ActionEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("SortArticleWindow.fxml"));
+    	Parent root = loader.load();SortArticleWindowController sortController = loader.getController();
+    	sortController.setGroup("");
+    	Stage stage = new Stage();
+    	stage.setTitle("Sort");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 	
 	@FXML
 	public void goBack(ActionEvent event) throws SQLException, IOException { 

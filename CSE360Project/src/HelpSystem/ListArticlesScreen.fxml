@@ -31,5 +31,6 @@
             <Font size="21.0" />
          </font>
       </Text>
+      <Button fx:id="sortButton" layoutX="547.0" layoutY="13.0" mnemonicParsing="false" onAction="#SwitchToSortArticleWindow" text="Sort" />
    </children>
 </AnchorPane>

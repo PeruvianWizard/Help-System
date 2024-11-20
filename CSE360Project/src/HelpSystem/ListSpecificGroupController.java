@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +35,10 @@ public class ListSpecificGroupController implements Initializable {
 	
 	@FXML
 	private Button backButton;
+	
+    @FXML
+    private Button sortButton;
+
 	
 	@FXML
 	private Button modifyAccessButton;
@@ -157,6 +163,17 @@ public class ListSpecificGroupController implements Initializable {
 			accessAuthLabel.setVisible(true);
 		}
 	}
+	
+	public void SwitchToSortArticleWindow(ActionEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("SortArticleWindow.fxml"));
+    	Parent root = loader.load();
+    	SortArticleWindowController sortController = loader.getController();
+    	sortController.setGroup(groupName);
+    	Stage stage = new Stage();
+    	stage.setTitle("Sort");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 	
 	public void setStage(Parent theRoot, ActionEvent event) {
     	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
