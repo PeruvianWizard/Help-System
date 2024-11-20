@@ -164,6 +164,14 @@ public class ListSpecificGroupController implements Initializable {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <String> void setListView(List<String> sortedList) {	
+		articlesList.getItems().clear();
+		articlesList.setStyle("-fx-font-family: 'Courier New';");
+		articlesList.setItems((ObservableList<java.lang.String>) FXCollections.observableArrayList(sortedList));
+		backButton.setVisible(false);
+	}
+	
 	public void SwitchToSortArticleWindow(ActionEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("SortArticleWindow.fxml"));
     	Parent root = loader.load();

@@ -130,12 +130,12 @@ public class ListArticlesController implements Initializable {
 		articlesList.setStyle("-fx-font-family: 'Courier New';");
 		articlesList.setItems((ObservableList<java.lang.String>) FXCollections.observableArrayList(sortedList));
 		backButton.setVisible(false);
-		sortButton.setVisible(false);
 	}
 	
     public void SwitchToSortArticleWindow(ActionEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("SortArticleWindow.fxml"));
-    	Parent root = loader.load();SortArticleWindowController sortController = loader.getController();
+    	Parent root = loader.load();
+    	SortArticleWindowController sortController = loader.getController();
     	sortController.setGroup("");
     	Stage stage = new Stage();
     	stage.setTitle("Sort");

@@ -48,16 +48,25 @@ public class SortArticleWindowController {
 		 
 		 if(group.equals("") == true) {
 			 articles = HelpSystem.userDatabaseHelper.getArticlesFromGroup(group, levelChosen);
+			 FXMLLoader loader = new FXMLLoader(getClass().getResource("ListArticlesScreen.fxml"));
+			 Parent root = loader.load();
+			 ListArticlesController tempController = loader.getController();
+			 tempController.setListView(articles);
+			 setStage(root, event);
 		 }
 			
 		 else { 
-			 articles = HelpSystem.userDatabaseHelper.getArticlesFromGroup(group, levelChosen); 
+			 articles = HelpSystem.userDatabaseHelper.getArticlesFromGroup(group, levelChosen);
+			 FXMLLoader loader = new FXMLLoader(getClass().getResource("ListSpecificGroupScreen.fxml"));
+			 ListSpecificGroupController controller = new ListSpecificGroupController();
+			 loader.setController(controller);
+			
+			 theRoot = loader.load();
+			 controller.customInitialize(group);
+			 controller.setListView(articles);
+			 setStage(theRoot, event);
 		 }	 
-		 FXMLLoader loader = new FXMLLoader(getClass().getResource("ListArticlesScreen.fxml"));
-		 Parent root = loader.load();
-		 ListArticlesController tempController = loader.getController();
-		 tempController.setListView(articles);
-		 setStage(root, event);
+		 
 	 }
 	 
 	 private int findLevel(String selection) {
