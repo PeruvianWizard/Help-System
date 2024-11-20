@@ -803,6 +803,30 @@ class UserDatabaseHelper {
 		return authors;
 	}
 	
+	// returns a list of articles based on their level
+	public List<String> getArticlesBasedOnLevel(int level, String groupName) {
+		List<String> articlesBasedOnLevel = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            String query = "SELECT * FROM " + groupName + "articles WHERE level = " + level;
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+            	StringBuilder result = new StringBuilder();
+        		
+            	String titleString = resultSet.getString("title");
+            	String descriptionString = resultSet.getString("description");
+            	
+            	result.append(String.format("%-" + 19 + "s %-" + 44 + "s %s%n", titleString, descriptionString, "YES"));
+            	String formattedString = result.toString();
+            	
+            	articlesBasedOnLevel.add(formattedString);
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articlesBasedOnLevel;
+	}
+	
 	// This function returns the articles ids
 	public List<Long> getArticleIds() throws SQLException {
 		List<Long> idList = new ArrayList<>();
