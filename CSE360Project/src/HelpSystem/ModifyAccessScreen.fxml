@@ -18,12 +18,13 @@
             <Font size="15.0" />
          </font>
       </TextField>
-      <Button fx:id="updateButton" layoutX="247.0" layoutY="297.0" mnemonicParsing="false" onAction="#updateUsers" text="Update">
+      <Button fx:id="updateButton" layoutX="247.0" layoutY="255.0" mnemonicParsing="false" onAction="#updateUsers" text="Update">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
       <Button fx:id="backButton" layoutX="37.0" layoutY="342.0" mnemonicParsing="false" onAction="#returnToGroupScreen" text="Back" />
       <Label fx:id="successLabel" layoutX="172.0" layoutY="238.0" text="User added successfully! Don't click me again..." visible="false" />
+      <Button fx:id="viewUsersAcessButton" layoutX="226.0" layoutY="325.0" mnemonicParsing="false" onAction="#switchToListUsersScreen" prefHeight="34.0" prefWidth="148.0" text="View Users with Access" />
    </children>
 </AnchorPane>

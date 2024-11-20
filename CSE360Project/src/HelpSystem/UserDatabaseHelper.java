@@ -129,6 +129,39 @@ class UserDatabaseHelper {
         return users;
 	 }
 	
+	//returns users with access to specific table
+	public List<String> getGroupUsers(String groupName) throws SQLException {
+		List<String> users = new ArrayList<>();
+		try(Statement statement = connection.createStatement()) {
+			String query = "SELECT userId FROM " + groupName + "access";
+			ResultSet rs = statement.executeQuery(query);
+			
+			while(rs.next()) {
+				users.add(getUsername(rs.getInt("userId")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return users;
+	}
+	
+	// returns username given Id
+	public String getUsername(int userId) throws SQLException {
+		String username = "";
+		String query = "SELECT username FROM users WHERE userId = ?";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setInt(1, userId);
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					username = rs.getString("username");
+				}
+			}
+		}
+		
+		return username;
+	}
+	
 	// this function returns userId given username
 	public int getUserId(String username) throws SQLException {
 		String query = "SELECT userId FROM users WHERE username = ?";

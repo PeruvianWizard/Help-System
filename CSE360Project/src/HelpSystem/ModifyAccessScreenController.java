@@ -34,6 +34,9 @@ public class ModifyAccessScreenController {
 	private Button updateButton;
 	
 	@FXML
+	private Button viewUsersAcessButton;
+	
+	@FXML
 	private Button backButton;
 	
 	private String groupNameString;
@@ -61,6 +64,21 @@ public class ModifyAccessScreenController {
     	theRoot = FXMLLoader.load(getClass().getResource("ListArticleGroupScreen.fxml"));
 		
 		setStage(theRoot, event);
+	}
+	
+	@FXML
+	public void switchToListUsersScreen(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ListGroupUsersScreen.fxml"));
+		ListGroupUsersController controller = new ListGroupUsersController();
+		loader.setController(controller);
+		
+		theRoot = loader.load();
+		controller.customInit(groupNameString);
+		
+		theStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		
+		theStage.setScene(new Scene(theRoot));
+		theStage.show();
 	}
 	
 	public void setStage(Parent theRoot, ActionEvent event) {
