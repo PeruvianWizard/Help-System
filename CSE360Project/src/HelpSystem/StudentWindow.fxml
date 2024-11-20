@@ -12,11 +12,12 @@
             <Font size="50.0" />
          </font>
       </Label>
-      <Button layoutX="253.0" layoutY="331.0" mnemonicParsing="false" onAction="#switchToHelpSystemLogInWindow" text="Log Out">
+      <Button alignment="CENTER" layoutX="245.0" layoutY="320.0" mnemonicParsing="false" onAction="#switchToHelpSystemLogInWindow" text="Log Out" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="253.0" layoutY="120.0" mnemonicParsing="false" onAction="#SwitchToViewArticlesWindow" text="View Articles" />
+      <Button layoutX="253.0" layoutY="119.0" mnemonicParsing="false" onAction="#SwitchToViewArticlesWindow" text="View Articles" />
+      <Button layoutX="253.0" layoutY="165.0" mnemonicParsing="false" onAction="#SwitchToMessageScreen" text="Ask For Help" />
    </children>
 </AnchorPane>

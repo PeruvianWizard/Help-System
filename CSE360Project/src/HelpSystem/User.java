@@ -13,6 +13,7 @@ public class User {
 	private String passwordDate;
 	private String currentRole;
 	private int userId = -1;
+	private String messageString;
 	
 	public String email;
 	public String username;

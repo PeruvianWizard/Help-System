@@ -15,19 +15,26 @@ public class StudentWindowController {
 	private Scene theScene;
 	private Parent theRoot;
 	
+	@FXML
+    void SwitchToMessageScreen(ActionEvent event) throws IOException {
+		theRoot = FXMLLoader.load(getClass().getResource("MessageScreen.fxml"));
+		setStage(theRoot, event);
+    }
+	
     @FXML
     void switchToHelpSystemLogInWindow(ActionEvent event) throws IOException {
     	theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		theScene = new Scene(theRoot);
-		theStage.setScene(theScene);
-		theStage.show();
+		setStage(theRoot, event);
     }
     
     @FXML
     public void SwitchToViewArticlesWindow(ActionEvent event) throws IOException{   	
     	theRoot = FXMLLoader.load(getClass().getResource("ListArticleGroupScreen.fxml"));
-		theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		setStage(theRoot, event);
+    }
+    
+    public void setStage(Parent theRoot, ActionEvent event) {
+    	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
 		theStage.setScene(theScene);
 		theStage.show();

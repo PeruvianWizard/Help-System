@@ -19,5 +19,6 @@
       </Button>
       <Button fx:id="manageArticlesButton" layoutX="248.0" layoutY="104.0" mnemonicParsing="false" onAction="#SwitchToManageArticlesWindow" text="Manage Articles" />
       <Button fx:id="viewArticlesButton" layoutX="256.0" layoutY="146.0" mnemonicParsing="false" onAction="#SwitchToViewArticlesWindow" text="View Articles" />
+      <Button layoutX="228.0" layoutY="187.0" mnemonicParsing="false" onAction="#SwitchToViewMessagesWindow" prefWidth="140.0" text="View Help Messages" />
    </children>
 </AnchorPane>

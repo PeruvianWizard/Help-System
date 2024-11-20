@@ -96,6 +96,11 @@ public class AdminWindowController {
     	setStage(theRoot, event);
     }
     
+    public void SwitchToViewMessagesWindow(ActionEvent event) throws IOException {
+    	theRoot = FXMLLoader.load(getClass().getResource("ViewMessagesWindow.fxml"));
+    	setStage(theRoot, event);
+    }
+    
     // logs out
     public void logOut(ActionEvent event) throws IOException {
     	HelpSystem.userManager.logOut();
@@ -103,6 +108,8 @@ public class AdminWindowController {
     	theRoot = FXMLLoader.load(getClass().getResource("HelpSystemLogInWindow.fxml"));
     	setStage(theRoot, event);
     }
+    
+    
     
     /** Functions AdminBox, InstructionalBox, and StudentBox will set the values of willBeAdmin, willBeInstructional, and willBeStudent
      *  which then will be used by the generateOneTimeCode function below to generate an invitation code to a new User

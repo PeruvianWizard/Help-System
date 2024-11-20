@@ -39,5 +39,6 @@
       </Label>
       <Button layoutX="85.0" layoutY="229.0" mnemonicParsing="false" onAction="#SwitchToArticlesManagement" prefWidth="140.0" text="Articles Management" />
       <Button fx:id="viewArticlesButton" layoutX="85.0" layoutY="267.0" mnemonicParsing="false" onAction="#SwitchToViewArticlesWindow" prefWidth="140.0" text="View Articles" />
+      <Button layoutX="85.0" layoutY="304.0" mnemonicParsing="false" onAction="#SwitchToViewMessagesWindow" prefWidth="140.0" text="View Help Messages" />
    </children>
 </AnchorPane>

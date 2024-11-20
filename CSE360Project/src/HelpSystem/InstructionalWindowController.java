@@ -33,6 +33,13 @@ public class InstructionalWindowController {
     	setStage(theRoot, event);
     }
 	
+	@FXML
+	public void SwitchToViewMessagesWindow(ActionEvent event) throws IOException {
+    	theRoot = FXMLLoader.load(getClass().getResource("ViewMessagesWindow.fxml"));
+    	setStage(theRoot, event);
+    }
+	
+	
 	public void setStage(Parent theRoot, ActionEvent event) {
     	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);

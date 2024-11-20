@@ -94,6 +94,13 @@ class UserDatabaseHelper {
 		
 		statement.execute(articles);
 		
+		String message = "CREATE TABLE IF NOT EXISTS messages ("
+				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
+				+ "userId INT DEFAULT 0, "
+				+ "username VARCHAR(255), "
+				+ "messageBody CLOB)";
+		statement.execute(message);
+		
 		System.out.println("Tables created successfully.");
 	}
 	
@@ -346,6 +353,85 @@ class UserDatabaseHelper {
 		}
 		
 		return false; 
+	}
+	
+	// loads message sent by the student into the messages table
+	public void sendMessage(String messageBody, String username,int userId) throws SQLException {
+		String query = "INSERT INTO messages (userId, username, messageBody) VALUES (?,?,?)";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setInt(1, userId);
+			pstmt.setString(2, username);
+			pstmt.setString(3, messageBody);
+			
+			pstmt.executeUpdate();
+		}
+	}
+	
+	public List<String> getMessages() throws SQLException{
+		List<String> messagesList = new ArrayList<>();
+		try (Statement statement = connection.createStatement()) {
+			String query = "SELECT username, userId,messageBody FROM messages";
+            ResultSet resultSet = statement.executeQuery(query);
+            while(resultSet.next()) {
+            	StringBuilder result = new StringBuilder();
+            	
+            	String username = resultSet.getString("username");
+            	int userId = resultSet.getInt("userId");
+            	String messageBody = resultSet.getString("messageBody");
+            	
+            	result.append(String.format("%-" + 15 + "s %-" + 15 + "s %s%n", userId, username, messageBody));
+            	String formattedString = result.toString();
+            	
+            	messagesList.add(formattedString);
+            }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return messagesList;
+	}
+	
+	public List<Integer> getMessagesIds() {
+		List<Integer> idList = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            String query = "SELECT id FROM messages";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+            	idList.add(resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return idList;
+	}
+	
+	public String getSingleUsernameMessage(int id) throws SQLException {
+		String username = "";
+		String query = "SELECT username FROM messages WHERE id = ?";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setLong(1, id);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					username = rs.getString("username");
+				}
+			}
+		}
+		return username;
+	}
+	
+	public String getSingleMessage(int id) throws SQLException {
+		String messageBody = "";
+		String query = "SELECT messageBody FROM messages WHERE id = ?";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setInt(1, id);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					messageBody = rs.getString("messageBody");
+				}
+			}
+		}
+		return messageBody;
 	}
 	
 	// checks if article is private
