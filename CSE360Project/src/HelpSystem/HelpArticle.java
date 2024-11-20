@@ -7,13 +7,14 @@ public class HelpArticle {
 	private int level; // stores the "difficulty" level of the article from 0 to 3
 	private String group; // string that acts as identifier specifically to group articles (example any articles about java)
 	private boolean isPrivate;
+	private String authors;
 	
 	private String title;
 	private String description;
 	private String body;
 	
 	// constructor
-	public HelpArticle(boolean isPrivate, int level, String title, String description, String body, String group) {
+	public HelpArticle(boolean isPrivate, int level, String title, String description, String body, String group, String authors) {
 		Random r = new Random();
 		this.identifier = 1000000000L + (long)(r.nextDouble() * 9000000000L);
 		
@@ -24,6 +25,7 @@ public class HelpArticle {
 		this.title = title; 
 		this.description = description; 
 		this.body = body;
+		this.authors = authors;
 	}
 	
 	// getter methods
@@ -45,6 +47,10 @@ public class HelpArticle {
 	
 	public String getTitle() {
 		return title; 
+	}
+	
+	public String getAuthors() {
+		return authors;
 	}
 	
 	public String getDescription() {

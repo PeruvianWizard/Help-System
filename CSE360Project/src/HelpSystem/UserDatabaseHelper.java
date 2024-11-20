@@ -88,6 +88,7 @@ class UserDatabaseHelper {
 				+ "isPrivate BOOLEAN DEFAULT FALSE, "
 				+ "level INT DEFAULT 0, "
 				+ "\"title\" VARCHAR(25), "
+				+ "authors VARCHAR(25), "
 				+ "\"description\" VARCHAR(25), "
 				+ "\"group\" VARCHAR(25), "
 				+ "\"body\" CLOB)";
@@ -781,6 +782,22 @@ class UserDatabaseHelper {
 		return title;
 	}
 	
+	public String getAuthors(Long uniqueIdentifier) throws SQLException{
+		String authors = "";
+		
+		String query = "SELECT authors FROM articles WHERE uniqueIdentifier = ?";
+		try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+			pstmt.setLong(1, uniqueIdentifier);
+				
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					authors = rs.getString("authors");
+				}
+			}
+		}
+		return authors;
+	}
+	
 	// This function returns the articles ids
 	public List<Long> getArticleIds() throws SQLException {
 		List<Long> idList = new ArrayList<>();
@@ -800,12 +817,13 @@ class UserDatabaseHelper {
 	// This function adds an article to the articles table
 	public void addArticle(HelpArticle article, int userId) throws Exception {
 		// grab variables
-		String title = article.getTitle();;
+		String title = article.getTitle();
 		String body;
-		String description = article.getDescription();;
-		String group  = article.group();;
-		long identifier  = article.getIdentifier();;
-		int level = article.getLevel();;
+		String description = article.getDescription();
+		String group  = article.group();
+		String authors = article.getAuthors();
+		long identifier  = article.getIdentifier();
+		int level = article.getLevel();
 		boolean isPrivate = article.isPrivate();
 		
 		if(isPrivate) {
@@ -824,15 +842,16 @@ class UserDatabaseHelper {
 				boolean added = false;
 				while(rs.next()) {
 					if(rs.getString("group").equals(group) == true) {
-						String insertArticle = "INSERT INTO "+ group +"articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+						String insertArticle = "INSERT INTO "+ group +"articles (\"title\", authors, \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 						try (PreparedStatement pstmt3 = connection.prepareStatement(insertArticle)) {
 							pstmt3.setString(1, title);
-							pstmt3.setString(2, body);
-							pstmt3.setString(3, description);
-							pstmt3.setString(4, group);
-							pstmt3.setLong(5, identifier);
-							pstmt3.setInt(6, level);
-							pstmt3.setBoolean(7, isPrivate);
+							pstmt3.setString(2, authors);
+							pstmt3.setString(3, body);
+							pstmt3.setString(4, description);
+							pstmt3.setString(5, group);
+							pstmt3.setLong(6, identifier);
+							pstmt3.setInt(7, level);
+							pstmt3.setBoolean(8, isPrivate);
 							pstmt3.executeUpdate();
 							System.out.println("Article created successfully in "+ group +"articles table.");
 							added = true;
@@ -850,6 +869,7 @@ class UserDatabaseHelper {
 							+ "isPrivate BOOLEAN DEFAULT FALSE, "
 							+ "level INT DEFAULT 0, "
 							+ "\"title\" VARCHAR(25), "
+							+ "authors VARCHAR(25), "
 							+ "\"description\" VARCHAR(25), "
 							+ "\"group\" VARCHAR(25), "
 							+ "\"body\" CLOB)";
@@ -857,15 +877,16 @@ class UserDatabaseHelper {
 					
 					createAccessTable(group, userId);
 					
-					String insertArticle = "INSERT INTO "+ group +"articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+					String insertArticle = "INSERT INTO "+ group +"articles (\"title\", authors, \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 					try (PreparedStatement pstmt3 = connection.prepareStatement(insertArticle)) {
 						pstmt3.setString(1, title);
-						pstmt3.setString(2, body);
-						pstmt3.setString(3, description);
-						pstmt3.setString(4, group);
-						pstmt3.setLong(5, identifier);
-						pstmt3.setInt(6, level);
-						pstmt3.setBoolean(7, isPrivate);
+						pstmt3.setString(2, authors);
+						pstmt3.setString(3, body);
+						pstmt3.setString(4, description);
+						pstmt3.setString(5, group);
+						pstmt3.setLong(6, identifier);
+						pstmt3.setInt(7, level);
+						pstmt3.setBoolean(8, isPrivate);
 						pstmt3.executeUpdate();
 						System.out.println("Article created successfully in "+ group +"articles table.");
 					} catch(Exception e) {
@@ -882,6 +903,7 @@ class UserDatabaseHelper {
 							+ "isPrivate BOOLEAN DEFAULT FALSE, "
 							+ "level INT DEFAULT 0, "
 							+ "\"title\" VARCHAR(25), "
+							+ "authors VARCHAR(25), "
 							+ "\"description\" VARCHAR(25), "
 							+ "\"group\" VARCHAR(25), "
 							+ "\"body\" CLOB)";
@@ -889,15 +911,16 @@ class UserDatabaseHelper {
 					
 					//createAccessTable(group, userId);
 					
-					String insertArticle = "INSERT INTO "+ group +"articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+					String insertArticle = "INSERT INTO "+ group +"articles (\"title\", authors, \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 					try (PreparedStatement pstmt3 = connection.prepareStatement(insertArticle)) {
 						pstmt3.setString(1, title);
-						pstmt3.setString(2, body);
-						pstmt3.setString(3, description);
-						pstmt3.setString(4, group);
-						pstmt3.setLong(5, identifier);
-						pstmt3.setInt(6, level);
-						pstmt3.setBoolean(7, isPrivate);
+						pstmt3.setString(2, authors);
+						pstmt3.setString(3, body);
+						pstmt3.setString(4, description);
+						pstmt3.setString(5, group);
+						pstmt3.setLong(6, identifier);
+						pstmt3.setInt(7, level);
+						pstmt3.setBoolean(8, isPrivate);
 						pstmt3.executeUpdate();
 						System.out.println("Article created successfully in "+ group +"articles table.");
 					} catch(Exception e) {
@@ -909,16 +932,17 @@ class UserDatabaseHelper {
 		}
 		
 		
-		String insertArticle = "INSERT INTO articles (\"title\", \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String insertArticle = "INSERT INTO articles (\"title\", authors, \"body\", \"description\", \"group\", uniqueIdentifier, level, isPrivate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement pstmt = connection.prepareStatement(insertArticle)) {
 			
 			pstmt.setString(1, title);
-			pstmt.setString(2, body);
-			pstmt.setString(3, description);
-			pstmt.setString(4, group);
-			pstmt.setLong(5, identifier);
-			pstmt.setInt(6, level);
-			pstmt.setBoolean(7, isPrivate);
+			pstmt.setString(2, authors);
+			pstmt.setString(3, body);
+			pstmt.setString(4, description);
+			pstmt.setString(5, group);
+			pstmt.setLong(6, identifier);
+			pstmt.setInt(7, level);
+			pstmt.setBoolean(8, isPrivate);
 			pstmt.executeUpdate();
 			System.out.println("Article created successfully in general articles table.");
 		} catch(Exception e) {

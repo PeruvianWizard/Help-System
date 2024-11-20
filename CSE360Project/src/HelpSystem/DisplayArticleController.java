@@ -10,11 +10,17 @@ import javafx.scene.control.TextArea;
 
 public class DisplayArticleController implements Initializable{
 	@FXML
+	private Label authorsLabel;
+	
+	@FXML
+	private Label uniqueIdentifierLabel;
+	
+	@FXML
 	private Label titleLabel;
 	
 	@FXML
 	private TextArea bodyArea;
-
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
@@ -22,6 +28,8 @@ public class DisplayArticleController implements Initializable{
 	} 
 	
 	public void setData(Long uniqueIdentifier) throws Exception {
+		uniqueIdentifierLabel.setText(uniqueIdentifier.toString());
+		authorsLabel.setText(HelpSystem.userDatabaseHelper.getAuthors(uniqueIdentifier));
 		titleLabel.setText(HelpSystem.userDatabaseHelper.getTitle(uniqueIdentifier));
 		bodyArea.setText(HelpSystem.userDatabaseHelper.getBody(uniqueIdentifier));
 	}

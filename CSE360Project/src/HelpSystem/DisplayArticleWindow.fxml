@@ -3,8 +3,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.DisplayArticleController">
    <children>
@@ -14,5 +16,31 @@
          </font>
       </Label>
       <TextArea fx:id="bodyArea" editable="false" layoutX="14.0" layoutY="40.0" prefHeight="347.0" prefWidth="571.0" wrapText="true" />
+      <GridPane layoutX="418.0" layoutY="14.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.20001220703125" minWidth="10.0" prefWidth="50.4000244140625" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.5999755859375" minWidth="10.0" prefWidth="110.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Author/s:" />
+            <Label fx:id="authorsLabel" text="authors" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="201.0" layoutY="14.0" prefHeight="30.0" prefWidth="162.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.20001220703125" minWidth="10.0" prefWidth="56.000024414062494" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="107.1999755859375" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Unique Id:" />
+            <Label fx:id="uniqueIdentifierLabel" text="UniqueIdentifier" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>

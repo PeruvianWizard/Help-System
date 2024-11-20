@@ -37,6 +37,9 @@ public class CreateArticleController implements Initializable {
 	private TextField groupField;
 	
 	@FXML
+	private TextField authorsField;
+	
+	@FXML
 	private ComboBox<String> levelSelect;
 	
 	@FXML
@@ -61,11 +64,12 @@ public class CreateArticleController implements Initializable {
 		String description = descriptionField.getText();
 		String body = bodyField.getText();
 		String group = groupField.getText();
+		String authors = authorsField.getText();
 		
 		int level = findLevel(levelSelect.getSelectionModel().getSelectedItem());
 		boolean isPrivate = isPrivateCheck.isSelected();
 		
-		HelpArticle article = new HelpArticle(isPrivate, level, title, description, body, group);
+		HelpArticle article = new HelpArticle(isPrivate, level, title, description, body, group, authors);
 		
 		HelpSystem.userDatabaseHelper.addArticle(article, userId);
 	}
