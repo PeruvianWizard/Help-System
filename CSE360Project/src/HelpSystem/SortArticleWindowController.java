@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class SortArticleWindowController {
@@ -31,6 +32,9 @@ public class SortArticleWindowController {
 	 ObservableList<String> levelList = FXCollections.observableArrayList("Beginner", "Intermediate", "Advanced", "Expert");
 	 
 	 private List<String> articles;
+	 
+	 @FXML
+	 private TextField keywordField;
 	 
 	 @FXML
 	 private void initialize() {
@@ -67,6 +71,31 @@ public class SortArticleWindowController {
 			 setStage(theRoot, event);
 		 }	 
 		 
+	 }
+	 
+	 @FXML
+	 void KeywordSearch(ActionEvent event) throws SQLException, IOException {
+		 String keyword = keywordField.getText();
+		 
+		 if(group.equals("") == true) {
+			 articles = HelpSystem.userDatabaseHelper.searchArticleWKeyword(keyword, group);
+			 FXMLLoader loader = new FXMLLoader(getClass().getResource("ListArticlesScreen.fxml"));
+			 Parent root = loader.load();
+			 ListArticlesController tempController = loader.getController();
+			 tempController.setListView(articles);
+			 setStage(root, event);
+		 }
+		 else {
+			 articles = HelpSystem.userDatabaseHelper.searchArticleWKeyword(keyword, group);
+			 FXMLLoader loader = new FXMLLoader(getClass().getResource("ListSpecificGroupScreen.fxml"));
+			 ListSpecificGroupController controller = new ListSpecificGroupController();
+			 loader.setController(controller);
+			
+			 theRoot = loader.load();
+			 controller.customInitialize(group);
+			 controller.setListView(articles);
+			 setStage(theRoot, event);
+		 }
 	 }
 	 
 	 private int findLevel(String selection) {

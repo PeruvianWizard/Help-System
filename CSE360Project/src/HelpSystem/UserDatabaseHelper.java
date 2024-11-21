@@ -908,6 +908,41 @@ class UserDatabaseHelper {
         }
         return idList;
 	}
+	
+	public List<String> searchArticleWKeyword(String keyword, String group) throws SQLException {
+		List<String> searchedArticles = new ArrayList<>();
+		String searchKeyword = "SELECT * FROM " + group + "articles WHERE CONCAT(uniqueIdentifier, ' ',TRIM(\"title\"), ' ', TRIM(authors), ' ', TRIM(\"description\"), ' ', level) LIKE '%" + keyword + "%'" ;
+		try(Statement statement = connection.createStatement()){
+			ResultSet rs = statement.executeQuery(searchKeyword);
+			while (rs.next()) {
+	            if(rs.getBoolean("isPrivate") == true) {
+	            	StringBuilder result = new StringBuilder();
+	            	
+		           	String titleString = rs.getString("title");
+		           	String descriptionString = rs.getString("description");
+		           	
+		           	result.append(String.format("%-" + 19 + "s %-" + 44 + "s %s%n", titleString, descriptionString, "YES"));
+		           	String formattedString = result.toString();
+		           	
+		           	searchedArticles.add(formattedString);
+	            }
+		        else {
+		        	StringBuilder result = new StringBuilder();
+		        	
+		           	String titleString = rs.getString("title");
+		           	String descriptionString = rs.getString("description");
+		           	
+		           	result.append(String.format("%-" + 19 + "s %-" + 44 + "s %s%n", titleString, descriptionString, "NO"));
+		           	String formattedString = result.toString();
+		           	
+		           	searchedArticles.add(formattedString);
+		        }
+			}
+		} catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return searchedArticles;
+	}
 
 	// This function adds an article to the articles table
 	public void addArticle(HelpArticle article, int userId) throws Exception {
