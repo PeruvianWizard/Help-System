@@ -56,6 +56,7 @@ public class ListArticlesController implements Initializable {
 		try {
 			articleStrings = HelpSystem.userDatabaseHelper.getArticles();
 			idList = HelpSystem.userDatabaseHelper.getArticleIds();
+			
 
 			articlesList.setStyle("-fx-font-family: 'Courier New';");
 			articlesList.getItems().addAll(articleStrings);
@@ -102,6 +103,13 @@ public class ListArticlesController implements Initializable {
 				}
 			}
 		});
+		
+	}
+	
+	public void changeTitleLabel(String titleLabel) {
+		myLabel.setText(titleLabel);
+		myLabel.setLayoutX(251);
+		myLabel.setLayoutY(14);
 		
 	}
 	

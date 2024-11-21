@@ -83,6 +83,7 @@ public class SortArticleWindowController {
 			 Parent root = loader.load();
 			 ListArticlesController tempController = loader.getController();
 			 tempController.setListView(articles);
+			 tempController.changeTitleLabel("Matched articles: " + articles.size());
 			 setStage(root, event);
 		 }
 		 else {
@@ -94,6 +95,7 @@ public class SortArticleWindowController {
 			 theRoot = loader.load();
 			 controller.customInitialize(group);
 			 controller.setListView(articles);
+			 controller.changeTitleLabel("Matched articles in " + group + " group: " + articles.size());
 			 setStage(theRoot, event);
 		 }
 	 }

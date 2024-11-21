@@ -134,6 +134,12 @@ public class ListSpecificGroupController implements Initializable {
         }
 	}
 	
+	public void changeTitleLabel(String titleLabel) {
+		groupNameTitle.setText(titleLabel);
+		groupNameTitle.setLayoutX(160);
+		groupNameTitle.setLayoutY(14);
+	}
+	
 	@FXML
 	public void goBack(ActionEvent event) throws SQLException, IOException { 
 		// updates screen

@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HelpSystem.ListArticlesController">
    <children>
-      <Label layoutX="261.0" layoutY="14.0" text="All Articles">
+      <Label fx:id="myLabel" layoutX="261.0" layoutY="14.0" text="All Articles">
          <font>
             <Font size="18.0" />
          </font>
