@@ -24,12 +24,14 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#SwitchToDeleteArticleScreen" prefWidth="140.0" text="Delete Article" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#BackupArticles" prefWidth="140.0" text="Backup Articles" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" onAction="#SwitchToRestoreScreen" prefWidth="140.0" text="Restore Articles" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#SwitchToDeleteArticleScreen" prefWidth="140.0" text="Delete Article" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#BackupArticles" prefWidth="140.0" text="Backup Articles" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#SwitchToRestoreScreen" prefWidth="140.0" text="Restore Articles" GridPane.rowIndex="4" />
             <Button mnemonicParsing="false" onAction="#SwitchToAddArticleScreen" prefHeight="25.0" prefWidth="140.0" text="Add Article" />
+            <Button mnemonicParsing="false" onAction="#SwitchToEditArticleScreen" prefWidth="140.0" text="Edit Article" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#SwitchToPreviousScreen" text="Back" />

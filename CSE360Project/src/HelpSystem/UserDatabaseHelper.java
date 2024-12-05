@@ -1,4 +1,5 @@
 package HelpSystem;
+import java.awt.desktop.AboutHandler;
 import java.awt.image.TileObserver;
 import java.io.File;
 import java.sql.*;
@@ -50,7 +51,8 @@ class UserDatabaseHelper {
 	}
 	
 	//allows access to connection for test cases
-	public Connection getConnection() {
+	public Connection getConnection() throws SQLException {
+		this.connectToDatabase();
 	    return connection;
 	}
 	
@@ -843,7 +845,7 @@ class UserDatabaseHelper {
 	public String getGroup(Long uniqueIdentifier) throws SQLException{
 		String group = "";
 		
-		String selectGroup = "SELECT group FROM articles WHERE uniqueIdentifier = ?";
+		String selectGroup = "SELECT \"group\" FROM articles WHERE uniqueIdentifier = ?";
 		try(PreparedStatement pstmt = connection.prepareStatement(selectGroup)){
 			pstmt.setLong(1, uniqueIdentifier);
 			
@@ -851,6 +853,8 @@ class UserDatabaseHelper {
 				if(rs.next()) {
 					group = rs.getString("group");
 				}
+			} catch (Exception e) {
+				System.out.println("Could not get group");
 			}
 		}
 		return group;
@@ -1121,6 +1125,35 @@ class UserDatabaseHelper {
 		} catch(Exception e) {
 			System.out.println("Article could not be deleted.");
 			return false;
+		}
+	}
+	
+	public void updateArticle(String body, String group, long identifier) throws Exception{
+		String query1 = "UPDATE articles SET \"body\" = ? WHERE uniqueIdentifier = ?";
+		String query2 = "UPDATE " +  group +"articles SET \"body\" = ? WHERE uniqueIdentifier = ? AND \"group\" = ?";
+		boolean updatedTGAT = false;
+		// Update article in general articles table
+		try(PreparedStatement pstmt = connection.prepareStatement(query1)){
+			pstmt.setString(1, body);
+			pstmt.setLong(2, identifier);
+			pstmt.executeUpdate();
+			updatedTGAT = true;
+			System.out.println("Article body was updated successfully in articles table");
+		} catch (Exception e) {
+			System.out.println("Could not update article body correcty in articles table");
+		}
+		
+		// Update article in its specific group
+		if(group != "" && updatedTGAT == true) {
+			try(PreparedStatement pstmt2 = connection.prepareStatement(query2)){
+				pstmt2.setString(1, body);
+				pstmt2.setLong(2, identifier);
+				pstmt2.setString(3, group);
+				pstmt2.executeUpdate();
+				System.out.println("Article body was updated successfully in" + group + " table");
+			} catch(Exception e) {
+				System.out.println("Could not update article body correctly in " + group + " table");
+			}
 		}
 	}
 	

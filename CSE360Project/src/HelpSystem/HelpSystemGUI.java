@@ -2,6 +2,10 @@ package HelpSystem;
 
 import java.sql.SQLException;
 
+import javax.management.loading.PrivateClassLoader;
+
+import org.h2.security.auth.impl.StaticRolesMapper;
+
 //JavaFX imports needed to support the Graphical User Interface
 import javafx.application.Application;
 import javafx.scene.Scene;

@@ -60,6 +60,11 @@ public class ArticlesManagementController {
     	setStage(theRoot, event);	
     }
     
+    public void SwitchToEditArticleScreen(ActionEvent event) throws IOException {
+    	theRoot = FXMLLoader.load(getClass().getResource("EditArticlesScreen.fxml"));
+    	setStage(theRoot, event);
+    }
+    
     public void setStage(Parent theRoot, ActionEvent event) {
     	theStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		theScene = new Scene(theRoot);
